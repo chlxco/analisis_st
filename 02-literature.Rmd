@@ -1,3 +1,24 @@
-# Literature
+# Analisis Exploratorio
 
-Here is a review of existing methods.
+Fuente de datos de
+
+## 1. Carga de librerias y datasource
+
+```{r}
+library(forecast)
+library(timsac)
+library(ggplot2)
+library(changepoint)
+library(readxl)
+
+BASE <- read_excel("fuente/BASE_Clientes.xlsx")
+View(BASE_Clientes)
+
+```
+
+## 2. Seguido, seleccionaremos el subset de columnas de interes para nuestro analisis. Este sera nuesto dataframe para el analisis.
+
+```{r}
+datos <- ts(BASE$fecha)
+```
+
