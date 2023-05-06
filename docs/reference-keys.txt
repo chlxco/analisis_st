@@ -10,3 +10,6 @@ example-one
 example-two
 final-words
 prerequisitos
+analisis-exploratorio
+carga-de-librerias-y-datasource
+seguido-seleccionaremos-el-subset-de-columnas-de-interes-para-nuestro-analisis.-este-sera-nuesto-dataframe-para-el-analisis.
