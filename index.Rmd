@@ -12,13 +12,25 @@ github-repo: rstudio/bookdown-demo
 description: "Bookdown creado para desarrollar los contenidos de la asignatura Analisis de Series de Tiempo"
 ---
 
-# Prerequisitos
+# Propuesta
 
-Ninguno en este momento. Por favor seleccionar la opcion Propuesta del menu izquierdo.
+Análisis de riesgo crediticio y su importancia La evaluación del riesgo crediticio es una tarea crítica para cualquier empresa que ofrezca préstamos o créditos.
+El incumplimiento de los términos del préstamo o la falta de pago pueden generar grandes pérdidas financieras y afectar la estabilidad de la empresa.
+Es por ello que es importante contar con herramientas y técnicas que permitan evaluar el riesgo crediticio de manera eficiente.
 
-```{r include=FALSE}
-# automatically create a bib database for R packages
-knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
-), 'packages.bib')
-```
+El análisis de riesgo crediticio utiliza históricos para evaluar el comportamiento de los clientes a lo largo de varios periodos.
+De esta forma, se pueden obtener patrones y características que permiten segregar grupos de clientes y determinar un posible perfil de riesgo.
+Los resultados obtenidos a partir de este análisis pueden ayudar a la empresa a tomar decisiones más informadas y a reducir el riesgo crediticio.
+
+Además, el análisis de riesgo crediticio permite identificar posibles oportunidades para la empresa.
+Por ejemplo, puede ayudar a la empresa a identificar clientes que presenten un bajo riesgo crediticio y, por lo tanto, puedan recibir préstamos con tasas de interés más bajas.
+De esta manera, la empresa puede aumentar su base de clientes y mejorar su rentabilidad.
+
+En cuanto a las fuentes de información, se pueden utilizar diversas fuentes para recopilar los datos necesarios para el análisis de riesgo crediticio.
+Entre ellas se encuentran bases de datos públicas y privadas, encuestas, registros gubernamentales, entre otras.
+Es importante verificar la calidad de la información obtenida para asegurar la precisión y confiabilidad de los resultados.
+
+En el caso específico de la empresa ABC, se cuenta con los permisos necesarios por parte del área de gestión de cobranzas y se eliminaron los datos personales de los clientes con los cuales se extrajeron las características.
+
+En resumen, el análisis de riesgo crediticio es una técnica muy útil para evaluar el riesgo crediticio de los clientes y para identificar posibles oportunidades para la empresa.
+Se pueden utilizar diversas fuentes de información para recopilar los datos necesarios para este análisis, pero es importante asegurarse de contar con los permisos necesarios y verificar la calidad de la información obtenida.

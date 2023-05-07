@@ -13,3 +13,15 @@ prerequisitos
 analisis-exploratorio
 carga-de-librerias-y-datasource
 seguido-seleccionaremos-el-subset-de-columnas-de-interes-para-nuestro-analisis.-este-sera-nuesto-dataframe-para-el-analisis.
+propuesta
+Analisis
+creacion-del-objeto-de-analisis-temporal-indice.ts
+modificamos-el-df-para-que-tenga-el-formato-adecuado-y-lo-mostramos
+graficamos-la-serie
+chequeos-basicos-para-confirmar-la-estructura-del-contenedor-ts
+analisis-descriptivo
+grafica-de-rezagos
+media-estacionaria
+media-movil
+avance-3---descomposición-la-estacionariedad-y-la-diferenciación
+estacionalidad

@@ -1,0 +1,65 @@
+---
+editor_options: 
+  markdown: 
+    wrap: sentence
+---
+
+# Avance 2 - Analisis Exploratorio {#Analisis}
+
+## Creacion del objeto de analisis temporal indice.ts
+
+### Carga de librerias y datasource
+
+```{r}
+library(forecast)
+library(timsac)
+library(ggplot2)
+library(changepoint)
+library(readxl)
+
+datos <- read_excel("./fuente/BASE_Clientes.xlsx")
+datos
+
+```
+
+### Modificamos el df para que tenga el formato adecuado y lo mostramos
+
+```{r}
+# Cambio el tipo de dato de la columna temporal(Periodo)
+datos$Periodo <- as.Date(paste0(datos$Periodo, "-01"))
+
+# Consolido el df en funcion de la variable de interes (Saldo)
+datos <- aggregate(Saldo ~ Periodo, data = datos, sum)
+
+# Genero mi objeto ts para el analisis
+indice.ts <- ts(datos$Saldo, start = c(2018,1), frequency = 12)
+indice.ts
+```
+### Graficamos la serie
+```{r}
+plot(indice.ts, main = "",ylab="valor",col="deepskyblue",xlab="Periodos")
+title(main = "Saldos Mensuales Clientes")
+```
+
+### Chequeos basicos para confirmar la estructura del contenedor ts
+```{r}
+
+print(paste0("El tipo de datos del df indice.ts es: ", class(indice.ts)))
+print(paste0("La serie de tiempo indice.ts empieza en: ", start(indice.ts)))
+print(paste0("La serie de tiempo indice.ts termina en: ", end(indice.ts)))
+
+```
+## Analisis Descriptivo
+
+### Grafica de Rezagos
+```{r}
+lag.plot(indice.ts, 9 , do.lines = FALSE)
+```
+Conclusion: Se observa con claridad que existe una tendencia XXXXXX
+
+### Media Estacionaria
+
+### Media Movil
+
+
+

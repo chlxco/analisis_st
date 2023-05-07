@@ -1,24 +1,7 @@
-# Analisis Exploratorio
+# Avance 3 - descomposición, la estacionariedad y la diferenciación
 
-Fuente de datos de
-
-## 1. Carga de librerias y datasource
+## Estacionalidad
 
 ```{r}
-library(forecast)
-library(timsac)
-library(ggplot2)
-library(changepoint)
-library(readxl)
-
-# BASE <- read_excel("C:/Git/analisis_st/fuente/BASE_Clientes.xlsx")
-# View(BASE)
-
+#adf.test
 ```
-
-## 2. Seguido, seleccionaremos el subset de columnas de interes para nuestro analisis. Este sera nuesto dataframe para el analisis.
-
-```{r}
-#datos <- ts(BASE$fecha)
-```
-
