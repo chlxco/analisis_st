@@ -23,7 +23,7 @@
 <meta name="author" content="Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J" />
 
 
-<meta name="date" content="2023-05-07" />
+<meta name="date" content="2023-05-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -133,7 +133,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">A Minimal Book Example</a></li>
+<li><a href="./">Analisis de Series de Tiempo - Pontificia Universidad Javeriana Cali</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Propuesta</a></li>
@@ -149,13 +149,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.2" data-path="Analisis.html"><a href="Analisis.html#analisis-descriptivo"><i class="fa fa-check"></i><b>2.2</b> Analisis Descriptivo</a>
 <ul>
 <li class="chapter" data-level="2.2.1" data-path="Analisis.html"><a href="Analisis.html#grafica-de-rezagos"><i class="fa fa-check"></i><b>2.2.1</b> Grafica de Rezagos</a></li>
-<li class="chapter" data-level="2.2.2" data-path="Analisis.html"><a href="Analisis.html#media-estacionaria"><i class="fa fa-check"></i><b>2.2.2</b> Media Estacionaria</a></li>
-<li class="chapter" data-level="2.2.3" data-path="Analisis.html"><a href="Analisis.html#media-movil"><i class="fa fa-check"></i><b>2.2.3</b> Media Movil</a></li>
+<li class="chapter" data-level="2.2.2" data-path="Analisis.html"><a href="Analisis.html#media-movil"><i class="fa fa-check"></i><b>2.2.2</b> Media Movil</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="avance-3---descomposición-la-estacionariedad-y-la-diferenciación.html"><a href="avance-3---descomposición-la-estacionariedad-y-la-diferenciación.html"><i class="fa fa-check"></i><b>3</b> Avance 3 - descomposición, la estacionariedad y la diferenciación</a>
 <ul>
-<li class="chapter" data-level="3.0.1" data-path="avance-3---descomposición-la-estacionariedad-y-la-diferenciación.html"><a href="avance-3---descomposición-la-estacionariedad-y-la-diferenciación.html#estacionalidad"><i class="fa fa-check"></i><b>3.0.1</b> Estacionalidad</a></li>
+<li class="chapter" data-level="3.1" data-path="avance-3---descomposición-la-estacionariedad-y-la-diferenciación.html"><a href="avance-3---descomposición-la-estacionariedad-y-la-diferenciación.html#estacionalidad"><i class="fa fa-check"></i><b>3.1</b> Estacionalidad</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a>
 <ul>
@@ -270,14 +269,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="chequeos-basicos-para-confirmar-la-estructura-del-contenedor-ts" class="section level3 hasAnchor" number="2.1.4">
 <h3><span class="header-section-number">2.1.4</span> Chequeos basicos para confirmar la estructura del contenedor ts<a href="Analisis.html#chequeos-basicos-para-confirmar-la-estructura-del-contenedor-ts" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="Analisis.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">&quot;El tipo de datos del df indice.ts es: &quot;</span>, <span class="fu">class</span>(indice.ts)))</span></code></pre></div>
-<pre><code>## [1] &quot;El tipo de datos del df indice.ts es: ts&quot;</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="Analisis.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">&quot;La serie de tiempo indice.ts empieza en: &quot;</span>, <span class="fu">start</span>(indice.ts)))</span></code></pre></div>
-<pre><code>## [1] &quot;La serie de tiempo indice.ts empieza en: 2018&quot;
-## [2] &quot;La serie de tiempo indice.ts empieza en: 1&quot;</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="Analisis.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">&quot;La serie de tiempo indice.ts termina en: &quot;</span>, <span class="fu">end</span>(indice.ts)))</span></code></pre></div>
-<pre><code>## [1] &quot;La serie de tiempo indice.ts termina en: 2023&quot;
-## [2] &quot;La serie de tiempo indice.ts termina en: 4&quot;</code></pre>
+<pre><code>## [1] &quot;El tipo de datos del df indice.ts es: &quot;</code></pre>
+<pre><code>## [1] &quot;ts&quot;</code></pre>
+<pre><code>## [1] &quot;La serie de tiempo indice.ts empieza en: &quot;</code></pre>
+<pre><code>## [1] 2018    1</code></pre>
+<pre><code>## [1] &quot;La serie de tiempo indice.ts termina en: &quot;</code></pre>
+<pre><code>## [1] 2023    4</code></pre>
 </div>
 </div>
 <div id="analisis-descriptivo" class="section level2 hasAnchor" number="2.2">
@@ -288,11 +285,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-5-1.png" width="672" />
 Conclusion: Se observa con claridad que existe una tendencia XXXXXX</p>
 </div>
-<div id="media-estacionaria" class="section level3 hasAnchor" number="2.2.2">
-<h3><span class="header-section-number">2.2.2</span> Media Estacionaria<a href="Analisis.html#media-estacionaria" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-</div>
-<div id="media-movil" class="section level3 hasAnchor" number="2.2.3">
-<h3><span class="header-section-number">2.2.3</span> Media Movil<a href="Analisis.html#media-movil" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="media-movil" class="section level3 hasAnchor" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Media Movil<a href="Analisis.html#media-movil" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Crearemos a continuacion 3 medias moviles para el objeto ts. Estas tendran 3, 5 y 7 periodos para su calculo.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="Analisis.html#cb20-1" aria-hidden="true" tabindex="-1"></a>mm3 <span class="ot">&lt;-</span> <span class="fu">rollmean</span>(indice.ts,<span class="at">k=</span><span class="dv">3</span>)</span>
+<span id="cb20-2"><a href="Analisis.html#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Media Movil con 3 meses: &quot;</span>, mm3,<span class="st">&quot;</span><span class="sc">\n\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## Media Movil con 3 meses:  2.60569e+12 2.657587e+12 2.741279e+12 2.852323e+12 2.980516e+12 3.095026e+12 3.19034e+12 3.287521e+12 3.427851e+12 3.567132e+12 3.679831e+12 3.744369e+12 3.822086e+12 3.909977e+12 4.004003e+12 4.084338e+12 4.151794e+12 4.210161e+12 4.257812e+12 4.229589e+12 4.24496e+12 4.294346e+12 3.597313e+12 3.591264e+12 3.540826e+12 4.265159e+12 4.225603e+12 4.179019e+12 4.141387e+12 4.104963e+12 4.090461e+12 4.123917e+12 4.216171e+12 4.303925e+12 4.366066e+12 4.410497e+12 4.480783e+12 4.566974e+12 4.642901e+12 4.72671e+12 4.845379e+12 4.973983e+12 5.153753e+12 5.402739e+12 5.690788e+12 5.950428e+12 6.157316e+12 6.357342e+12 6.549048e+12 6.740214e+12 6.932456e+12 7.164445e+12 7.365887e+12 7.545111e+12 7.662862e+12 7.787577e+12 7.935987e+12 8.057696e+12 8.117688e+12 8.062904e+12 7.949162e+12 7.843058e+12</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="Analisis.html#cb22-1" aria-hidden="true" tabindex="-1"></a>mm5 <span class="ot">&lt;-</span> <span class="fu">rollmean</span>(indice.ts,<span class="at">k=</span><span class="dv">5</span>)</span>
+<span id="cb22-2"><a href="Analisis.html#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Media Movil con 5 meses: &quot;</span>, mm5,<span class="st">&quot;</span><span class="sc">\n\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## Media Movil con 5 meses:  2.677519e+12 2.762363e+12 2.862556e+12 2.97112e+12 3.082015e+12 3.190301e+12 3.316437e+12 3.433984e+12 3.541184e+12 3.648854e+12 3.754723e+12 3.830459e+12 3.910977e+12 3.997427e+12 4.074914e+12 4.143823e+12 4.206128e+12 4.210266e+12 4.240195e+12 4.29166e+12 3.842557e+12 3.840266e+12 3.878402e+12 3.854676e+12 3.79902e+12 4.227426e+12 4.18475e+12 4.137503e+12 4.122607e+12 4.123739e+12 4.159794e+12 4.22013e+12 4.2804e+12 4.351815e+12 4.434249e+12 4.490882e+12 4.555201e+12 4.650636e+12 4.751812e+12 4.851121e+12 5.002703e+12 5.207714e+12 5.429568e+12 5.665732e+12 5.917714e+12 6.151721e+12 6.353518e+12 6.54737e+12 6.740937e+12 6.957795e+12 7.152497e+12 7.338575e+12 7.511384e+12 7.66557e+12 7.8015e+12 7.92647e+12 8.009116e+12 8.041526e+12 8.023421e+12 7.953359e+12</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="Analisis.html#cb24-1" aria-hidden="true" tabindex="-1"></a>mm7 <span class="ot">&lt;-</span> <span class="fu">rollmean</span>(indice.ts,<span class="at">k=</span><span class="dv">7</span>)</span>
+<span id="cb24-2"><a href="Analisis.html#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Media Movil con 7 meses: &quot;</span>, mm7)</span></code></pre></div>
+<pre><code>## Media Movil con 7 meses:  2.782362e+12 2.872921e+12 2.968758e+12 3.074575e+12 3.203034e+12 3.322694e+12 3.429222e+12 3.5304e+12 3.634291e+12 3.737637e+12 3.837463e+12 3.915643e+12 3.988207e+12 4.064748e+12 4.13569e+12 4.162851e+12 4.208312e+12 4.260123e+12 3.954126e+12 3.968084e+12 3.973265e+12 3.957274e+12 3.966376e+12 3.945005e+12 3.89172e+12 4.183941e+12 4.158946e+12 4.141617e+12 4.162946e+12 4.192513e+12 4.221779e+12 4.278279e+12 4.353579e+12 4.426e+12 4.5007e+12 4.572381e+12 4.658052e+12 4.761236e+12 4.89092e+12 5.053176e+12 5.242871e+12 5.451288e+12 5.666292e+12 5.890855e+12 6.126316e+12 6.346204e+12 6.546447e+12 6.757883e+12 6.952829e+12 7.141217e+12 7.317392e+12 7.483628e+12 7.653691e+12 7.799638e+12 7.89216e+12 7.952412e+12 7.972803e+12 7.969387e+12</code></pre>
+<p>Veamos como es el comportamiento de las mismas en comparacion con lod datos originales de la serie de tiempo</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="Analisis.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(indice.ts), indice.ts, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>,   </span>
+<span id="cb26-2"><a href="Analisis.html#cb26-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fu">min</span>(indice.ts), <span class="fu">max</span>(indice.ts)),</span>
+<span id="cb26-3"><a href="Analisis.html#cb26-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Lineas de Serie de Tiempo&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Valores&quot;</span>)</span>
+<span id="cb26-4"><a href="Analisis.html#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(mm3),mm3,<span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col=</span><span class="dv">2</span>)</span>
+<span id="cb26-5"><a href="Analisis.html#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(mm5),mm5,<span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col=</span><span class="dv">3</span>)</span>
+<span id="cb26-6"><a href="Analisis.html#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(mm7),mm7,<span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col=</span><span class="dv">4</span>)</span>
+<span id="cb26-7"><a href="Analisis.html#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>,</span>
+<span id="cb26-8"><a href="Analisis.html#cb26-8" aria-hidden="true" tabindex="-1"></a>       <span class="fu">c</span>(<span class="st">&quot;Indice.Ts&quot;</span>, <span class="st">&quot;Media Movil 3 Meses&quot;</span>, <span class="st">&quot;Media Movil 5 Meses&quot;</span>, <span class="st">&quot;Media Movil 7 Meses&quot;</span>),</span>
+<span id="cb26-9"><a href="Analisis.html#cb26-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 
 </div>
 </div>

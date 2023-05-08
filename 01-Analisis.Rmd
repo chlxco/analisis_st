@@ -10,7 +10,7 @@ editor_options:
 
 ### Carga de librerias y datasource
 
-```{r}
+```{r echo=FALSE}
 library(forecast)
 library(timsac)
 library(ggplot2)
@@ -42,11 +42,16 @@ title(main = "Saldos Mensuales Clientes")
 ```
 
 ### Chequeos basicos para confirmar la estructura del contenedor ts
-```{r}
+```{r echo=FALSE, warning=FALSE}
 
-print(paste0("El tipo de datos del df indice.ts es: ", class(indice.ts)))
-print(paste0("La serie de tiempo indice.ts empieza en: ", start(indice.ts)))
-print(paste0("La serie de tiempo indice.ts termina en: ", end(indice.ts)))
+print("El tipo de datos del df indice.ts es: ")
+class(indice.ts)
+
+print("La serie de tiempo indice.ts empieza en: ")
+start(indice.ts)
+
+print("La serie de tiempo indice.ts termina en: ")
+end(indice.ts)
 
 ```
 ## Analisis Descriptivo
@@ -57,9 +62,34 @@ lag.plot(indice.ts, 9 , do.lines = FALSE)
 ```
 Conclusion: Se observa con claridad que existe una tendencia XXXXXX
 
-### Media Estacionaria
-
 ### Media Movil
 
+Crearemos a continuacion 3 medias moviles para el objeto ts. Estas tendran 3, 5 y 7 periodos para su calculo.
+```{r}
+
+mm3 <- rollmean(indice.ts,k=3)
+cat("Media Movil con 3 meses: ", mm3,"\n\n")
+
+mm5 <- rollmean(indice.ts,k=5)
+cat("Media Movil con 5 meses: ", mm5,"\n\n")
+
+mm7 <- rollmean(indice.ts,k=7)
+cat("Media Movil con 7 meses: ", mm7)
+
+```
+Veamos como es el comportamiento de las mismas en comparacion con lod datos originales de la serie de tiempo
+
+```{r}
+
+plot(1:length(indice.ts), indice.ts, type = "l",   
+     ylim = c(min(indice.ts), max(indice.ts)),
+     xlab = "Lineas de Serie de Tiempo", ylab = "Valores")
+lines(1:length(mm3),mm3,type = "l", col=2)
+lines(1:length(mm5),mm5,type = "l", col=3)
+lines(1:length(mm7),mm7,type = "l", col=4)
+legend("topleft",
+       c("Indice.Ts", "Media Movil 3 Meses", "Media Movil 5 Meses", "Media Movil 7 Meses"),
+       lty = 1, col = 1:4)
+```
 
 
