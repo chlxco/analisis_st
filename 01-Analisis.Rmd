@@ -4,7 +4,7 @@ editor_options:
     wrap: sentence
 ---
 
-# Avance 2 - Analisis Exploratorio {#Analisis}
+# Analisis Exploratorio {#Analisis}
 
 ## Creacion del objeto de analisis temporal indice.ts
 
@@ -24,7 +24,7 @@ datos
 
 ### Modificamos el df para que tenga el formato adecuado y lo mostramos
 
-```{r}
+```{r cache=TRUE}
 # Cambio el tipo de dato de la columna temporal(Periodo)
 datos$Periodo <- as.Date(paste0(datos$Periodo, "-01"))
 

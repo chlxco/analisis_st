@@ -1,0 +1,154 @@
+--- 
+title: "Bookdown - Grupo B"
+author: "Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: chlxco/analisis_st
+description: "Bookdown creado para desarrollar los contenidos de la asignatura Analisis de Series de Tiempo"
+---
+
+# Propuesta
+
+Placeholder
+
+
+
+<!--chapter:end:index.Rmd-->
+
+
+# Analisis Exploratorio {#Analisis}
+
+Placeholder
+
+
+## Creacion del objeto de analisis temporal indice.ts
+### Carga de librerias y datasource
+### Modificamos el df para que tenga el formato adecuado y lo mostramos
+### Graficamos la serie
+### Chequeos basicos para confirmar la estructura del contenedor ts
+## Analisis Descriptivo
+### Grafica de Rezagos
+### Media Movil
+
+<!--chapter:end:01-Analisis.Rmd-->
+
+# Avance 3 - descomposición, la estacionariedad y la diferenciación
+
+## Estacionalidad {#Estacion}
+
+```{r}
+library(forecast)
+library(timsac)
+library(ggplot2)
+library(changepoint)
+library(readxl)
+
+ggseasonplot(x = indice.ts,
+             main= "Estacionalidad")
+
+```
+
+## Ahora, hagamos una decomposicion del objeto y la graficamos para su analisis
+
+```{r}
+decomposicion <- decompose(x=indice.ts,
+                           type= "additive")
+
+plot(decomposicion)
+
+```
+David
+
+```{r}
+##################### descomposicion
+
+
+# Descomponer la serie de tiempo en sus componentes
+descomposicion <- decompose(indice.ts)
+
+# Obtener la componente de estacionalidad
+estacionalidad <- descomposicion$seasonal
+
+
+# Convertir la componente de estacionalidad a un data frame
+df_estacionalidad <- data.frame(periodo = time(estacionalidad), valor = estacionalidad)
+
+# Graficar la componente de estacionalidad
+ggplot(df_estacionalidad, aes(x = periodo, y = valor)) +
+  geom_line(color = "deepskyblue", size = 1) +
+  xlab("Periodo") + ylab("Estacionalidad") +
+  ggtitle("Componente de estacionalidad de la serie de tiempo")
+
+
+##################### diferenciación
+
+# Calcular la diferenciación
+diferenciacion <- diff(indice.ts)
+
+
+# Convertir la serie de tiempo diferenciada a un data frame
+df_diferenciacion <- data.frame(periodo = time(diferenciacion), valor = diferenciacion)
+
+# Graficar la serie de tiempo diferenciada utilizando "ggplot2"
+ggplot(df_diferenciacion, aes(x = periodo, y = valor)) +
+  geom_line(color = "deepskyblue", size = 1) +
+  xlab("Periodo") + ylab("Diferenciación") +
+  ggtitle("Serie de tiempo diferenciada")
+```
+
+
+<!--chapter:end:02-Estacionalidad.Rmd-->
+
+# Methods
+
+We describe our methods in this chapter.
+
+Math can be added in body using usual syntax like this 
+
+## math example
+
+$p$ is unknown but expected to be around 1/3. Standard error will be approximated
+
+$$
+SE = \sqrt(\frac{p(1-p)}{n}) \approx \sqrt{\frac{1/3 (1 - 1/3)} {300}} = 0.027
+$$
+
+You can also use math in footnotes like this^[where we mention $p = \frac{a}{b}$].
+
+We will approximate standard error to 0.027[^longnote]
+
+[^longnote]: $p$ is unknown but expected to be around 1/3. Standard error will be approximated
+
+    $$
+    SE = \sqrt(\frac{p(1-p)}{n}) \approx \sqrt{\frac{1/3 (1 - 1/3)} {300}} = 0.027
+    $$
+
+<!--chapter:end:03-method.Rmd-->
+
+# Applications
+
+Some _significant_ applications are demonstrated in this chapter.
+
+## Example one
+
+## Example two
+
+<!--chapter:end:04-application.Rmd-->
+
+# Final Words
+
+We have finished a nice book.
+
+<!--chapter:end:05-summary.Rmd-->
+
+`r if (knitr:::is_html_output()) '
+# References {-}
+'`
+
+<!--chapter:end:06-references.Rmd-->
+

@@ -1,6 +1,6 @@
 # Avance 3 - descomposición, la estacionariedad y la diferenciación
 
-## Estacionalidad
+## Estacionalidad {#Estacion}
 
 ```{r}
 library(forecast)
@@ -11,7 +11,7 @@ library(readxl)
 
 ggseasonplot(x = indice.ts,
              main= "Estacionalidad")
-#adf.test
+
 ```
 
 ## Ahora, hagamos una decomposicion del objeto y la graficamos para su analisis
@@ -22,5 +22,43 @@ decomposicion <- decompose(x=indice.ts,
 
 plot(decomposicion)
 
+```
+David
+
+```{r}
+##################### descomposicion
+
+
+# Descomponer la serie de tiempo en sus componentes
+descomposicion <- decompose(indice.ts)
+
+# Obtener la componente de estacionalidad
+estacionalidad <- descomposicion$seasonal
+
+
+# Convertir la componente de estacionalidad a un data frame
+df_estacionalidad <- data.frame(periodo = time(estacionalidad), valor = estacionalidad)
+
+# Graficar la componente de estacionalidad
+ggplot(df_estacionalidad, aes(x = periodo, y = valor)) +
+  geom_line(color = "deepskyblue", size = 1) +
+  xlab("Periodo") + ylab("Estacionalidad") +
+  ggtitle("Componente de estacionalidad de la serie de tiempo")
+
+
+##################### diferenciación
+
+# Calcular la diferenciación
+diferenciacion <- diff(indice.ts)
+
+
+# Convertir la serie de tiempo diferenciada a un data frame
+df_diferenciacion <- data.frame(periodo = time(diferenciacion), valor = diferenciacion)
+
+# Graficar la serie de tiempo diferenciada utilizando "ggplot2"
+ggplot(df_diferenciacion, aes(x = periodo, y = valor)) +
+  geom_line(color = "deepskyblue", size = 1) +
+  xlab("Periodo") + ylab("Diferenciación") +
+  ggtitle("Serie de tiempo diferenciada")
 ```
 
