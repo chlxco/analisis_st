@@ -8,7 +8,7 @@ documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
-github-repo: rstudio/bookdown-demo
+github-repo: chlxco/analisis_st
 description: "Bookdown creado para desarrollar los contenidos de la asignatura Analisis de Series de Tiempo"
 ---
 

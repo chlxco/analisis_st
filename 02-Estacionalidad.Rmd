@@ -1,0 +1,26 @@
+# Avance 3 - descomposición, la estacionariedad y la diferenciación
+
+## Estacionalidad
+
+```{r}
+library(forecast)
+library(timsac)
+library(ggplot2)
+library(changepoint)
+library(readxl)
+
+ggseasonplot(x = indice.ts,
+             main= "Estacionalidad")
+#adf.test
+```
+
+## Ahora, hagamos una decomposicion del objeto y la graficamos para su analisis
+
+```{r}
+decomposicion <- decompose(x=indice.ts,
+                           type= "additive")
+
+plot(decomposicion)
+
+```
+
