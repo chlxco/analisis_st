@@ -158,7 +158,7 @@ En resumen, el análisis de riesgo crediticio es una técnica muy útil para eva
 Se pueden utilizar diversas fuentes de información para recopilar los datos necesarios para este análisis, pero es importante asegurarse de contar con los permisos necesarios y verificar la calidad de la información obtenida.
 
 \hypertarget{Analisis}{%
-\chapter{Avance 2 - Analisis Exploratorio}\label{Analisis}}
+\chapter{Analisis Exploratorio}\label{Analisis}}
 
 \hypertarget{creacion-del-objeto-de-analisis-temporal-indice.ts}{%
 \section{Creacion del objeto de analisis temporal indice.ts}\label{creacion-del-objeto-de-analisis-temporal-indice.ts}}
@@ -364,8 +364,8 @@ Veamos como es el comportamiento de las mismas en comparacion con lod datos orig
 \hypertarget{avance-3---descomposiciuxf3n-la-estacionariedad-y-la-diferenciaciuxf3n}{%
 \chapter{Avance 3 - descomposición, la estacionariedad y la diferenciación}\label{avance-3---descomposiciuxf3n-la-estacionariedad-y-la-diferenciaciuxf3n}}
 
-\hypertarget{estacionalidad}{%
-\section{Estacionalidad}\label{estacionalidad}}
+\hypertarget{Estacion}{%
+\section{Estacionalidad}\label{Estacion}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -382,12 +382,6 @@ Veamos como es el comportamiento de las mismas en comparacion con lod datos orig
 
 \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-8-1.pdf}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\#adf.test}
-\end{Highlighting}
-\end{Shaded}
-
 \hypertarget{ahora-hagamos-una-decomposicion-del-objeto-y-la-graficamos-para-su-analisis}{%
 \section{Ahora, hagamos una decomposicion del objeto y la graficamos para su analisis}\label{ahora-hagamos-una-decomposicion-del-objeto-y-la-graficamos-para-su-analisis}}
 
@@ -401,6 +395,75 @@ Veamos como es el comportamiento de las mismas en comparacion con lod datos orig
 \end{Shaded}
 
 \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-9-1.pdf}
+David
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\# descomposicion}
+
+
+\CommentTok{\# Descomponer la serie de tiempo en sus componentes}
+\NormalTok{descomposicion }\OtherTok{\textless{}{-}} \FunctionTok{decompose}\NormalTok{(indice.ts)}
+
+\CommentTok{\# Obtener la componente de estacionalidad}
+\NormalTok{estacionalidad }\OtherTok{\textless{}{-}}\NormalTok{ descomposicion}\SpecialCharTok{$}\NormalTok{seasonal}
+
+
+\CommentTok{\# Convertir la componente de estacionalidad a un data frame}
+\NormalTok{df\_estacionalidad }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{periodo =} \FunctionTok{time}\NormalTok{(estacionalidad), }\AttributeTok{valor =}\NormalTok{ estacionalidad)}
+
+\CommentTok{\# Graficar la componente de estacionalidad}
+\FunctionTok{ggplot}\NormalTok{(df\_estacionalidad, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ periodo, }\AttributeTok{y =}\NormalTok{ valor)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{color =} \StringTok{"deepskyblue"}\NormalTok{, }\AttributeTok{size =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Periodo"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{ylab}\NormalTok{(}\StringTok{"Estacionalidad"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Componente de estacionalidad de la serie de tiempo"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## i Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+\end{verbatim}
+
+\begin{verbatim}
+## Don't know how to automatically pick scale for object of type <ts>. Defaulting
+## to continuous.
+## Don't know how to automatically pick scale for object of type <ts>. Defaulting
+## to continuous.
+\end{verbatim}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\# diferenciación}
+
+\CommentTok{\# Calcular la diferenciación}
+\NormalTok{diferenciacion }\OtherTok{\textless{}{-}} \FunctionTok{diff}\NormalTok{(indice.ts)}
+
+
+\CommentTok{\# Convertir la serie de tiempo diferenciada a un data frame}
+\NormalTok{df\_diferenciacion }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{periodo =} \FunctionTok{time}\NormalTok{(diferenciacion), }\AttributeTok{valor =}\NormalTok{ diferenciacion)}
+
+\CommentTok{\# Graficar la serie de tiempo diferenciada utilizando "ggplot2"}
+\FunctionTok{ggplot}\NormalTok{(df\_diferenciacion, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ periodo, }\AttributeTok{y =}\NormalTok{ valor)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{color =} \StringTok{"deepskyblue"}\NormalTok{, }\AttributeTok{size =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Periodo"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{ylab}\NormalTok{(}\StringTok{"Diferenciación"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Serie de tiempo diferenciada"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Don't know how to automatically pick scale for object of type <ts>. Defaulting
+## to continuous.
+## Don't know how to automatically pick scale for object of type <ts>. Defaulting
+## to continuous.
+\end{verbatim}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-10-2.pdf}
 
 \hypertarget{methods}{%
 \chapter{Methods}\label{methods}}

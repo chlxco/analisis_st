@@ -9,7 +9,7 @@ analisis-descriptivo
 grafica-de-rezagos
 media-movil
 avance-3---descomposición-la-estacionariedad-y-la-diferenciación
-estacionalidad
+Estacion
 ahora-hagamos-una-decomposicion-del-objeto-y-la-graficamos-para-su-analisis
 methods
 math-example
@@ -17,4 +17,3 @@ applications
 example-one
 example-two
 final-words
-Estacion
