@@ -124,7 +124,7 @@
 
 \title{Bookdown - Grupo B}
 \author{Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J}
-\date{2023-05-08}
+\date{2023-05-10}
 
 \begin{document}
 \maketitle
@@ -387,15 +387,92 @@ Veamos como es el comportamiento de las mismas en comparacion con lod datos orig
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{decomposicion }\OtherTok{\textless{}{-}} \FunctionTok{decompose}\NormalTok{(}\AttributeTok{x=}\NormalTok{indice.ts,}
-                           \AttributeTok{type=} \StringTok{"additive"}\NormalTok{)}
-
-\FunctionTok{plot}\NormalTok{(decomposicion)}
+\NormalTok{descomposicion }\OtherTok{\textless{}{-}} \FunctionTok{decompose}\NormalTok{(}\AttributeTok{x=}\NormalTok{indice.ts)}
+\FunctionTok{plot}\NormalTok{(descomposicion)}
 \end{Highlighting}
 \end{Shaded}
 
 \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-9-1.pdf}
-David
+
+A pesar de presentar un patron recurrente en el componente de estacionalidad, se puede observar un trend en la serie de datos. De igual manera el error no se ve aleatorio sino que por el contrario, presenta un patron constante. Dicho esto, vamos a comprobar por medio del Augmented Dickery-Fuller test (adf) la estacionalidad del conjunto de datos.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tseries)}
+\FunctionTok{adf.test}\NormalTok{(indice.ts)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  indice.ts
+## Dickey-Fuller = -1.2017, Lag order = 3, p-value = 0.8984
+## alternative hypothesis: stationary
+\end{verbatim}
+
+De acuerdo al resultado (p-value \textgreater0.05), debemos aceptar la H0 la cual nos confirma la no-estacionalidad del conjunto. Esto quiere decir que el objeto indice.ts requerira una transformacion para su posterior procesamiento en el modelo.
+
+Ahora veamos si existe autocorrelacion total o parcial.(acf y pacf tests)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{tsdisplay}\NormalTok{(indice.ts,}\AttributeTok{lag.max =} \DecValTok{20}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+Ahora separamos la Estacionalidad y la graficamos
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(forecast)}
+
+\CommentTok{\# Ajustamos la estacionalidad de la serie de tiempo por medio del comando seasadj}
+\NormalTok{indice\_adj }\OtherTok{\textless{}{-}} \FunctionTok{seasadj}\NormalTok{(descomposicion)}
+
+\CommentTok{\#Luego removemos la tendencia (trend) con el comando diff}
+\NormalTok{modelo\_ts }\OtherTok{\textless{}{-}} \FunctionTok{diff}\NormalTok{(indice\_adj)}
+
+\CommentTok{\# Grafiquemos la nueva serie de tiempo}
+\NormalTok{nueva\_descomp }\OtherTok{\textless{}{-}}\FunctionTok{decompose}\NormalTok{(modelo\_ts)}
+\FunctionTok{plot}\NormalTok{(nueva\_descomp)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-12-1.pdf}
+Por ultimo, apliquemos los mismos test que corrimos para nuestra serie de tiempo original.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Test de estacionalidad}
+\FunctionTok{adf.test}\NormalTok{(modelo\_ts)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  modelo_ts
+## Dickey-Fuller = -3.7052, Lag order = 3, p-value = 0.0316
+## alternative hypothesis: stationary
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Test de autocorrelacion total y parcial}
+\FunctionTok{tsdisplay}\NormalTok{(modelo\_ts,}\AttributeTok{lag.max =} \DecValTok{20}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+Podemos cncluir que nuestra nueva serie de tiempo, etc
+
+Ahora separamos la Estacionalidad y la graficamos
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -403,7 +480,7 @@ David
 
 
 \CommentTok{\# Descomponer la serie de tiempo en sus componentes}
-\NormalTok{descomposicion }\OtherTok{\textless{}{-}} \FunctionTok{decompose}\NormalTok{(indice.ts)}
+\CommentTok{\#descomposicion \textless{}{-} decompose(indice.ts)}
 
 \CommentTok{\# Obtener la componente de estacionalidad}
 \NormalTok{estacionalidad }\OtherTok{\textless{}{-}}\NormalTok{ descomposicion}\SpecialCharTok{$}\NormalTok{seasonal}
@@ -435,7 +512,7 @@ David
 ## to continuous.
 \end{verbatim}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-10-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-14-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -451,7 +528,7 @@ David
 \CommentTok{\# Graficar la serie de tiempo diferenciada utilizando "ggplot2"}
 \FunctionTok{ggplot}\NormalTok{(df\_diferenciacion, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ periodo, }\AttributeTok{y =}\NormalTok{ valor)) }\SpecialCharTok{+}
   \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{color =} \StringTok{"deepskyblue"}\NormalTok{, }\AttributeTok{size =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Periodo"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{ylab}\NormalTok{(}\StringTok{"Diferenciación"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Periodo"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{ylab}\NormalTok{(}\StringTok{"Diferenciacion"}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Serie de tiempo diferenciada"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -463,7 +540,7 @@ David
 ## to continuous.
 \end{verbatim}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-10-2.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-14-2.pdf}
 
 \hypertarget{methods}{%
 \chapter{Methods}\label{methods}}

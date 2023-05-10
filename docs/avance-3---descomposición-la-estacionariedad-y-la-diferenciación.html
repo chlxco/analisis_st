@@ -80,19 +80,63 @@
 <span class="header-section-number">3.2</span> Ahora, hagamos una decomposicion del objeto y la graficamos para su analisis<a class="anchor" aria-label="anchor" href="#ahora-hagamos-una-decomposicion-del-objeto-y-la-graficamos-para-su-analisis"><i class="fas fa-link"></i></a>
 </h2>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">decomposicion</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/decompose.html">decompose</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">indice.ts</span>,</span>
-<span>                           type<span class="op">=</span> <span class="st">"additive"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">decomposicion</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure">
-<img src="bookdown-demo_files/figure-html/unnamed-chunk-9-1.png" width="672">
-David</div>
+<code class="sourceCode R"><span><span class="va">descomposicion</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/decompose.html">decompose</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">indice.ts</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">descomposicion</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-9-1.png" width="672"></div>
+<p>A pesar de presentar un patron recurrente en el componente de estacionalidad, se puede observar un trend en la serie de datos. De igual manera el error no se ve aleatorio sino que por el contrario, presenta un patron constante. Dicho esto, vamos a comprobar por medio del Augmented Dickery-Fuller test (adf) la estacionalidad del conjunto de datos.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">tseries</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/tseries/man/adf.test.html">adf.test</a></span><span class="op">(</span><span class="va">indice.ts</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  indice.ts
+## Dickey-Fuller = -1.2017, Lag order = 3, p-value = 0.8984
+## alternative hypothesis: stationary</code></pre>
+<p>De acuerdo al resultado (p-value &gt;0.05), debemos aceptar la H0 la cual nos confirma la no-estacionalidad del conjunto. Esto quiere decir que el objeto indice.ts requerira una transformacion para su posterior procesamiento en el modelo.</p>
+<p>Ahora veamos si existe autocorrelacion total o parcial.(acf y pacf tests)</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/tsdisplay.html">tsdisplay</a></span><span class="op">(</span><span class="va">indice.ts</span>,lag.max <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-11-1.png" width="672"></div>
+<p>Ahora separamos la Estacionalidad y la graficamos</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.robjhyndman.com/forecast/">forecast</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Ajustamos la estacionalidad de la serie de tiempo por medio del comando seasadj</span></span>
+<span><span class="va">indice_adj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/seasadj.html">seasadj</a></span><span class="op">(</span><span class="va">descomposicion</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#Luego removemos la tendencia (trend) con el comando diff</span></span>
+<span><span class="va">modelo_ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">indice_adj</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Grafiquemos la nueva serie de tiempo</span></span>
+<span><span class="va">nueva_descomp</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/stats/decompose.html">decompose</a></span><span class="op">(</span><span class="va">modelo_ts</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">nueva_descomp</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure">
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-12-1.png" width="672">
+Por ultimo, apliquemos los mismos test que corrimos para nuestra serie de tiempo original.</div>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Test de estacionalidad</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/tseries/man/adf.test.html">adf.test</a></span><span class="op">(</span><span class="va">modelo_ts</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  modelo_ts
+## Dickey-Fuller = -3.7052, Lag order = 3, p-value = 0.0316
+## alternative hypothesis: stationary</code></pre>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Test de autocorrelacion total y parcial</span></span>
+<span><span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/tsdisplay.html">tsdisplay</a></span><span class="op">(</span><span class="va">modelo_ts</span>,lag.max <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-13-1.png" width="672"></div>
+<p>Podemos cncluir que nuestra nueva serie de tiempo, etc</p>
+<div id="section" class="section level8" number="3.2.0.0.0.0.0.1">
+<p class="heading"><span class="header-section-number">3.2.0.0.0.0.0.1</span> </p>
+<p>Ahora separamos la Estacionalidad y la graficamos</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">##################### descomposicion</span></span>
 <span></span>
 <span></span>
 <span><span class="co"># Descomponer la serie de tiempo en sus componentes</span></span>
-<span><span class="va">descomposicion</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/decompose.html">decompose</a></span><span class="op">(</span><span class="va">indice.ts</span><span class="op">)</span></span>
+<span><span class="co">#descomposicion &lt;- decompose(indice.ts)</span></span>
 <span></span>
 <span><span class="co"># Obtener la componente de estacionalidad</span></span>
 <span><span class="va">estacionalidad</span> <span class="op">&lt;-</span> <span class="va">descomposicion</span><span class="op">$</span><span class="va">seasonal</span></span>
@@ -115,8 +159,8 @@ David</div>
 ## to continuous.
 ## Don't know how to automatically pick scale for object of type &lt;ts&gt;. Defaulting
 ## to continuous.</code></pre>
-<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-10-1.png" width="672"></div>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-14-1.png" width="672"></div>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">##################### diferenciación</span></span>
 <span></span>
 <span><span class="co"># Calcular la diferenciación</span></span>
@@ -129,14 +173,15 @@ David</div>
 <span><span class="co"># Graficar la serie de tiempo diferenciada utilizando "ggplot2"</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df_diferenciacion</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">periodo</span>, y <span class="op">=</span> <span class="va">valor</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"deepskyblue"</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Periodo"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Diferenciación"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Periodo"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Diferenciacion"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Serie de tiempo diferenciada"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Don't know how to automatically pick scale for object of type &lt;ts&gt;. Defaulting
 ## to continuous.
 ## Don't know how to automatically pick scale for object of type &lt;ts&gt;. Defaulting
 ## to continuous.</code></pre>
-<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-10-2.png" width="672"></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-14-2.png" width="672"></div>
 
+</div>
 </div>
 </div>
   <div class="chapter-nav">
@@ -164,7 +209,7 @@ David</div>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Bookdown - Grupo B</strong>" was written by Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J. It was last built on 2023-05-08.</p>
+    <p>"<strong>Bookdown - Grupo B</strong>" was written by Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J. It was last built on 2023-05-10.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

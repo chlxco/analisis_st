@@ -14,23 +14,72 @@ ggseasonplot(x = indice.ts,
 
 ```
 
+
 ## Ahora, hagamos una decomposicion del objeto y la graficamos para su analisis
 
 ```{r}
-decomposicion <- decompose(x=indice.ts,
-                           type= "additive")
 
-plot(decomposicion)
+descomposicion <- decompose(x=indice.ts)
+plot(descomposicion)
 
 ```
-David
+
+A pesar de presentar un patron recurrente en el componente de estacionalidad, se puede observar un trend en la serie de datos. De igual manera el error no se ve aleatorio sino que por el contrario, presenta un patron constante. Dicho esto, vamos a comprobar por medio del Augmented Dickery-Fuller test (adf) la estacionalidad del conjunto de datos.
+
+
+```{r}
+library(tseries)
+adf.test(indice.ts)
+
+```
+De acuerdo al resultado (p-value >0.05), debemos aceptar la H0 la cual nos confirma la no-estacionalidad del conjunto. Esto quiere decir que el objeto indice.ts requerira una transformacion para su posterior procesamiento en el modelo.
+
+Ahora veamos si existe autocorrelacion total o parcial.(acf y pacf tests)
+
+```{r}
+tsdisplay(indice.ts,lag.max = 20)
+```
+
+Ahora separamos la Estacionalidad y la graficamos
+
+```{r}
+library(forecast)
+
+# Ajustamos la estacionalidad de la serie de tiempo por medio del comando seasadj
+indice_adj <- seasadj(descomposicion)
+
+#Luego removemos la tendencia (trend) con el comando diff
+modelo_ts <- diff(indice_adj)
+
+# Grafiquemos la nueva serie de tiempo
+nueva_descomp <-decompose(modelo_ts)
+plot(nueva_descomp)
+
+```
+Por ultimo, apliquemos los mismos test que corrimos para nuestra serie de tiempo original.
+
+```{r}
+
+# Test de estacionalidad
+adf.test(modelo_ts)
+
+# Test de autocorrelacion total y parcial
+tsdisplay(modelo_ts,lag.max = 20)
+```
+
+
+Podemos cncluir que nuestra nueva serie de tiempo, etc
+
+
+########
+Ahora separamos la Estacionalidad y la graficamos
 
 ```{r}
 ##################### descomposicion
 
 
 # Descomponer la serie de tiempo en sus componentes
-descomposicion <- decompose(indice.ts)
+#descomposicion <- decompose(indice.ts)
 
 # Obtener la componente de estacionalidad
 estacionalidad <- descomposicion$seasonal
@@ -58,7 +107,9 @@ df_diferenciacion <- data.frame(periodo = time(diferenciacion), valor = diferenc
 # Graficar la serie de tiempo diferenciada utilizando "ggplot2"
 ggplot(df_diferenciacion, aes(x = periodo, y = valor)) +
   geom_line(color = "deepskyblue", size = 1) +
-  xlab("Periodo") + ylab("Diferenciación") +
+  xlab("Periodo") + ylab("Diferenciacion") +
   ggtitle("Serie de tiempo diferenciada")
+
+
 ```
 
