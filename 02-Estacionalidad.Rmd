@@ -1,4 +1,4 @@
-# Avance 3 - descomposición, la estacionariedad y la diferenciación
+# Estacionalidad y Descomposicion
 
 ## Estacionalidad {#Estacion}
 

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capitulo 3 Estacionalidad y Descomposicion | Bookdown - Grupo B</title>
+<meta name="author" content="Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J">
+<meta name="description" content='3.1 Estacionalidad library(forecast) library(timsac) library(ggplot2) library(changepoint) library(readxl) ggseasonplot(x = indice.ts,       main= "Estacionalidad")   3.2 Ahora, hagamos una...'>
+<meta name="generator" content="bookdown 0.33 with bs4_book()">
+<meta property="og:title" content="Capitulo 3 Estacionalidad y Descomposicion | Bookdown - Grupo B">
+<meta property="og:type" content="book">
+<meta property="og:description" content='3.1 Estacionalidad library(forecast) library(timsac) library(ggplot2) library(changepoint) library(readxl) ggseasonplot(x = indice.ts,       main= "Estacionalidad")   3.2 Ahora, hagamos una...'>
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capitulo 3 Estacionalidad y Descomposicion | Bookdown - Grupo B">
+<meta name="twitter:description" content='3.1 Estacionalidad library(forecast) library(timsac) library(ggplot2) library(changepoint) library(readxl) ggseasonplot(x = indice.ts,       main= "Estacionalidad")   3.2 Ahora, hagamos una...'>
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Bookdown - Grupo B</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Propuesta</a></li>
+<li><a class="" href="Analisis.html"><span class="header-section-number">2</span> Analisis Exploratorio</a></li>
+<li><a class="active" href="estacionalidad-y-descomposicion.html"><span class="header-section-number">3</span> Estacionalidad y Descomposicion</a></li>
+<li><a class="" href="methods.html"><span class="header-section-number">4</span> Methods</a></li>
+<li><a class="" href="applications.html"><span class="header-section-number">5</span> Applications</a></li>
+<li><a class="" href="final-words.html"><span class="header-section-number">6</span> Final Words</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="estacionalidad-y-descomposicion" class="section level1" number="3">
+<h1>
+<span class="header-section-number">Capitulo 3</span> Estacionalidad y Descomposicion<a class="anchor" aria-label="anchor" href="#estacionalidad-y-descomposicion"><i class="fas fa-link"></i></a>
+</h1>
+<div id="Estacion" class="section level2" number="3.1">
+<h2>
+<span class="header-section-number">3.1</span> Estacionalidad<a class="anchor" aria-label="anchor" href="#Estacion"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.robjhyndman.com/forecast/">forecast</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">timsac</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rkillick/changepoint/">changepoint</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/seasonplot.html">ggseasonplot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">indice.ts</span>,</span>
+<span>             main<span class="op">=</span> <span class="st">"Estacionalidad"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-8-1.png" width="672"></div>
+</div>
+<div id="ahora-hagamos-una-decomposicion-del-objeto-y-la-graficamos-para-su-analisis" class="section level2" number="3.2">
+<h2>
+<span class="header-section-number">3.2</span> Ahora, hagamos una decomposicion del objeto y la graficamos para su analisis<a class="anchor" aria-label="anchor" href="#ahora-hagamos-una-decomposicion-del-objeto-y-la-graficamos-para-su-analisis"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">descomposicion</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/decompose.html">decompose</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">indice.ts</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">descomposicion</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-9-1.png" width="672"></div>
+<p>A pesar de presentar un patron recurrente en el componente de estacionalidad, se puede observar un trend en la serie de datos. De igual manera el error no se ve aleatorio sino que por el contrario, presenta un patron constante. Dicho esto, vamos a comprobar por medio del Augmented Dickery-Fuller test (adf) la estacionalidad del conjunto de datos.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">tseries</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/tseries/man/adf.test.html">adf.test</a></span><span class="op">(</span><span class="va">indice.ts</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  indice.ts
+## Dickey-Fuller = -1.2017, Lag order = 3, p-value = 0.8984
+## alternative hypothesis: stationary</code></pre>
+<p>De acuerdo al resultado (p-value &gt;0.05), debemos aceptar la H0 la cual nos confirma la no-estacionalidad del conjunto. Esto quiere decir que el objeto indice.ts requerira una transformacion para su posterior procesamiento en el modelo.</p>
+<p>Ahora veamos si existe autocorrelacion total o parcial.(acf y pacf tests)</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/tsdisplay.html">tsdisplay</a></span><span class="op">(</span><span class="va">indice.ts</span>,lag.max <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-11-1.png" width="672"></div>
+<p>Ahora separamos la Estacionalidad y la graficamos</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.robjhyndman.com/forecast/">forecast</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Ajustamos la estacionalidad de la serie de tiempo por medio del comando seasadj</span></span>
+<span><span class="va">indice_adj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/seasadj.html">seasadj</a></span><span class="op">(</span><span class="va">descomposicion</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#Luego removemos la tendencia (trend) con el comando diff</span></span>
+<span><span class="va">modelo_ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">indice_adj</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Grafiquemos la nueva serie de tiempo</span></span>
+<span><span class="va">nueva_descomp</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/stats/decompose.html">decompose</a></span><span class="op">(</span><span class="va">modelo_ts</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">nueva_descomp</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure">
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-12-1.png" width="672">
+Por ultimo, apliquemos los mismos test que corrimos para nuestra serie de tiempo original.</div>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Test de estacionalidad</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/tseries/man/adf.test.html">adf.test</a></span><span class="op">(</span><span class="va">modelo_ts</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  modelo_ts
+## Dickey-Fuller = -3.7052, Lag order = 3, p-value = 0.0316
+## alternative hypothesis: stationary</code></pre>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Test de autocorrelacion total y parcial</span></span>
+<span><span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/tsdisplay.html">tsdisplay</a></span><span class="op">(</span><span class="va">modelo_ts</span>,lag.max <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-13-1.png" width="672"></div>
+<p>Podemos cncluir que nuestra nueva serie de tiempo, etc</p>
+<div id="section" class="section level8" number="3.2.0.0.0.0.0.1">
+<p class="heading"><span class="header-section-number">3.2.0.0.0.0.0.1</span> </p>
+<p>Ahora separamos la Estacionalidad y la graficamos</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">##################### descomposicion</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Descomponer la serie de tiempo en sus componentes</span></span>
+<span><span class="co">#descomposicion &lt;- decompose(indice.ts)</span></span>
+<span></span>
+<span><span class="co"># Obtener la componente de estacionalidad</span></span>
+<span><span class="va">estacionalidad</span> <span class="op">&lt;-</span> <span class="va">descomposicion</span><span class="op">$</span><span class="va">seasonal</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Convertir la componente de estacionalidad a un data frame</span></span>
+<span><span class="va">df_estacionalidad</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>periodo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/time.html">time</a></span><span class="op">(</span><span class="va">estacionalidad</span><span class="op">)</span>, valor <span class="op">=</span> <span class="va">estacionalidad</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Graficar la componente de estacionalidad</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df_estacionalidad</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">periodo</span>, y <span class="op">=</span> <span class="va">valor</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"deepskyblue"</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Periodo"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Estacionalidad"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Componente de estacionalidad de la serie de tiempo"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.</code></pre>
+<pre><code>## Don't know how to automatically pick scale for object of type &lt;ts&gt;. Defaulting
+## to continuous.
+## Don't know how to automatically pick scale for object of type &lt;ts&gt;. Defaulting
+## to continuous.</code></pre>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-14-1.png" width="672"></div>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">##################### diferenciación</span></span>
+<span></span>
+<span><span class="co"># Calcular la diferenciación</span></span>
+<span><span class="va">diferenciacion</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">indice.ts</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Convertir la serie de tiempo diferenciada a un data frame</span></span>
+<span><span class="va">df_diferenciacion</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>periodo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/time.html">time</a></span><span class="op">(</span><span class="va">diferenciacion</span><span class="op">)</span>, valor <span class="op">=</span> <span class="va">diferenciacion</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Graficar la serie de tiempo diferenciada utilizando "ggplot2"</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df_diferenciacion</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">periodo</span>, y <span class="op">=</span> <span class="va">valor</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"deepskyblue"</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Periodo"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Diferenciacion"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Serie de tiempo diferenciada"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Don't know how to automatically pick scale for object of type &lt;ts&gt;. Defaulting
+## to continuous.
+## Don't know how to automatically pick scale for object of type &lt;ts&gt;. Defaulting
+## to continuous.</code></pre>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-14-2.png" width="672"></div>
+
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="Analisis.html"><span class="header-section-number">2</span> Analisis Exploratorio</a></div>
+<div class="next"><a href="methods.html"><span class="header-section-number">4</span> Methods</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#estacionalidad-y-descomposicion"><span class="header-section-number">3</span> Estacionalidad y Descomposicion</a></li>
+<li><a class="nav-link" href="#Estacion"><span class="header-section-number">3.1</span> Estacionalidad</a></li>
+<li><a class="nav-link" href="#ahora-hagamos-una-decomposicion-del-objeto-y-la-graficamos-para-su-analisis"><span class="header-section-number">3.2</span> Ahora, hagamos una decomposicion del objeto y la graficamos para su analisis</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Bookdown - Grupo B</strong>" was written by Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J. It was last built on 2023-05-10.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>
