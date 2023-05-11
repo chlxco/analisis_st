@@ -6,14 +6,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Capitulo 3 Estacionalidad y Descomposicion | Bookdown - Grupo B</title>
 <meta name="author" content="Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J">
-<meta name="description" content='3.1 Estacionalidad library(forecast) library(timsac) library(ggplot2) library(changepoint) library(readxl) ggseasonplot(x = indice.ts,       main= "Estacionalidad")   3.2 Ahora, hagamos una...'>
+<meta name="description" content="3.1 Estacionalidad   3.1.1 Analisis Inicial Según el análisis de estacionalidad anual, se observa que la utilización de los productos del banco fue moderada en los años 2018 y 2019, tal como se...">
 <meta name="generator" content="bookdown 0.33 with bs4_book()">
 <meta property="og:title" content="Capitulo 3 Estacionalidad y Descomposicion | Bookdown - Grupo B">
 <meta property="og:type" content="book">
-<meta property="og:description" content='3.1 Estacionalidad library(forecast) library(timsac) library(ggplot2) library(changepoint) library(readxl) ggseasonplot(x = indice.ts,       main= "Estacionalidad")   3.2 Ahora, hagamos una...'>
+<meta property="og:description" content="3.1 Estacionalidad   3.1.1 Analisis Inicial Según el análisis de estacionalidad anual, se observa que la utilización de los productos del banco fue moderada en los años 2018 y 2019, tal como se...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Capitulo 3 Estacionalidad y Descomposicion | Bookdown - Grupo B">
-<meta name="twitter:description" content='3.1 Estacionalidad library(forecast) library(timsac) library(ggplot2) library(changepoint) library(readxl) ggseasonplot(x = indice.ts,       main= "Estacionalidad")   3.2 Ahora, hagamos una...'>
+<meta name="twitter:description" content="3.1 Estacionalidad   3.1.1 Analisis Inicial Según el análisis de estacionalidad anual, se observa que la utilización de los productos del banco fue moderada en los años 2018 y 2019, tal como se...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -64,29 +64,25 @@
 <h2>
 <span class="header-section-number">3.1</span> Estacionalidad<a class="anchor" aria-label="anchor" href="#Estacion"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.robjhyndman.com/forecast/">forecast</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">timsac</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rkillick/changepoint/">changepoint</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/seasonplot.html">ggseasonplot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">indice.ts</span>,</span>
-<span>             main<span class="op">=</span> <span class="st">"Estacionalidad"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-8-1.png" width="672"></div>
+<div id="analisis-inicial" class="section level3" number="3.1.1">
+<h3>
+<span class="header-section-number">3.1.1</span> Analisis Inicial<a class="anchor" aria-label="anchor" href="#analisis-inicial"><i class="fas fa-link"></i></a>
+</h3>
+<p>Según el análisis de estacionalidad anual, se observa que la utilización de los productos del banco fue moderada en los años 2018 y 2019, tal como se evidencia en las líneas trazadas para esos años. En el 2020, se observa un pico en la utilización que podría indicar un posible error en la recolección de datos. Posteriormente, se observa una pequeña disminución que posiblemente se debió al inicio de la pandemia y la incertidumbre mundial. A partir de septiembre de 2020, se observa un incremento continuo en la utilización para los años 2021 y 2022, posiblemente como resultado de la duración de la pandemia y la crisis económica global.</p>
+<p>En el año 2023, se comienza a evidenciar una disminución en la utilización de los productos del banco, lo que podría deberse al alza de las tasas de interés o a un cambio en el comportamiento de los clientes. Es importante mencionar que se requiere un análisis más detallado para determinar las causas precisas de esta disminución.</p>
 </div>
-<div id="ahora-hagamos-una-decomposicion-del-objeto-y-la-graficamos-para-su-analisis" class="section level2" number="3.2">
+</div>
+<div id="descomposicion-del-objeto-y-analisis" class="section level2" number="3.2">
 <h2>
-<span class="header-section-number">3.2</span> Ahora, hagamos una decomposicion del objeto y la graficamos para su analisis<a class="anchor" aria-label="anchor" href="#ahora-hagamos-una-decomposicion-del-objeto-y-la-graficamos-para-su-analisis"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.2</span> Descomposicion del objeto y analisis<a class="anchor" aria-label="anchor" href="#descomposicion-del-objeto-y-analisis"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">descomposicion</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/decompose.html">decompose</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">indice.ts</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">descomposicion</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-9-1.png" width="672"></div>
 <p>A pesar de presentar un patron recurrente en el componente de estacionalidad, se puede observar un trend en la serie de datos. De igual manera el error no se ve aleatorio sino que por el contrario, presenta un patron constante. Dicho esto, vamos a comprobar por medio del Augmented Dickery-Fuller test (adf) la estacionalidad del conjunto de datos.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">tseries</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/tseries/man/adf.test.html">adf.test</a></span><span class="op">(</span><span class="va">indice.ts</span><span class="op">)</span></span></code></pre></div>
+<div id="prueba-de-estacionalidad" class="section level3" number="3.2.1">
+<h3>
+<span class="header-section-number">3.2.1</span> Prueba de Estacionalidad<a class="anchor" aria-label="anchor" href="#prueba-de-estacionalidad"><i class="fas fa-link"></i></a>
+</h3>
 <pre><code>## 
 ##  Augmented Dickey-Fuller Test
 ## 
@@ -94,94 +90,47 @@
 ## Dickey-Fuller = -1.2017, Lag order = 3, p-value = 0.8984
 ## alternative hypothesis: stationary</code></pre>
 <p>De acuerdo al resultado (p-value &gt;0.05), debemos aceptar la H0 la cual nos confirma la no-estacionalidad del conjunto. Esto quiere decir que el objeto indice.ts requerira una transformacion para su posterior procesamiento en el modelo.</p>
+</div>
+<div id="autocorrelacion" class="section level3" number="3.2.2">
+<h3>
+<span class="header-section-number">3.2.2</span> Autocorrelacion<a class="anchor" aria-label="anchor" href="#autocorrelacion"><i class="fas fa-link"></i></a>
+</h3>
 <p>Ahora veamos si existe autocorrelacion total o parcial.(acf y pacf tests)</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/tsdisplay.html">tsdisplay</a></span><span class="op">(</span><span class="va">indice.ts</span>,lag.max <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-11-1.png" width="672"></div>
-<p>Ahora separamos la Estacionalidad y la graficamos</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.robjhyndman.com/forecast/">forecast</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Ajustamos la estacionalidad de la serie de tiempo por medio del comando seasadj</span></span>
-<span><span class="va">indice_adj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/seasadj.html">seasadj</a></span><span class="op">(</span><span class="va">descomposicion</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#Luego removemos la tendencia (trend) con el comando diff</span></span>
-<span><span class="va">modelo_ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">indice_adj</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Grafiquemos la nueva serie de tiempo</span></span>
-<span><span class="va">nueva_descomp</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/stats/decompose.html">decompose</a></span><span class="op">(</span><span class="va">modelo_ts</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">nueva_descomp</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure">
-<img src="bookdown-demo_files/figure-html/unnamed-chunk-12-1.png" width="672">
-Por ultimo, apliquemos los mismos test que corrimos para nuestra serie de tiempo original.</div>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Test de estacionalidad</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/tseries/man/adf.test.html">adf.test</a></span><span class="op">(</span><span class="va">modelo_ts</span><span class="op">)</span></span></code></pre></div>
+<p>Como se puede observar, existe autocorrelacion entre la variable observada lo cual confirma la tendencia en la serie temporal. Por otro lado no evidenciamos autocorrelacion parcial ya que no encontramos picos por fuera del umbral (0.95)</p>
+</div>
+</div>
+<div id="transformacion" class="section level2" number="3.3">
+<h2>
+<span class="header-section-number">3.3</span> Transformacion<a class="anchor" aria-label="anchor" href="#transformacion"><i class="fas fa-link"></i></a>
+</h2>
+<pre><code>## [1] "Ajustamos la estacionalidad de la serie de tiempo por medio del comando seasadj"</code></pre>
+<pre><code>## [1] "Luego removemos la tendencia (trend) con el comando diff"</code></pre>
+<pre><code>## [1] "Grafiquemos la nueva serie de tiempo"</code></pre>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-12-1.png" width="672"></div>
+<div id="validacion-de-nuestra-nueva-serie-de-tiempo-transformada" class="section level3" number="3.3.1">
+<h3>
+<span class="header-section-number">3.3.1</span> Validacion de nuestra nueva serie de tiempo transformada<a class="anchor" aria-label="anchor" href="#validacion-de-nuestra-nueva-serie-de-tiempo-transformada"><i class="fas fa-link"></i></a>
+</h3>
 <pre><code>## 
 ##  Augmented Dickey-Fuller Test
 ## 
 ## data:  modelo_ts
 ## Dickey-Fuller = -3.7052, Lag order = 3, p-value = 0.0316
 ## alternative hypothesis: stationary</code></pre>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Test de autocorrelacion total y parcial</span></span>
-<span><span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/tsdisplay.html">tsdisplay</a></span><span class="op">(</span><span class="va">modelo_ts</span>,lag.max <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-13-1.png" width="672"></div>
-<p>Podemos cncluir que nuestra nueva serie de tiempo, etc</p>
-<div id="section" class="section level8" number="3.2.0.0.0.0.0.1">
-<p class="heading"><span class="header-section-number">3.2.0.0.0.0.0.1</span> </p>
-<p>Ahora separamos la Estacionalidad y la graficamos</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">##################### descomposicion</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Descomponer la serie de tiempo en sus componentes</span></span>
-<span><span class="co">#descomposicion &lt;- decompose(indice.ts)</span></span>
-<span></span>
-<span><span class="co"># Obtener la componente de estacionalidad</span></span>
-<span><span class="va">estacionalidad</span> <span class="op">&lt;-</span> <span class="va">descomposicion</span><span class="op">$</span><span class="va">seasonal</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Convertir la componente de estacionalidad a un data frame</span></span>
-<span><span class="va">df_estacionalidad</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>periodo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/time.html">time</a></span><span class="op">(</span><span class="va">estacionalidad</span><span class="op">)</span>, valor <span class="op">=</span> <span class="va">estacionalidad</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Graficar la componente de estacionalidad</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df_estacionalidad</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">periodo</span>, y <span class="op">=</span> <span class="va">valor</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"deepskyblue"</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Periodo"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Estacionalidad"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Componente de estacionalidad de la serie de tiempo"</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-## ℹ Please use `linewidth` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-## generated.</code></pre>
-<pre><code>## Don't know how to automatically pick scale for object of type &lt;ts&gt;. Defaulting
-## to continuous.
-## Don't know how to automatically pick scale for object of type &lt;ts&gt;. Defaulting
-## to continuous.</code></pre>
-<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-14-1.png" width="672"></div>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">##################### diferenciación</span></span>
-<span></span>
-<span><span class="co"># Calcular la diferenciación</span></span>
-<span><span class="va">diferenciacion</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">indice.ts</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Convertir la serie de tiempo diferenciada a un data frame</span></span>
-<span><span class="va">df_diferenciacion</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>periodo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/time.html">time</a></span><span class="op">(</span><span class="va">diferenciacion</span><span class="op">)</span>, valor <span class="op">=</span> <span class="va">diferenciacion</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Graficar la serie de tiempo diferenciada utilizando "ggplot2"</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df_diferenciacion</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">periodo</span>, y <span class="op">=</span> <span class="va">valor</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"deepskyblue"</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Periodo"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Diferenciacion"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Serie de tiempo diferenciada"</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## Don't know how to automatically pick scale for object of type &lt;ts&gt;. Defaulting
-## to continuous.
-## Don't know how to automatically pick scale for object of type &lt;ts&gt;. Defaulting
-## to continuous.</code></pre>
-<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-14-2.png" width="672"></div>
-
+<p>se observa que la serie es de tipo estacionaria (p-value=0.0316 &lt; 0.05), la varianza y la media son de tipo constante, los datos se mueven alrededor de cero (0).</p>
 </div>
+</div>
+<div id="conclusiones" class="section level2" number="3.4">
+<h2>
+<span class="header-section-number">3.4</span> Conclusiones<a class="anchor" aria-label="anchor" href="#conclusiones"><i class="fas fa-link"></i></a>
+</h2>
+<p>En conclusión, el análisis de serie de tiempo de la utilización de los productos del banco nos ha permitido identificar patrones y tendencias en su utilización.</p>
+<p>A partir del análisis de estacionalidad, se observó que la utilización de los productos del banco ha sido moderada en los años 2018 y 2019, y ha aumentado significativamente en el 2020 y 2021. Además, se evidenció una disminución en la utilización para el año 2023.</p>
+<p>La descomposición de la serie de tiempo nos permitió identificar las componentes de tendencia, estacionalidad y error, y su análisis nos ha brindado una mejor comprensión de los patrones y comportamientos observados en la utilización de los productos del banco.</p>
+<p>Asimismo, se realizó la diferenciación de la serie de tiempo para eliminar la tendencia y hacer la serie estacionaria. Esto nos permitió obtener una serie de tiempo más homogénea, y por lo tanto, una mejor visualización de las fluctuaciones en la utilización de los productos del banco.Como resultado, la nueva serie de tiempo sera nuestra base para la implementacion de modelos de pronostico de los productos observados.</p>
+
 </div>
 </div>
   <div class="chapter-nav">
@@ -191,8 +140,19 @@ Por ultimo, apliquemos los mismos test que corrimos para nuestra serie de tiempo
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#estacionalidad-y-descomposicion"><span class="header-section-number">3</span> Estacionalidad y Descomposicion</a></li>
-<li><a class="nav-link" href="#Estacion"><span class="header-section-number">3.1</span> Estacionalidad</a></li>
-<li><a class="nav-link" href="#ahora-hagamos-una-decomposicion-del-objeto-y-la-graficamos-para-su-analisis"><span class="header-section-number">3.2</span> Ahora, hagamos una decomposicion del objeto y la graficamos para su analisis</a></li>
+<li>
+<a class="nav-link" href="#Estacion"><span class="header-section-number">3.1</span> Estacionalidad</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#analisis-inicial"><span class="header-section-number">3.1.1</span> Analisis Inicial</a></li></ul>
+</li>
+<li>
+<a class="nav-link" href="#descomposicion-del-objeto-y-analisis"><span class="header-section-number">3.2</span> Descomposicion del objeto y analisis</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#prueba-de-estacionalidad"><span class="header-section-number">3.2.1</span> Prueba de Estacionalidad</a></li>
+<li><a class="nav-link" href="#autocorrelacion"><span class="header-section-number">3.2.2</span> Autocorrelacion</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#transformacion"><span class="header-section-number">3.3</span> Transformacion</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#validacion-de-nuestra-nueva-serie-de-tiempo-transformada"><span class="header-section-number">3.3.1</span> Validacion de nuestra nueva serie de tiempo transformada</a></li></ul>
+</li>
+<li><a class="nav-link" href="#conclusiones"><span class="header-section-number">3.4</span> Conclusiones</a></li>
 </ul>
 
       <div class="book-extra">

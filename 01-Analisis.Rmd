@@ -4,13 +4,37 @@ editor_options:
     wrap: sentence
 ---
 
+
+
 # Analisis Exploratorio {#Analisis}
+
+## Introducción
+
+En este análisis, se explorará el comportamiento de la utilización de los productos de un banco a lo largo de los años. Se examinará si ha habido un incremento en la utilización de los productos año a año, y en caso afirmativo, se intentará identificar cuáles son las razones que han llevado a este aumento.
+
+En particular, se examinará la utilización de los productos de un banco desde el año 2018 hasta el año en curso. Se considerarán productos tales como tarjetas de crédito y crédito de consumo. Se investigará si existe un patrón estacional en la utilización de estos productos, es decir, si hay un comportamiento cíclico que se repite en determinados meses del año. Además, se estudiará la posible existencia de tendencias a largo plazo que puedan indicar un cambio en el comportamiento de los clientes del banco y que posibles factores indicen en estos cambios.
+
+La metodología utilizada en este análisis incluye la descomposición de series de tiempo, la identificación de patrones estacionales y la realización de pruebas estadísticas para verificar la presencia de tendencias y cambios en el comportamiento de los clientes.
+
+## Explicación de la base
+
+Partimos de una base agrupada con las siguientes variables:
+
+Periodo - > año y mes
+Sub_Tipo -> tipo de producto
+N_Clientes -> cantidad de cleintes
+DIAS_DE_MORA -> días de mora de los clientes a cierre de mes
+Saldo -> saldo utilizado por los clientes a cierre de mes
+Genero -> genero del cliente 
+grupo_actividad_eco -> que actividad económica tiene el grupo de clienes
+Cuidad_res -> ciudad de residencia de los clientes
+
 
 ## Creacion del objeto de analisis temporal indice.ts
 
 ### Carga de librerias y datasource
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE}
 library(forecast)
 library(timsac)
 library(ggplot2)
@@ -24,7 +48,7 @@ datos
 
 ### Modificamos el df para que tenga el formato adecuado y lo mostramos
 
-```{r cache=TRUE}
+```{r echo=FALSE, warning=FALSE}
 # Cambio el tipo de dato de la columna temporal(Periodo)
 datos$Periodo <- as.Date(paste0(datos$Periodo, "-01"))
 
@@ -35,11 +59,20 @@ datos <- aggregate(Saldo ~ Periodo, data = datos, sum)
 indice.ts <- ts(datos$Saldo, start = c(2018,1), frequency = 12)
 indice.ts
 ```
-### Graficamos la serie
-```{r}
+
+Deacuerdo al analisis que deseamos hacer consolidamos nuestra variable de interes saldo agrupandola por periodo de tiempo y procedimos a graficar
+
+```{r echo=FALSE, warning=FALSE}
+
 plot(indice.ts, main = "",ylab="valor",col="deepskyblue",xlab="Periodos")
 title(main = "Saldos Mensuales Clientes")
 ```
+
+### Analisis Grafica de serie
+Después de graficar la serie de tiempo, podemos observar ciertas características que nos brindan información valiosa. Por ejemplo, en el primer periodo del 2020, podemos notar un pico descendente en el saldo, lo que podría sugerir un posible error en el registro de los datos históricos.
+
+Por otro lado, al examinar el comportamiento general de la serie de tiempo, se observa un aumento en la utilización de los productos a lo largo de los años, especialmente marcado a partir de la mitad del 2020. Este aumento podría deberse a factores como la pandemia y el desempleo, que podrían haber influido en la demanda de estos productos.
+
 
 ### Chequeos basicos para confirmar la estructura del contenedor ts
 ```{r echo=FALSE, warning=FALSE}
@@ -57,15 +90,15 @@ end(indice.ts)
 ## Analisis Descriptivo
 
 ### Grafica de Rezagos
-```{r}
+```{r echo=FALSE, warning=FALSE}
 lag.plot(indice.ts, 9 , do.lines = FALSE)
 ```
-Conclusion: Se observa con claridad que existe una tendencia XXXXXX
+Conclusion: Se observa con claridad que existe una tendencia positiva. Esto sugiere una posible transformacion en una etapa posterior del analisis.
 
 ### Media Movil
 
 Crearemos a continuacion 3 medias moviles para el objeto ts. Estas tendran 3, 5 y 7 periodos para su calculo.
-```{r}
+```{r echo=FALSE, warning=FALSE}
 
 mm3 <- rollmean(indice.ts,k=3)
 cat("Media Movil con 3 meses: ", mm3,"\n\n")
@@ -77,9 +110,9 @@ mm7 <- rollmean(indice.ts,k=7)
 cat("Media Movil con 7 meses: ", mm7)
 
 ```
-Veamos como es el comportamiento de las mismas en comparacion con lod datos originales de la serie de tiempo
+Veamos como es el comportamiento de las mismas en comparacion con los datos originales de la serie de tiempo.
 
-```{r}
+```{r echo=FALSE, warning=FALSE}
 
 plot(1:length(indice.ts), indice.ts, type = "l",   
      ylim = c(min(indice.ts), max(indice.ts)),

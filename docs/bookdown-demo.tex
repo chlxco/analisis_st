@@ -33,46 +33,6 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\usepackage{framed}
-\definecolor{shadecolor}{RGB}{248,248,248}
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\BuiltInTok}[1]{#1}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
-\newcommand{\ExtensionTok}[1]{#1}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ImportTok}[1]{#1}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\NormalTok}[1]{#1}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
@@ -160,6 +120,29 @@ Se pueden utilizar diversas fuentes de información para recopilar los datos nec
 \hypertarget{Analisis}{%
 \chapter{Analisis Exploratorio}\label{Analisis}}
 
+\hypertarget{introducciuxf3n}{%
+\section{Introducción}\label{introducciuxf3n}}
+
+En este análisis, se explorará el comportamiento de la utilización de los productos de un banco a lo largo de los años. Se examinará si ha habido un incremento en la utilización de los productos año a año, y en caso afirmativo, se intentará identificar cuáles son las razones que han llevado a este aumento.
+
+En particular, se examinará la utilización de los productos de un banco desde el año 2018 hasta el año en curso. Se considerarán productos tales como tarjetas de crédito y crédito de consumo. Se investigará si existe un patrón estacional en la utilización de estos productos, es decir, si hay un comportamiento cíclico que se repite en determinados meses del año. Además, se estudiará la posible existencia de tendencias a largo plazo que puedan indicar un cambio en el comportamiento de los clientes del banco y que posibles factores indicen en estos cambios.
+
+La metodología utilizada en este análisis incluye la descomposición de series de tiempo, la identificación de patrones estacionales y la realización de pruebas estadísticas para verificar la presencia de tendencias y cambios en el comportamiento de los clientes.
+
+\hypertarget{explicaciuxf3n-de-la-base}{%
+\section{Explicación de la base}\label{explicaciuxf3n-de-la-base}}
+
+Partimos de una base agrupada con las siguientes variables:
+
+Periodo - \textgreater{} año y mes
+Sub\_Tipo -\textgreater{} tipo de producto
+N\_Clientes -\textgreater{} cantidad de cleintes
+DIAS\_DE\_MORA -\textgreater{} días de mora de los clientes a cierre de mes
+Saldo -\textgreater{} saldo utilizado por los clientes a cierre de mes
+Genero -\textgreater{} genero del cliente
+grupo\_actividad\_eco -\textgreater{} que actividad económica tiene el grupo de clienes
+Cuidad\_res -\textgreater{} ciudad de residencia de los clientes
+
 \hypertarget{creacion-del-objeto-de-analisis-temporal-indice.ts}{%
 \section{Creacion del objeto de analisis temporal indice.ts}\label{creacion-del-objeto-de-analisis-temporal-indice.ts}}
 
@@ -213,20 +196,6 @@ Se pueden utilizar diversas fuentes de información para recopilar los datos nec
 \hypertarget{modificamos-el-df-para-que-tenga-el-formato-adecuado-y-lo-mostramos}{%
 \subsection{Modificamos el df para que tenga el formato adecuado y lo mostramos}\label{modificamos-el-df-para-que-tenga-el-formato-adecuado-y-lo-mostramos}}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Cambio el tipo de dato de la columna temporal(Periodo)}
-\NormalTok{datos}\SpecialCharTok{$}\NormalTok{Periodo }\OtherTok{\textless{}{-}} \FunctionTok{as.Date}\NormalTok{(}\FunctionTok{paste0}\NormalTok{(datos}\SpecialCharTok{$}\NormalTok{Periodo, }\StringTok{"{-}01"}\NormalTok{))}
-
-\CommentTok{\# Consolido el df en funcion de la variable de interes (Saldo)}
-\NormalTok{datos }\OtherTok{\textless{}{-}} \FunctionTok{aggregate}\NormalTok{(Saldo }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Periodo, }\AttributeTok{data =}\NormalTok{ datos, sum)}
-
-\CommentTok{\# Genero mi objeto ts para el analisis}
-\NormalTok{indice.ts }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(datos}\SpecialCharTok{$}\NormalTok{Saldo, }\AttributeTok{start =} \FunctionTok{c}\NormalTok{(}\DecValTok{2018}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{frequency =} \DecValTok{12}\NormalTok{)}
-\NormalTok{indice.ts}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{verbatim}
 ##               Jan          Feb          Mar          Apr          May
 ## 2018 2.562223e+12 2.601532e+12 2.653315e+12 2.717915e+12 2.852608e+12
@@ -251,17 +220,16 @@ Se pueden utilizar diversas fuentes de información para recopilar los datos nec
 ## 2023
 \end{verbatim}
 
-\hypertarget{graficamos-la-serie}{%
-\subsection{Graficamos la serie}\label{graficamos-la-serie}}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(indice.ts, }\AttributeTok{main =} \StringTok{""}\NormalTok{,}\AttributeTok{ylab=}\StringTok{"valor"}\NormalTok{,}\AttributeTok{col=}\StringTok{"deepskyblue"}\NormalTok{,}\AttributeTok{xlab=}\StringTok{"Periodos"}\NormalTok{)}
-\FunctionTok{title}\NormalTok{(}\AttributeTok{main =} \StringTok{"Saldos Mensuales Clientes"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
+Deacuerdo al analisis que deseamos hacer consolidamos nuestra variable de interes saldo agrupandola por periodo de tiempo y procedimos a graficar
 
 \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\hypertarget{analisis-grafica-de-serie}{%
+\subsection{Analisis Grafica de serie}\label{analisis-grafica-de-serie}}
+
+Después de graficar la serie de tiempo, podemos observar ciertas características que nos brindan información valiosa. Por ejemplo, en el primer periodo del 2020, podemos notar un pico descendente en el saldo, lo que podría sugerir un posible error en el registro de los datos históricos.
+
+Por otro lado, al examinar el comportamiento general de la serie de tiempo, se observa un aumento en la utilización de los productos a lo largo de los años, especialmente marcado a partir de la mitad del 2020. Este aumento podría deberse a factores como la pandemia y el desempleo, que podrían haber influido en la demanda de estos productos.
 
 \hypertarget{chequeos-basicos-para-confirmar-la-estructura-del-contenedor-ts}{%
 \subsection{Chequeos basicos para confirmar la estructura del contenedor ts}\label{chequeos-basicos-para-confirmar-la-estructura-del-contenedor-ts}}
@@ -296,68 +264,27 @@ Se pueden utilizar diversas fuentes de información para recopilar los datos nec
 \hypertarget{grafica-de-rezagos}{%
 \subsection{Grafica de Rezagos}\label{grafica-de-rezagos}}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{lag.plot}\NormalTok{(indice.ts, }\DecValTok{9}\NormalTok{ , }\AttributeTok{do.lines =} \ConstantTok{FALSE}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-5-1.pdf}
-Conclusion: Se observa con claridad que existe una tendencia XXXXXX
+Conclusion: Se observa con claridad que existe una tendencia positiva. Esto sugiere una posible transformacion en una etapa posterior del analisis.
 
 \hypertarget{media-movil}{%
 \subsection{Media Movil}\label{media-movil}}
 
 Crearemos a continuacion 3 medias moviles para el objeto ts. Estas tendran 3, 5 y 7 periodos para su calculo.
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{mm3 }\OtherTok{\textless{}{-}} \FunctionTok{rollmean}\NormalTok{(indice.ts,}\AttributeTok{k=}\DecValTok{3}\NormalTok{)}
-\FunctionTok{cat}\NormalTok{(}\StringTok{"Media Movil con 3 meses: "}\NormalTok{, mm3,}\StringTok{"}\SpecialCharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{verbatim}
 ## Media Movil con 3 meses:  2.60569e+12 2.657587e+12 2.741279e+12 2.852323e+12 2.980516e+12 3.095026e+12 3.19034e+12 3.287521e+12 3.427851e+12 3.567132e+12 3.679831e+12 3.744369e+12 3.822086e+12 3.909977e+12 4.004003e+12 4.084338e+12 4.151794e+12 4.210161e+12 4.257812e+12 4.229589e+12 4.24496e+12 4.294346e+12 3.597313e+12 3.591264e+12 3.540826e+12 4.265159e+12 4.225603e+12 4.179019e+12 4.141387e+12 4.104963e+12 4.090461e+12 4.123917e+12 4.216171e+12 4.303925e+12 4.366066e+12 4.410497e+12 4.480783e+12 4.566974e+12 4.642901e+12 4.72671e+12 4.845379e+12 4.973983e+12 5.153753e+12 5.402739e+12 5.690788e+12 5.950428e+12 6.157316e+12 6.357342e+12 6.549048e+12 6.740214e+12 6.932456e+12 7.164445e+12 7.365887e+12 7.545111e+12 7.662862e+12 7.787577e+12 7.935987e+12 8.057696e+12 8.117688e+12 8.062904e+12 7.949162e+12 7.843058e+12
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{mm5 }\OtherTok{\textless{}{-}} \FunctionTok{rollmean}\NormalTok{(indice.ts,}\AttributeTok{k=}\DecValTok{5}\NormalTok{)}
-\FunctionTok{cat}\NormalTok{(}\StringTok{"Media Movil con 5 meses: "}\NormalTok{, mm5,}\StringTok{"}\SpecialCharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## Media Movil con 5 meses:  2.677519e+12 2.762363e+12 2.862556e+12 2.97112e+12 3.082015e+12 3.190301e+12 3.316437e+12 3.433984e+12 3.541184e+12 3.648854e+12 3.754723e+12 3.830459e+12 3.910977e+12 3.997427e+12 4.074914e+12 4.143823e+12 4.206128e+12 4.210266e+12 4.240195e+12 4.29166e+12 3.842557e+12 3.840266e+12 3.878402e+12 3.854676e+12 3.79902e+12 4.227426e+12 4.18475e+12 4.137503e+12 4.122607e+12 4.123739e+12 4.159794e+12 4.22013e+12 4.2804e+12 4.351815e+12 4.434249e+12 4.490882e+12 4.555201e+12 4.650636e+12 4.751812e+12 4.851121e+12 5.002703e+12 5.207714e+12 5.429568e+12 5.665732e+12 5.917714e+12 6.151721e+12 6.353518e+12 6.54737e+12 6.740937e+12 6.957795e+12 7.152497e+12 7.338575e+12 7.511384e+12 7.66557e+12 7.8015e+12 7.92647e+12 8.009116e+12 8.041526e+12 8.023421e+12 7.953359e+12
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{mm7 }\OtherTok{\textless{}{-}} \FunctionTok{rollmean}\NormalTok{(indice.ts,}\AttributeTok{k=}\DecValTok{7}\NormalTok{)}
-\FunctionTok{cat}\NormalTok{(}\StringTok{"Media Movil con 7 meses: "}\NormalTok{, mm7)}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{verbatim}
 ## Media Movil con 7 meses:  2.782362e+12 2.872921e+12 2.968758e+12 3.074575e+12 3.203034e+12 3.322694e+12 3.429222e+12 3.5304e+12 3.634291e+12 3.737637e+12 3.837463e+12 3.915643e+12 3.988207e+12 4.064748e+12 4.13569e+12 4.162851e+12 4.208312e+12 4.260123e+12 3.954126e+12 3.968084e+12 3.973265e+12 3.957274e+12 3.966376e+12 3.945005e+12 3.89172e+12 4.183941e+12 4.158946e+12 4.141617e+12 4.162946e+12 4.192513e+12 4.221779e+12 4.278279e+12 4.353579e+12 4.426e+12 4.5007e+12 4.572381e+12 4.658052e+12 4.761236e+12 4.89092e+12 5.053176e+12 5.242871e+12 5.451288e+12 5.666292e+12 5.890855e+12 6.126316e+12 6.346204e+12 6.546447e+12 6.757883e+12 6.952829e+12 7.141217e+12 7.317392e+12 7.483628e+12 7.653691e+12 7.799638e+12 7.89216e+12 7.952412e+12 7.972803e+12 7.969387e+12
 \end{verbatim}
 
-Veamos como es el comportamiento de las mismas en comparacion con lod datos originales de la serie de tiempo
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(indice.ts), indice.ts, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{,   }
-     \AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\FunctionTok{min}\NormalTok{(indice.ts), }\FunctionTok{max}\NormalTok{(indice.ts)),}
-     \AttributeTok{xlab =} \StringTok{"Lineas de Serie de Tiempo"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Valores"}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(mm3),mm3,}\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{col=}\DecValTok{2}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(mm5),mm5,}\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{col=}\DecValTok{3}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(mm7),mm7,}\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{col=}\DecValTok{4}\NormalTok{)}
-\FunctionTok{legend}\NormalTok{(}\StringTok{"topleft"}\NormalTok{,}
-       \FunctionTok{c}\NormalTok{(}\StringTok{"Indice.Ts"}\NormalTok{, }\StringTok{"Media Movil 3 Meses"}\NormalTok{, }\StringTok{"Media Movil 5 Meses"}\NormalTok{, }\StringTok{"Media Movil 7 Meses"}\NormalTok{),}
-       \AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{col =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
+Veamos como es el comportamiento de las mismas en comparacion con los datos originales de la serie de tiempo.
 
 \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-7-1.pdf}
 
@@ -367,41 +294,24 @@ Veamos como es el comportamiento de las mismas en comparacion con lod datos orig
 \hypertarget{Estacion}{%
 \section{Estacionalidad}\label{Estacion}}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(forecast)}
-\FunctionTok{library}\NormalTok{(timsac)}
-\FunctionTok{library}\NormalTok{(ggplot2)}
-\FunctionTok{library}\NormalTok{(changepoint)}
-\FunctionTok{library}\NormalTok{(readxl)}
-
-\FunctionTok{ggseasonplot}\NormalTok{(}\AttributeTok{x =}\NormalTok{ indice.ts,}
-             \AttributeTok{main=} \StringTok{"Estacionalidad"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-8-1.pdf}
 
-\hypertarget{ahora-hagamos-una-decomposicion-del-objeto-y-la-graficamos-para-su-analisis}{%
-\section{Ahora, hagamos una decomposicion del objeto y la graficamos para su analisis}\label{ahora-hagamos-una-decomposicion-del-objeto-y-la-graficamos-para-su-analisis}}
+\hypertarget{analisis-inicial}{%
+\subsection{Analisis Inicial}\label{analisis-inicial}}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{descomposicion }\OtherTok{\textless{}{-}} \FunctionTok{decompose}\NormalTok{(}\AttributeTok{x=}\NormalTok{indice.ts)}
-\FunctionTok{plot}\NormalTok{(descomposicion)}
-\end{Highlighting}
-\end{Shaded}
+Según el análisis de estacionalidad anual, se observa que la utilización de los productos del banco fue moderada en los años 2018 y 2019, tal como se evidencia en las líneas trazadas para esos años. En el 2020, se observa un pico en la utilización que podría indicar un posible error en la recolección de datos. Posteriormente, se observa una pequeña disminución que posiblemente se debió al inicio de la pandemia y la incertidumbre mundial. A partir de septiembre de 2020, se observa un incremento continuo en la utilización para los años 2021 y 2022, posiblemente como resultado de la duración de la pandemia y la crisis económica global.
+
+En el año 2023, se comienza a evidenciar una disminución en la utilización de los productos del banco, lo que podría deberse al alza de las tasas de interés o a un cambio en el comportamiento de los clientes. Es importante mencionar que se requiere un análisis más detallado para determinar las causas precisas de esta disminución.
+
+\hypertarget{descomposicion-del-objeto-y-analisis}{%
+\section{Descomposicion del objeto y analisis}\label{descomposicion-del-objeto-y-analisis}}
 
 \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-9-1.pdf}
 
 A pesar de presentar un patron recurrente en el componente de estacionalidad, se puede observar un trend en la serie de datos. De igual manera el error no se ve aleatorio sino que por el contrario, presenta un patron constante. Dicho esto, vamos a comprobar por medio del Augmented Dickery-Fuller test (adf) la estacionalidad del conjunto de datos.
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(tseries)}
-\FunctionTok{adf.test}\NormalTok{(indice.ts)}
-\end{Highlighting}
-\end{Shaded}
+\hypertarget{prueba-de-estacionalidad}{%
+\subsection{Prueba de Estacionalidad}\label{prueba-de-estacionalidad}}
 
 \begin{verbatim}
 ## 
@@ -414,43 +324,34 @@ A pesar de presentar un patron recurrente en el componente de estacionalidad, se
 
 De acuerdo al resultado (p-value \textgreater0.05), debemos aceptar la H0 la cual nos confirma la no-estacionalidad del conjunto. Esto quiere decir que el objeto indice.ts requerira una transformacion para su posterior procesamiento en el modelo.
 
-Ahora veamos si existe autocorrelacion total o parcial.(acf y pacf tests)
+\hypertarget{autocorrelacion}{%
+\subsection{Autocorrelacion}\label{autocorrelacion}}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{tsdisplay}\NormalTok{(indice.ts,}\AttributeTok{lag.max =} \DecValTok{20}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
+Ahora veamos si existe autocorrelacion total o parcial.(acf y pacf tests)
 
 \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-11-1.pdf}
 
-Ahora separamos la Estacionalidad y la graficamos
+Como se puede observar, existe autocorrelacion entre la variable observada lo cual confirma la tendencia en la serie temporal. Por otro lado no evidenciamos autocorrelacion parcial ya que no encontramos picos por fuera del umbral (0.95)
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(forecast)}
+\hypertarget{transformacion}{%
+\section{Transformacion}\label{transformacion}}
 
-\CommentTok{\# Ajustamos la estacionalidad de la serie de tiempo por medio del comando seasadj}
-\NormalTok{indice\_adj }\OtherTok{\textless{}{-}} \FunctionTok{seasadj}\NormalTok{(descomposicion)}
+\begin{verbatim}
+## [1] "Ajustamos la estacionalidad de la serie de tiempo por medio del comando seasadj"
+\end{verbatim}
 
-\CommentTok{\#Luego removemos la tendencia (trend) con el comando diff}
-\NormalTok{modelo\_ts }\OtherTok{\textless{}{-}} \FunctionTok{diff}\NormalTok{(indice\_adj)}
+\begin{verbatim}
+## [1] "Luego removemos la tendencia (trend) con el comando diff"
+\end{verbatim}
 
-\CommentTok{\# Grafiquemos la nueva serie de tiempo}
-\NormalTok{nueva\_descomp }\OtherTok{\textless{}{-}}\FunctionTok{decompose}\NormalTok{(modelo\_ts)}
-\FunctionTok{plot}\NormalTok{(nueva\_descomp)}
-\end{Highlighting}
-\end{Shaded}
+\begin{verbatim}
+## [1] "Grafiquemos la nueva serie de tiempo"
+\end{verbatim}
 
 \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-12-1.pdf}
-Por ultimo, apliquemos los mismos test que corrimos para nuestra serie de tiempo original.
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Test de estacionalidad}
-\FunctionTok{adf.test}\NormalTok{(modelo\_ts)}
-\end{Highlighting}
-\end{Shaded}
+\hypertarget{validacion-de-nuestra-nueva-serie-de-tiempo-transformada}{%
+\subsection{Validacion de nuestra nueva serie de tiempo transformada}\label{validacion-de-nuestra-nueva-serie-de-tiempo-transformada}}
 
 \begin{verbatim}
 ## 
@@ -461,86 +362,20 @@ Por ultimo, apliquemos los mismos test que corrimos para nuestra serie de tiempo
 ## alternative hypothesis: stationary
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Test de autocorrelacion total y parcial}
-\FunctionTok{tsdisplay}\NormalTok{(modelo\_ts,}\AttributeTok{lag.max =} \DecValTok{20}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-13-1.pdf}
 
-Podemos cncluir que nuestra nueva serie de tiempo, etc
+se observa que la serie es de tipo estacionaria (p-value=0.0316 \textless{} 0.05), la varianza y la media son de tipo constante, los datos se mueven alrededor de cero (0).
 
-Ahora separamos la Estacionalidad y la graficamos
+\hypertarget{conclusiones}{%
+\section{Conclusiones}\label{conclusiones}}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\# descomposicion}
+En conclusión, el análisis de serie de tiempo de la utilización de los productos del banco nos ha permitido identificar patrones y tendencias en su utilización.
 
+A partir del análisis de estacionalidad, se observó que la utilización de los productos del banco ha sido moderada en los años 2018 y 2019, y ha aumentado significativamente en el 2020 y 2021. Además, se evidenció una disminución en la utilización para el año 2023.
 
-\CommentTok{\# Descomponer la serie de tiempo en sus componentes}
-\CommentTok{\#descomposicion \textless{}{-} decompose(indice.ts)}
+La descomposición de la serie de tiempo nos permitió identificar las componentes de tendencia, estacionalidad y error, y su análisis nos ha brindado una mejor comprensión de los patrones y comportamientos observados en la utilización de los productos del banco.
 
-\CommentTok{\# Obtener la componente de estacionalidad}
-\NormalTok{estacionalidad }\OtherTok{\textless{}{-}}\NormalTok{ descomposicion}\SpecialCharTok{$}\NormalTok{seasonal}
-
-
-\CommentTok{\# Convertir la componente de estacionalidad a un data frame}
-\NormalTok{df\_estacionalidad }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{periodo =} \FunctionTok{time}\NormalTok{(estacionalidad), }\AttributeTok{valor =}\NormalTok{ estacionalidad)}
-
-\CommentTok{\# Graficar la componente de estacionalidad}
-\FunctionTok{ggplot}\NormalTok{(df\_estacionalidad, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ periodo, }\AttributeTok{y =}\NormalTok{ valor)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{color =} \StringTok{"deepskyblue"}\NormalTok{, }\AttributeTok{size =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Periodo"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{ylab}\NormalTok{(}\StringTok{"Estacionalidad"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Componente de estacionalidad de la serie de tiempo"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-## i Please use `linewidth` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-## generated.
-\end{verbatim}
-
-\begin{verbatim}
-## Don't know how to automatically pick scale for object of type <ts>. Defaulting
-## to continuous.
-## Don't know how to automatically pick scale for object of type <ts>. Defaulting
-## to continuous.
-\end{verbatim}
-
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-14-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\# diferenciación}
-
-\CommentTok{\# Calcular la diferenciación}
-\NormalTok{diferenciacion }\OtherTok{\textless{}{-}} \FunctionTok{diff}\NormalTok{(indice.ts)}
-
-
-\CommentTok{\# Convertir la serie de tiempo diferenciada a un data frame}
-\NormalTok{df\_diferenciacion }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{periodo =} \FunctionTok{time}\NormalTok{(diferenciacion), }\AttributeTok{valor =}\NormalTok{ diferenciacion)}
-
-\CommentTok{\# Graficar la serie de tiempo diferenciada utilizando "ggplot2"}
-\FunctionTok{ggplot}\NormalTok{(df\_diferenciacion, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ periodo, }\AttributeTok{y =}\NormalTok{ valor)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{color =} \StringTok{"deepskyblue"}\NormalTok{, }\AttributeTok{size =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Periodo"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{ylab}\NormalTok{(}\StringTok{"Diferenciacion"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Serie de tiempo diferenciada"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Don't know how to automatically pick scale for object of type <ts>. Defaulting
-## to continuous.
-## Don't know how to automatically pick scale for object of type <ts>. Defaulting
-## to continuous.
-\end{verbatim}
-
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-14-2.pdf}
+Asimismo, se realizó la diferenciación de la serie de tiempo para eliminar la tendencia y hacer la serie estacionaria. Esto nos permitió obtener una serie de tiempo más homogénea, y por lo tanto, una mejor visualización de las fluctuaciones en la utilización de los productos del banco.Como resultado, la nueva serie de tiempo sera nuestra base para la implementacion de modelos de pronostico de los productos observados.
 
 \hypertarget{methods}{%
 \chapter{Methods}\label{methods}}

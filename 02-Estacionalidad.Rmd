@@ -2,7 +2,7 @@
 
 ## Estacionalidad {#Estacion}
 
-```{r}
+```{r echo=FALSE, warning=FALSE}
 library(forecast)
 library(timsac)
 library(ggplot2)
@@ -10,14 +10,20 @@ library(changepoint)
 library(readxl)
 
 ggseasonplot(x = indice.ts,
-             main= "Estacionalidad")
+             main= "Analisis por anno")
 
 ```
 
 
-## Ahora, hagamos una decomposicion del objeto y la graficamos para su analisis
+### Analisis Inicial
 
-```{r}
+Según el análisis de estacionalidad anual, se observa que la utilización de los productos del banco fue moderada en los años 2018 y 2019, tal como se evidencia en las líneas trazadas para esos años. En el 2020, se observa un pico en la utilización que podría indicar un posible error en la recolección de datos. Posteriormente, se observa una pequeña disminución que posiblemente se debió al inicio de la pandemia y la incertidumbre mundial. A partir de septiembre de 2020, se observa un incremento continuo en la utilización para los años 2021 y 2022, posiblemente como resultado de la duración de la pandemia y la crisis económica global.
+
+En el año 2023, se comienza a evidenciar una disminución en la utilización de los productos del banco, lo que podría deberse al alza de las tasas de interés o a un cambio en el comportamiento de los clientes. Es importante mencionar que se requiere un análisis más detallado para determinar las causas precisas de esta disminución.
+
+## Descomposicion del objeto y analisis
+
+```{r echo=FALSE, warning=FALSE}
 
 descomposicion <- decompose(x=indice.ts)
 plot(descomposicion)
@@ -26,39 +32,44 @@ plot(descomposicion)
 
 A pesar de presentar un patron recurrente en el componente de estacionalidad, se puede observar un trend en la serie de datos. De igual manera el error no se ve aleatorio sino que por el contrario, presenta un patron constante. Dicho esto, vamos a comprobar por medio del Augmented Dickery-Fuller test (adf) la estacionalidad del conjunto de datos.
 
-
-```{r}
+### Prueba de Estacionalidad
+```{r echo=FALSE, warning=FALSE}
 library(tseries)
 adf.test(indice.ts)
 
 ```
 De acuerdo al resultado (p-value >0.05), debemos aceptar la H0 la cual nos confirma la no-estacionalidad del conjunto. Esto quiere decir que el objeto indice.ts requerira una transformacion para su posterior procesamiento en el modelo.
 
+### Autocorrelacion 
 Ahora veamos si existe autocorrelacion total o parcial.(acf y pacf tests)
 
-```{r}
+```{r echo=FALSE, warning=FALSE}
 tsdisplay(indice.ts,lag.max = 20)
 ```
 
-Ahora separamos la Estacionalidad y la graficamos
+Como se puede observar, existe autocorrelacion entre la variable observada lo cual confirma la tendencia en la serie temporal. Por otro lado no evidenciamos autocorrelacion parcial ya que no encontramos picos por fuera del umbral (0.95)
 
-```{r}
+## Transformacion 
+
+
+```{r echo=FALSE, warning=FALSE}
 library(forecast)
 
-# Ajustamos la estacionalidad de la serie de tiempo por medio del comando seasadj
+print("Ajustamos la estacionalidad de la serie de tiempo por medio del comando seasadj")
 indice_adj <- seasadj(descomposicion)
 
-#Luego removemos la tendencia (trend) con el comando diff
+print("Luego removemos la tendencia (trend) con el comando diff")
 modelo_ts <- diff(indice_adj)
 
-# Grafiquemos la nueva serie de tiempo
+print("Grafiquemos la nueva serie de tiempo")
 nueva_descomp <-decompose(modelo_ts)
 plot(nueva_descomp)
 
 ```
-Por ultimo, apliquemos los mismos test que corrimos para nuestra serie de tiempo original.
 
-```{r}
+### Validacion de nuestra nueva serie de tiempo transformada
+
+```{r echo=FALSE, warning=FALSE}
 
 # Test de estacionalidad
 adf.test(modelo_ts)
@@ -67,49 +78,18 @@ adf.test(modelo_ts)
 tsdisplay(modelo_ts,lag.max = 20)
 ```
 
-
-Podemos cncluir que nuestra nueva serie de tiempo, etc
-
-
-########
-Ahora separamos la Estacionalidad y la graficamos
-
-```{r}
-##################### descomposicion
+se observa que la serie es de tipo estacionaria (p-value=0.0316 < 0.05), la varianza y la media son de tipo constante, los datos se mueven alrededor de cero (0).
 
 
-# Descomponer la serie de tiempo en sus componentes
-#descomposicion <- decompose(indice.ts)
+## Conclusiones
 
-# Obtener la componente de estacionalidad
-estacionalidad <- descomposicion$seasonal
+En conclusión, el análisis de serie de tiempo de la utilización de los productos del banco nos ha permitido identificar patrones y tendencias en su utilización.
 
+A partir del análisis de estacionalidad, se observó que la utilización de los productos del banco ha sido moderada en los años 2018 y 2019, y ha aumentado significativamente en el 2020 y 2021. Además, se evidenció una disminución en la utilización para el año 2023.
 
-# Convertir la componente de estacionalidad a un data frame
-df_estacionalidad <- data.frame(periodo = time(estacionalidad), valor = estacionalidad)
+La descomposición de la serie de tiempo nos permitió identificar las componentes de tendencia, estacionalidad y error, y su análisis nos ha brindado una mejor comprensión de los patrones y comportamientos observados en la utilización de los productos del banco.
 
-# Graficar la componente de estacionalidad
-ggplot(df_estacionalidad, aes(x = periodo, y = valor)) +
-  geom_line(color = "deepskyblue", size = 1) +
-  xlab("Periodo") + ylab("Estacionalidad") +
-  ggtitle("Componente de estacionalidad de la serie de tiempo")
+Asimismo, se realizó la diferenciación de la serie de tiempo para eliminar la tendencia y hacer la serie estacionaria. Esto nos permitió obtener una serie de tiempo más homogénea, y por lo tanto, una mejor visualización de las fluctuaciones en la utilización de los productos del banco.Como resultado, la nueva serie de tiempo sera nuestra base para la implementacion de modelos de pronostico de los productos observados.
 
 
-##################### diferenciación
-
-# Calcular la diferenciación
-diferenciacion <- diff(indice.ts)
-
-
-# Convertir la serie de tiempo diferenciada a un data frame
-df_diferenciacion <- data.frame(periodo = time(diferenciacion), valor = diferenciacion)
-
-# Graficar la serie de tiempo diferenciada utilizando "ggplot2"
-ggplot(df_diferenciacion, aes(x = periodo, y = valor)) +
-  geom_line(color = "deepskyblue", size = 1) +
-  xlab("Periodo") + ylab("Diferenciacion") +
-  ggtitle("Serie de tiempo diferenciada")
-
-
-```
 
