@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capitulo 4 Holt-Winters y ARIMA | Bookdown - Grupo B</title>
+<meta name="author" content="Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J">
+<meta name="description" content="4.1 HW Para aplicar la metodología de Holt-Winters y suavizamiento exponencial a la serie de tiempo indice.ts, podemos utilizar las funciones correspondientes de R. La metodología de Holt-Winters...">
+<meta name="generator" content="bookdown 0.33 with bs4_book()">
+<meta property="og:title" content="Capitulo 4 Holt-Winters y ARIMA | Bookdown - Grupo B">
+<meta property="og:type" content="book">
+<meta property="og:description" content="4.1 HW Para aplicar la metodología de Holt-Winters y suavizamiento exponencial a la serie de tiempo indice.ts, podemos utilizar las funciones correspondientes de R. La metodología de Holt-Winters...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capitulo 4 Holt-Winters y ARIMA | Bookdown - Grupo B">
+<meta name="twitter:description" content="4.1 HW Para aplicar la metodología de Holt-Winters y suavizamiento exponencial a la serie de tiempo indice.ts, podemos utilizar las funciones correspondientes de R. La metodología de Holt-Winters...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Bookdown - Grupo B</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Propuesta</a></li>
+<li><a class="" href="Analisis.html"><span class="header-section-number">2</span> Analisis Exploratorio</a></li>
+<li><a class="" href="estacionalidad-y-descomposicion.html"><span class="header-section-number">3</span> Estacionalidad y Descomposicion</a></li>
+<li><a class="active" href="holt-winters-y-arima.html"><span class="header-section-number">4</span> Holt-Winters y ARIMA</a></li>
+<li><a class="" href="applications.html"><span class="header-section-number">5</span> Applications</a></li>
+<li><a class="" href="final-words.html"><span class="header-section-number">6</span> Final Words</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="holt-winters-y-arima" class="section level1" number="4">
+<h1>
+<span class="header-section-number">Capitulo 4</span> Holt-Winters y ARIMA<a class="anchor" aria-label="anchor" href="#holt-winters-y-arima"><i class="fas fa-link"></i></a>
+</h1>
+<div id="hw" class="section level2" number="4.1">
+<h2>
+<span class="header-section-number">4.1</span> HW<a class="anchor" aria-label="anchor" href="#hw"><i class="fas fa-link"></i></a>
+</h2>
+<p>Para aplicar la metodología de Holt-Winters y suavizamiento exponencial a la serie de tiempo indice.ts, podemos utilizar las funciones correspondientes de R. La metodología de Holt-Winters es adecuada para modelar series de tiempo con componentes de tendencia y estacionalidad.
+El resultado del modelo Holt-Winters proporciona las componentes de tendencia (trend), estacionalidad (seasonal) y residuos (residuals). Estas componentes ayudan a comprender los patrones y la estructura de la serie de tiempo.</p>
+<p>A continuación, se muestra cómo aplicar ambas técnicas a la serie de tiempo indice.ts:</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Aplicar la metodología de Holt-Winters</span></span>
+<span><span class="va">hw_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/HoltWinters.html">HoltWinters</a></span><span class="op">(</span><span class="va">indice.ts</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Obtener las componentes del modelo (tendencia, estacionalidad y residuos)</span></span>
+<span><span class="va">trend</span> <span class="op">&lt;-</span> <span class="va">hw_model</span><span class="op">$</span><span class="va">components</span><span class="op">$</span><span class="va">trend</span></span>
+<span><span class="va">seasonal</span> <span class="op">&lt;-</span> <span class="va">hw_model</span><span class="op">$</span><span class="va">components</span><span class="op">$</span><span class="va">seasonal</span></span>
+<span><span class="va">residuals</span> <span class="op">&lt;-</span> <span class="va">hw_model</span><span class="op">$</span><span class="va">components</span><span class="op">$</span><span class="va">random</span></span>
+<span></span>
+<span><span class="co"># Imprimir las componentes</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"Tendencia:"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] "Tendencia:"</code></pre>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">trend</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## NULL</code></pre>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"Estacionalidad:"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] "Estacionalidad:"</code></pre>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">seasonal</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## NULL</code></pre>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"Residuos:"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] "Residuos:"</code></pre>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">residuals</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## NULL</code></pre>
+<p>Suavizamiento exponencial:
+El suavizamiento exponencial,es útil para suavizar las fluctuaciones en la serie de tiempo.</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Aplicar suavizamiento exponencial</span></span>
+<span><span class="va">smoothed</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/HoltWinters.html">HoltWinters</a></span><span class="op">(</span><span class="va">indice.ts</span>, beta <span class="op">=</span> <span class="cn">FALSE</span>, gamma <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">$</span><span class="va">fitted</span></span>
+<span></span>
+<span><span class="co"># Imprimir la serie de tiempo suavizada</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"Serie de tiempo suavizada:"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] "Serie de tiempo suavizada:"</code></pre>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">smoothed</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##                  xhat        level
+## Feb 2018 2.562223e+12 2.562223e+12
+## Mar 2018 2.586847e+12 2.586847e+12
+## Apr 2018 2.628483e+12 2.628483e+12
+## May 2018 2.684505e+12 2.684505e+12
+## Jun 2018 2.789807e+12 2.789807e+12
+## Jul 2018 2.912985e+12 2.912985e+12
+## Aug 2018 3.031696e+12 3.031696e+12
+## Sep 2018 3.134705e+12 3.134705e+12
+## Oct 2018 3.220952e+12 3.220952e+12
+## Nov 2018 3.329376e+12 3.329376e+12
+## Dec 2018 3.509629e+12 3.509629e+12
+## Jan 2019 3.622760e+12 3.622760e+12
+## Feb 2019 3.691275e+12 3.691275e+12
+## Mar 2019 3.766110e+12 3.766110e+12
+## Apr 2019 3.864626e+12 3.864626e+12
+## May 2019 3.946802e+12 3.946802e+12
+## Jun 2019 4.038270e+12 4.038270e+12
+## Jul 2019 4.117271e+12 4.117271e+12
+## Aug 2019 4.167952e+12 4.167952e+12
+## Sep 2019 4.230574e+12 4.230574e+12
+## Oct 2019 4.278661e+12 4.278661e+12
+## Nov 2019 4.175205e+12 4.175205e+12
+## Dec 2019 4.262169e+12 4.262169e+12
+## Jan 2020 4.383274e+12 4.383274e+12
+## Feb 2020 2.904388e+12 2.904388e+12
+## Mar 2020 3.776045e+12 3.776045e+12
+## Apr 2020 4.106880e+12 4.106880e+12
+## May 2020 4.162333e+12 4.162333e+12
+## Jun 2020 4.171658e+12 4.171658e+12
+## Jul 2020 4.167133e+12 4.167133e+12
+## Aug 2020 4.114122e+12 4.114122e+12
+## Sep 2020 4.085198e+12 4.085198e+12
+## Oct 2020 4.107579e+12 4.107579e+12
+## Nov 2020 4.154747e+12 4.154747e+12
+## Dec 2020 4.273742e+12 4.273742e+12
+## Jan 2021 4.342927e+12 4.342927e+12
+## Feb 2021 4.359448e+12 4.359448e+12
+## Mar 2021 4.433712e+12 4.433712e+12
+## Apr 2021 4.534775e+12 4.534775e+12
+## May 2021 4.593094e+12 4.593094e+12
+## Jun 2021 4.663684e+12 4.663684e+12
+## Jul 2021 4.778186e+12 4.778186e+12
+## Aug 2021 4.907038e+12 4.907038e+12
+## Sep 2021 5.022646e+12 5.022646e+12
+## Oct 2021 5.250122e+12 5.250122e+12
+## Nov 2021 5.551251e+12 5.551251e+12
+## Dec 2021 5.804630e+12 5.804630e+12
+## Jan 2022 6.030187e+12 6.030187e+12
+## Feb 2022 6.231463e+12 6.231463e+12
+## Mar 2022 6.434645e+12 6.434645e+12
+## Apr 2022 6.625813e+12 6.625813e+12
+## May 2022 6.813229e+12 6.813229e+12
+## Jun 2022 7.013252e+12 7.013252e+12
+## Jul 2022 7.277938e+12 7.277938e+12
+## Aug 2022 7.435413e+12 7.435413e+12
+## Sep 2022 7.582495e+12 7.582495e+12
+## Oct 2022 7.711882e+12 7.711882e+12
+## Nov 2022 7.831897e+12 7.831897e+12
+## Dec 2022 8.009515e+12 8.009515e+12
+## Jan 2023 8.100132e+12 8.100132e+12
+## Feb 2023 8.089679e+12 8.089679e+12
+## Mar 2023 8.002867e+12 8.002867e+12
+## Apr 2023 7.883898e+12 7.883898e+12</code></pre>
+<p>La función HoltWinters con los argumentos beta = FALSE y gamma = FALSE aplica el suavizamiento exponencial simple sin considerar la componente de estacionalidad en el modelo.</p>
+<p>Al aplicar esta metodología y el suavizamiento exponencial a la serie de tiempo indice.ts, se obtendrá la tendencia, la estacionalidad, los residuos y la serie de tiempo suavizada. Estos resultados ayudarán a comprender la estructura y los patrones de la serie de tiempo.</p>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="estacionalidad-y-descomposicion.html"><span class="header-section-number">3</span> Estacionalidad y Descomposicion</a></div>
+<div class="next"><a href="applications.html"><span class="header-section-number">5</span> Applications</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#holt-winters-y-arima"><span class="header-section-number">4</span> Holt-Winters y ARIMA</a></li>
+<li><a class="nav-link" href="#hw"><span class="header-section-number">4.1</span> HW</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Bookdown - Grupo B</strong>" was written by Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J. It was last built on 2023-05-22.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

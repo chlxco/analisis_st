@@ -33,6 +33,46 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
@@ -377,29 +417,179 @@ La descomposición de la serie de tiempo nos permitió identificar las component
 
 Asimismo, se realizó la diferenciación de la serie de tiempo para eliminar la tendencia y hacer la serie estacionaria. Esto nos permitió obtener una serie de tiempo más homogénea, y por lo tanto, una mejor visualización de las fluctuaciones en la utilización de los productos del banco.Como resultado, la nueva serie de tiempo sera nuestra base para la implementacion de modelos de pronostico de los productos observados.
 
-\hypertarget{methods}{%
-\chapter{Methods}\label{methods}}
+\hypertarget{holt-winters-y-arima}{%
+\chapter{Holt-Winters y ARIMA}\label{holt-winters-y-arima}}
 
-We describe our methods in this chapter.
+\hypertarget{hw}{%
+\section{HW}\label{hw}}
 
-Math can be added in body using usual syntax like this
+Para aplicar la metodología de Holt-Winters y suavizamiento exponencial a la serie de tiempo indice.ts, podemos utilizar las funciones correspondientes de R. La metodología de Holt-Winters es adecuada para modelar series de tiempo con componentes de tendencia y estacionalidad.
+El resultado del modelo Holt-Winters proporciona las componentes de tendencia (trend), estacionalidad (seasonal) y residuos (residuals). Estas componentes ayudan a comprender los patrones y la estructura de la serie de tiempo.
 
-\hypertarget{math-example}{%
-\section{math example}\label{math-example}}
+A continuación, se muestra cómo aplicar ambas técnicas a la serie de tiempo indice.ts:
 
-\(p\) is unknown but expected to be around 1/3. Standard error will be approximated
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Aplicar la metodología de Holt{-}Winters}
+\NormalTok{hw\_model }\OtherTok{\textless{}{-}} \FunctionTok{HoltWinters}\NormalTok{(indice.ts)}
 
-\[
-SE = \sqrt(\frac{p(1-p)}{n}) \approx \sqrt{\frac{1/3 (1 - 1/3)} {300}} = 0.027
-\]
+\CommentTok{\# Obtener las componentes del modelo (tendencia, estacionalidad y residuos)}
+\NormalTok{trend }\OtherTok{\textless{}{-}}\NormalTok{ hw\_model}\SpecialCharTok{$}\NormalTok{components}\SpecialCharTok{$}\NormalTok{trend}
+\NormalTok{seasonal }\OtherTok{\textless{}{-}}\NormalTok{ hw\_model}\SpecialCharTok{$}\NormalTok{components}\SpecialCharTok{$}\NormalTok{seasonal}
+\NormalTok{residuals }\OtherTok{\textless{}{-}}\NormalTok{ hw\_model}\SpecialCharTok{$}\NormalTok{components}\SpecialCharTok{$}\NormalTok{random}
 
-You can also use math in footnotes like this\footnote{where we mention \(p = \frac{a}{b}\)}.
+\CommentTok{\# Imprimir las componentes}
+\FunctionTok{print}\NormalTok{(}\StringTok{"Tendencia:"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
-We will approximate standard error to 0.027\footnote{\(p\) is unknown but expected to be around 1/3. Standard error will be approximated
+\begin{verbatim}
+## [1] "Tendencia:"
+\end{verbatim}
 
-  \[
-  SE = \sqrt(\frac{p(1-p)}{n}) \approx \sqrt{\frac{1/3 (1 - 1/3)} {300}} = 0.027
-  \]}
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(trend)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NULL
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\StringTok{"Estacionalidad:"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Estacionalidad:"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(seasonal)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NULL
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\StringTok{"Residuos:"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Residuos:"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(residuals)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NULL
+\end{verbatim}
+
+Suavizamiento exponencial:
+El suavizamiento exponencial,es útil para suavizar las fluctuaciones en la serie de tiempo.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Aplicar suavizamiento exponencial}
+\NormalTok{smoothed }\OtherTok{\textless{}{-}} \FunctionTok{HoltWinters}\NormalTok{(indice.ts, }\AttributeTok{beta =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{gamma =} \ConstantTok{FALSE}\NormalTok{)}\SpecialCharTok{$}\NormalTok{fitted}
+
+\CommentTok{\# Imprimir la serie de tiempo suavizada}
+\FunctionTok{print}\NormalTok{(}\StringTok{"Serie de tiempo suavizada:"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Serie de tiempo suavizada:"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(smoothed)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                  xhat        level
+## Feb 2018 2.562223e+12 2.562223e+12
+## Mar 2018 2.586847e+12 2.586847e+12
+## Apr 2018 2.628483e+12 2.628483e+12
+## May 2018 2.684505e+12 2.684505e+12
+## Jun 2018 2.789807e+12 2.789807e+12
+## Jul 2018 2.912985e+12 2.912985e+12
+## Aug 2018 3.031696e+12 3.031696e+12
+## Sep 2018 3.134705e+12 3.134705e+12
+## Oct 2018 3.220952e+12 3.220952e+12
+## Nov 2018 3.329376e+12 3.329376e+12
+## Dec 2018 3.509629e+12 3.509629e+12
+## Jan 2019 3.622760e+12 3.622760e+12
+## Feb 2019 3.691275e+12 3.691275e+12
+## Mar 2019 3.766110e+12 3.766110e+12
+## Apr 2019 3.864626e+12 3.864626e+12
+## May 2019 3.946802e+12 3.946802e+12
+## Jun 2019 4.038270e+12 4.038270e+12
+## Jul 2019 4.117271e+12 4.117271e+12
+## Aug 2019 4.167952e+12 4.167952e+12
+## Sep 2019 4.230574e+12 4.230574e+12
+## Oct 2019 4.278661e+12 4.278661e+12
+## Nov 2019 4.175205e+12 4.175205e+12
+## Dec 2019 4.262169e+12 4.262169e+12
+## Jan 2020 4.383274e+12 4.383274e+12
+## Feb 2020 2.904388e+12 2.904388e+12
+## Mar 2020 3.776045e+12 3.776045e+12
+## Apr 2020 4.106880e+12 4.106880e+12
+## May 2020 4.162333e+12 4.162333e+12
+## Jun 2020 4.171658e+12 4.171658e+12
+## Jul 2020 4.167133e+12 4.167133e+12
+## Aug 2020 4.114122e+12 4.114122e+12
+## Sep 2020 4.085198e+12 4.085198e+12
+## Oct 2020 4.107579e+12 4.107579e+12
+## Nov 2020 4.154747e+12 4.154747e+12
+## Dec 2020 4.273742e+12 4.273742e+12
+## Jan 2021 4.342927e+12 4.342927e+12
+## Feb 2021 4.359448e+12 4.359448e+12
+## Mar 2021 4.433712e+12 4.433712e+12
+## Apr 2021 4.534775e+12 4.534775e+12
+## May 2021 4.593094e+12 4.593094e+12
+## Jun 2021 4.663684e+12 4.663684e+12
+## Jul 2021 4.778186e+12 4.778186e+12
+## Aug 2021 4.907038e+12 4.907038e+12
+## Sep 2021 5.022646e+12 5.022646e+12
+## Oct 2021 5.250122e+12 5.250122e+12
+## Nov 2021 5.551251e+12 5.551251e+12
+## Dec 2021 5.804630e+12 5.804630e+12
+## Jan 2022 6.030187e+12 6.030187e+12
+## Feb 2022 6.231463e+12 6.231463e+12
+## Mar 2022 6.434645e+12 6.434645e+12
+## Apr 2022 6.625813e+12 6.625813e+12
+## May 2022 6.813229e+12 6.813229e+12
+## Jun 2022 7.013252e+12 7.013252e+12
+## Jul 2022 7.277938e+12 7.277938e+12
+## Aug 2022 7.435413e+12 7.435413e+12
+## Sep 2022 7.582495e+12 7.582495e+12
+## Oct 2022 7.711882e+12 7.711882e+12
+## Nov 2022 7.831897e+12 7.831897e+12
+## Dec 2022 8.009515e+12 8.009515e+12
+## Jan 2023 8.100132e+12 8.100132e+12
+## Feb 2023 8.089679e+12 8.089679e+12
+## Mar 2023 8.002867e+12 8.002867e+12
+## Apr 2023 7.883898e+12 7.883898e+12
+\end{verbatim}
+
+La función HoltWinters con los argumentos beta = FALSE y gamma = FALSE aplica el suavizamiento exponencial simple sin considerar la componente de estacionalidad en el modelo.
+
+Al aplicar esta metodología y el suavizamiento exponencial a la serie de tiempo indice.ts, se obtendrá la tendencia, la estacionalidad, los residuos y la serie de tiempo suavizada. Estos resultados ayudarán a comprender la estructura y los patrones de la serie de tiempo.
 
 \hypertarget{applications}{%
 \chapter{Applications}\label{applications}}

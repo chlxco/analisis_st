@@ -19,8 +19,8 @@ autocorrelacion
 transformacion
 validacion-de-nuestra-nueva-serie-de-tiempo-transformada
 conclusiones
-methods
-math-example
+holt-winters-y-arima
+hw
 applications
 example-one
 example-two
