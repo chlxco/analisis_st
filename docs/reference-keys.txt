@@ -19,9 +19,13 @@ autocorrelacion
 transformacion
 validacion-de-nuestra-nueva-serie-de-tiempo-transformada
 conclusiones
-holt-winters-y-arima
+holt-wintershw-y-suavizamiento-exp.
 hw
-applications
-example-one
-example-two
+modelo-arima
+modelos
+modelo-basado-solamente-en-auro-regresion-ar.-debemos-ubicar-los-parametros-d-y-q-en-0.
+modelo-basado-solamente-en-el-moving-average-ma.-parametros-p-y-d-en-0
+modelo-arima.-validacion-por-medio-de-la-funcion-auto.arima
+analisis
+prediccion-del-modelo
 final-words

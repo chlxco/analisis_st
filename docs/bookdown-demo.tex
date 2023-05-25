@@ -124,7 +124,7 @@
 
 \title{Bookdown - Grupo B}
 \author{Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J}
-\date{2023-05-22}
+\date{2023-05-24}
 
 \begin{document}
 \maketitle
@@ -417,8 +417,8 @@ La descomposición de la serie de tiempo nos permitió identificar las component
 
 Asimismo, se realizó la diferenciación de la serie de tiempo para eliminar la tendencia y hacer la serie estacionaria. Esto nos permitió obtener una serie de tiempo más homogénea, y por lo tanto, una mejor visualización de las fluctuaciones en la utilización de los productos del banco.Como resultado, la nueva serie de tiempo sera nuestra base para la implementacion de modelos de pronostico de los productos observados.
 
-\hypertarget{holt-winters-y-arima}{%
-\chapter{Holt-Winters y ARIMA}\label{holt-winters-y-arima}}
+\hypertarget{holt-wintershw-y-suavizamiento-exp.}{%
+\chapter{Holt-Winters(HW) y Suavizamiento Exp.}\label{holt-wintershw-y-suavizamiento-exp.}}
 
 \hypertarget{hw}{%
 \section{HW}\label{hw}}
@@ -591,16 +591,337 @@ La función HoltWinters con los argumentos beta = FALSE y gamma = FALSE aplica e
 
 Al aplicar esta metodología y el suavizamiento exponencial a la serie de tiempo indice.ts, se obtendrá la tendencia, la estacionalidad, los residuos y la serie de tiempo suavizada. Estos resultados ayudarán a comprender la estructura y los patrones de la serie de tiempo.
 
-\hypertarget{applications}{%
-\chapter{Applications}\label{applications}}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hw\_model}\OtherTok{=}\FunctionTok{HoltWinters}\NormalTok{(indice.ts, }\AttributeTok{seasonal =} \StringTok{"additive"}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(hw\_model)}
+\end{Highlighting}
+\end{Shaded}
 
-Some \emph{significant} applications are demonstrated in this chapter.
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-16-1.pdf}
+Utilizando el comando HoltWinters en R, podemos generar una gráfica en color rojo que representa una serie de datos aproximada a los datos originales en color negro. Cabe destacar que toda serie de tiempo consta de un componente constante, tendencia y estacionalidad. Para ajustar la serie según estas características, realizamos lo siguiente:
 
-\hypertarget{example-one}{%
-\section{Example one}\label{example-one}}
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(hw\_model))}
+\end{Highlighting}
+\end{Shaded}
 
-\hypertarget{example-two}{%
-\section{Example two}\label{example-two}}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-17-1.pdf}
+En la gráfica se puede observar la descomposición en las cuatro componentes mencionadas previamente.
+
+El método Holt Winters nos permite realizar predicciones utilizando la serie de tiempo. A continuación, se muestra el proceso de generación de predicciones.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pred}\OtherTok{=}\FunctionTok{predict}\NormalTok{(hw\_model, }\DecValTok{12}\NormalTok{, }\AttributeTok{prediction.interval =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{pred}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                   fit          upr          lwr
+## May 2023 7.958686e+12 8.802116e+12 7.115255e+12
+## Jun 2023 7.938280e+12 8.890571e+12 6.985989e+12
+## Jul 2023 7.825482e+12 8.920472e+12 6.730492e+12
+## Aug 2023 7.788949e+12 9.056689e+12 6.521209e+12
+## Sep 2023 7.730847e+12 9.197373e+12 6.264322e+12
+## Oct 2023 7.715284e+12 9.403168e+12 6.027400e+12
+## Nov 2023 7.802406e+12 9.731469e+12 5.873343e+12
+## Dec 2023 7.743702e+12 9.931634e+12 5.555770e+12
+## Jan 2024 7.659827e+12 1.012267e+13 5.196985e+12
+## Feb 2024 7.617072e+12 1.036958e+13 4.864568e+12
+## Mar 2024 7.610883e+12 1.066677e+13 4.554994e+12
+## Apr 2024 7.579164e+12 1.095133e+13 4.207002e+12
+\end{verbatim}
+
+Se generan predicciones para los próximos 12 meses (May 2023 - Apr 2024) y se procede a graficar la predicción.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(hw\_model, pred)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-19-1.pdf}
+En la gráfica se muestran la tendencia de los valores pronosticados junto con sus intervalos de confianza.
+
+Tambien podemos utilizar la funcion hw
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calcular el modelo de Holt{-}Winters utilizando la función hw():}
+  
+\NormalTok{hw\_model1 }\OtherTok{\textless{}{-}} \FunctionTok{HoltWinters}\NormalTok{(indice.ts)}
+\NormalTok{hw\_model1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Holt-Winters exponential smoothing with trend and additive seasonal component.
+## 
+## Call:
+## HoltWinters(x = indice.ts)
+## 
+## Smoothing parameters:
+##  alpha: 0.407578
+##  beta : 0.2861578
+##  gamma: 0
+## 
+## Coefficients:
+##              [,1]
+## a   7949360142242
+## b    -31047949847
+## s1    40373454460
+## s2    51015741884
+## s3   -30734639955
+## s4   -36219767637
+## s5   -63272955789
+## s6   -47788675079
+## s7    70381305327
+## s8    42725269292
+## s9   -10101155804
+## s10  -21808809060
+## s11    3050492943
+## s12    2379739417
+\end{verbatim}
+
+se generan predicciones para los próximos 12 periodos.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Obtener las predicciones del modelo para un horizonte de tiempo determinado:}
+\FunctionTok{library}\NormalTok{(forecast) }
+\NormalTok{predictions }\OtherTok{\textless{}{-}} \FunctionTok{forecast}\NormalTok{(hw\_model1, }\AttributeTok{h =} \DecValTok{12}\NormalTok{)  }\CommentTok{\# Predicciones para los próximos 12 periodos}
+\end{Highlighting}
+\end{Shaded}
+
+Esto generará un gráfico que muestra la serie de tiempo original y las predicciones del modelo de Holt-Winters.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(hw\_model1, }\AttributeTok{main =} \StringTok{"Modelo de Holt{-}Winters: Serie de tiempo y predicciones"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(predictions}\SpecialCharTok{$}\NormalTok{mean, }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"bottomright"}\NormalTok{, }\AttributeTok{legend =} \FunctionTok{c}\NormalTok{(}\StringTok{"Serie de tiempo"}\NormalTok{, }\StringTok{"Predicciones"}\NormalTok{), }\AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\StringTok{"black"}\NormalTok{, }\StringTok{"blue"}\NormalTok{), }\AttributeTok{lty =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-22-1.pdf}
+
+\hypertarget{modelo-arima}{%
+\chapter{Modelo ARIMA}\label{modelo-arima}}
+
+Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo.
+
+\hypertarget{modelos}{%
+\section{Modelos}\label{modelos}}
+
+\begin{verbatim}
+## -- Attaching packages ---------------------------------------------- fpp2 2.5 --
+\end{verbatim}
+
+\begin{verbatim}
+## v fma       2.5     v expsmooth 2.3
+\end{verbatim}
+
+\begin{verbatim}
+## 
+\end{verbatim}
+
+\begin{verbatim}
+## [1] "Verificamos la estacionalidad del modelo (p<0.05)"
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  modelo_ts
+## Dickey-Fuller = -3.7052, Lag order = 3, p-value = 0.0316
+## alternative hypothesis: stationary
+\end{verbatim}
+
+Como resultado, dentro de nuestros modelos ARIMA podemos asegurar que el parametro d = 0.
+
+\hypertarget{modelo-basado-solamente-en-auro-regresion-ar.-debemos-ubicar-los-parametros-d-y-q-en-0.}{%
+\subsection{Modelo basado solamente en Auro Regresion (AR). Debemos ubicar los parametros d y q en 0.}\label{modelo-basado-solamente-en-auro-regresion-ar.-debemos-ubicar-los-parametros-d-y-q-en-0.}}
+
+Por medio del analisis ACF y PACF verificamos los lags
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-24-1.pdf}
+
+Procedemos a diferenciarla ya que es No-Estacionaria
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-25-1.pdf}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+En el grafico PAFC podemos ver los lag en 1 como punto significativo de cambio.
+
+Construyamos entonces nuestro modelo con valor AR (p) = 1. A tener en cuenta: Al tener un modelo diferenciado, debemos especificar que no se incluya la media en los calculos ya que la misma es 0.
+
+\begin{verbatim}
+## 
+## Call:
+## arima(x = estacion.ts, order = c(1, 0, 0), include.mean = F)
+## 
+## Coefficients:
+##           ar1
+##       -0.4010
+## s.e.   0.1139
+## 
+## sigma^2 estimated as 1.621e+23:  log likelihood = -1772.91,  aic = 3549.83
+\end{verbatim}
+
+\hypertarget{modelo-basado-solamente-en-el-moving-average-ma.-parametros-p-y-d-en-0}{%
+\subsection{Modelo basado solamente en el Moving Average (MA). Parametros p y d en 0}\label{modelo-basado-solamente-en-el-moving-average-ma.-parametros-p-y-d-en-0}}
+
+Utilizando el grafico ACF revisamos cual seria el punto de inflexion y luego procedemos a crear nuestro modelo
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-27-1.pdf}
+
+\begin{verbatim}
+## [1] "Observamos que el 2ndo lag contiene el ultimo cambio significativo. Ademas el 1ero es descartable siempre ya que es comparable solo consigo mismo."
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Call:
+## arima(x = estacion.ts, order = c(0, 0, 2), include.mean = F)
+## 
+## Coefficients:
+##           ma1     ma2
+##       -0.5263  0.2126
+## s.e.   0.1412  0.1260
+## 
+## sigma^2 estimated as 1.556e+23:  log likelihood = -1771.7,  aic = 3549.39
+\end{verbatim}
+
+\hypertarget{modelo-arima.-validacion-por-medio-de-la-funcion-auto.arima}{%
+\section{Modelo ARIMA. Validacion por medio de la funcion auto.arima}\label{modelo-arima.-validacion-por-medio-de-la-funcion-auto.arima}}
+
+Como pudimos comprobar en los puntos anteriores, la seleccion de parametros del modelo clasico Arima, depende de las caracteristicas de la serie de tiempo a evaluar. Es por ello que decidimos comparar el calculo manual de nuestras variables con respecto al modelo automatico que viene incluido en la libreria de forecast auto.arima.
+
+Para mostrar los resultados, debemos habilitar la opcion trace la cual permite evaluar todos los modelos que pudiesen resultar de la serie de tiempo. Asi mismo, decidimos utilizar 2 parametros mas y configurarlos en Falso - Stepwise y Approximation - los cuales maximizan la busqueda del mejor modelo, al tiempo que sacrifica tanto numero de modelos a evaluar asi como velocidad de respuesta.
+
+\begin{verbatim}
+## 
+##  ARIMA(0,0,0)            with zero mean     : 3559.137
+##  ARIMA(0,0,0)(0,0,1)[12] with zero mean     : 3561.092
+##  ARIMA(0,0,0)(1,0,0)[12] with zero mean     : 3561.089
+##  ARIMA(0,0,0)(1,0,1)[12] with zero mean     : 3563.321
+##  ARIMA(0,0,1)            with zero mean     : 3550.238
+##  ARIMA(0,0,1)(0,0,1)[12] with zero mean     : 3551.857
+##  ARIMA(0,0,1)(1,0,0)[12] with zero mean     : 3551.834
+##  ARIMA(0,0,1)(1,0,1)[12] with zero mean     : Inf
+##  ARIMA(0,0,2)            with zero mean     : 3549.801
+##  ARIMA(0,0,2)(0,0,1)[12] with zero mean     : 3551.52
+##  ARIMA(0,0,2)(1,0,0)[12] with zero mean     : 3551.505
+##  ARIMA(0,0,2)(1,0,1)[12] with zero mean     : Inf
+##  ARIMA(0,0,3)            with zero mean     : 3549.69
+##  ARIMA(0,0,3)(0,0,1)[12] with zero mean     : 3551.74
+##  ARIMA(0,0,3)(1,0,0)[12] with zero mean     : 3551.735
+##  ARIMA(0,0,3)(1,0,1)[12] with zero mean     : 3554.18
+##  ARIMA(0,0,4)            with zero mean     : 3551.745
+##  ARIMA(0,0,4)(0,0,1)[12] with zero mean     : 3553.955
+##  ARIMA(0,0,4)(1,0,0)[12] with zero mean     : 3553.952
+##  ARIMA(0,0,5)            with zero mean     : 3553.08
+##  ARIMA(1,0,0)            with zero mean     : 3550.027
+##  ARIMA(1,0,0)(0,0,1)[12] with zero mean     : 3551.701
+##  ARIMA(1,0,0)(1,0,0)[12] with zero mean     : 3551.685
+##  ARIMA(1,0,0)(1,0,1)[12] with zero mean     : Inf
+##  ARIMA(1,0,1)            with zero mean     : 3551.278
+##  ARIMA(1,0,1)(0,0,1)[12] with zero mean     : 3552.931
+##  ARIMA(1,0,1)(1,0,0)[12] with zero mean     : 3552.909
+##  ARIMA(1,0,1)(1,0,1)[12] with zero mean     : Inf
+##  ARIMA(1,0,2)            with zero mean     : 3544.017
+##  ARIMA(1,0,2)(0,0,1)[12] with zero mean     : 3546.351
+##  ARIMA(1,0,2)(1,0,0)[12] with zero mean     : 3546.354
+##  ARIMA(1,0,2)(1,0,1)[12] with zero mean     : 3548.724
+##  ARIMA(1,0,3)            with zero mean     : 3546.198
+##  ARIMA(1,0,3)(0,0,1)[12] with zero mean     : 3548.603
+##  ARIMA(1,0,3)(1,0,0)[12] with zero mean     : 3548.607
+##  ARIMA(1,0,4)            with zero mean     : 3548.636
+##  ARIMA(2,0,0)            with zero mean     : 3550.466
+##  ARIMA(2,0,0)(0,0,1)[12] with zero mean     : 3552.099
+##  ARIMA(2,0,0)(1,0,0)[12] with zero mean     : 3552.075
+##  ARIMA(2,0,0)(1,0,1)[12] with zero mean     : Inf
+##  ARIMA(2,0,1)            with zero mean     : 3552.408
+##  ARIMA(2,0,1)(0,0,1)[12] with zero mean     : 3554.165
+##  ARIMA(2,0,1)(1,0,0)[12] with zero mean     : 3554.143
+##  ARIMA(2,0,1)(1,0,1)[12] with zero mean     : Inf
+##  ARIMA(2,0,2)            with zero mean     : 3546.184
+##  ARIMA(2,0,2)(0,0,1)[12] with zero mean     : 3548.584
+##  ARIMA(2,0,2)(1,0,0)[12] with zero mean     : 3548.589
+##  ARIMA(2,0,3)            with zero mean     : 3548.597
+##  ARIMA(3,0,0)            with zero mean     : 3551.834
+##  ARIMA(3,0,0)(0,0,1)[12] with zero mean     : 3553.7
+##  ARIMA(3,0,0)(1,0,0)[12] with zero mean     : 3553.683
+##  ARIMA(3,0,0)(1,0,1)[12] with zero mean     : Inf
+##  ARIMA(3,0,1)            with zero mean     : 3548.871
+##  ARIMA(3,0,1)(0,0,1)[12] with zero mean     : Inf
+##  ARIMA(3,0,1)(1,0,0)[12] with zero mean     : 3551.285
+##  ARIMA(3,0,2)            with zero mean     : 3548.575
+##  ARIMA(4,0,0)            with zero mean     : 3552.398
+##  ARIMA(4,0,0)(0,0,1)[12] with zero mean     : 3554.534
+##  ARIMA(4,0,0)(1,0,0)[12] with zero mean     : 3554.529
+##  ARIMA(4,0,1)            with zero mean     : 3550.555
+##  ARIMA(5,0,0)            with zero mean     : 3553.42
+## 
+## 
+## 
+##  Best model: ARIMA(1,0,2)            with zero mean
+\end{verbatim}
+
+\begin{verbatim}
+## Series: estacion.ts 
+## ARIMA(1,0,2) with zero mean 
+## 
+## Coefficients:
+##          ar1      ma1     ma2
+##       0.9023  -1.5331  0.6856
+## s.e.  0.0701   0.1188  0.1099
+## 
+## sigma^2 = 1.417e+23:  log likelihood = -1767.66
+## AIC=3543.33   AICc=3544.02   BIC=3551.9
+\end{verbatim}
+
+Como resultado, podemos concluir que el Modelo ARIMA mas optimo para nuestea serie de datos es el que utiliza un AR = 1, MA = 2 y 0 en su atributo diferenciador.
+
+\hypertarget{analisis}{%
+\section{Analisis}\label{analisis}}
+
+\hypertarget{prediccion-del-modelo}{%
+\subsection{Prediccion del Modelo}\label{prediccion-del-modelo}}
+
+Utilicemos nuestro modelo ARIMA para pronosticar los siguintes 12 meses de saldo en las cuentas del banco.
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-29-1.pdf}
+
+\begin{verbatim}
+## [1] "Veamos mas en detalle la prediccion de los valores"
+\end{verbatim}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-29-2.pdf}
+
+\begin{verbatim}
+## [1] "Valores de la prediccion:"
+\end{verbatim}
+
+\begin{verbatim}
+##               Jan          Feb          Mar          Apr          May
+## 2023                                                     165668225906
+## 2024 -33590498111 -30309584374 -27349130158 -24677834944             
+##               Jun          Jul          Aug          Sep          Oct
+## 2023 -68971819772 -62235075641 -56156335340 -50671329091 -45722064595
+## 2024                                                                 
+##               Nov          Dec
+## 2023 -41256213885 -37226560069
+## 2024
+\end{verbatim}
+
+Ahora hagamos las validaciones del modelo
 
 \hypertarget{final-words}{%
 \chapter{Final Words}\label{final-words}}

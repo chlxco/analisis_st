@@ -1,0 +1,106 @@
+# Modelo ARIMA
+
+Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo.
+
+## Modelos
+
+```{r echo=FALSE, warning=FALSE}
+library(fpp2)
+print("Verificamos la estacionalidad del modelo (p<0.05)")
+adf.test(modelo_ts)
+
+```
+Como resultado, dentro de nuestros modelos ARIMA podemos asegurar que el parametro d = 0.
+
+### Modelo basado solamente en Auro Regresion (AR). Debemos ubicar los parametros d y q en 0.
+
+Por medio del analisis ACF y PACF verificamos los lags
+
+```{r echo=FALSE, warning=FALSE}
+tsdisplay(indice.ts)
+```
+
+Procedemos a diferenciarla ya que es No-Estacionaria
+```{r echo=FALSE, warning=FALSE}
+estacion.ts <- diff(indice.ts)
+tsdisplay(estacion.ts)
+ndiffs(estacion.ts)
+```
+
+En el grafico PAFC podemos ver los lag en 1 como punto significativo de cambio.
+
+Construyamos entonces nuestro modelo con valor AR (p) = 1. A tener en cuenta: Al tener un modelo diferenciado, debemos especificar que no se incluya la media en los calculos ya que la misma es 0.
+
+```{r echo=FALSE, warning=FALSE}
+modelo.ar.1 <- arima(estacion.ts,
+                 order = c(1,0,0),
+                 include.mean = F) 
+modelo.ar.1 
+```
+
+
+### Modelo basado solamente en el Moving Average (MA). Parametros p y d en 0
+
+Utilizando el grafico ACF revisamos cual seria el punto de inflexion y luego procedemos a crear nuestro modelo
+
+```{r echo=FALSE, warning=FALSE}
+acf(estacion.ts)
+
+print("Observamos que el 2ndo lag contiene el ultimo cambio significativo. Ademas el 1ero es descartable siempre ya que es comparable solo consigo mismo.")
+
+#Creacion del modelo MA
+
+modelo.ma.2 <- arima(estacion.ts,
+                 order = c(0,0,2),
+                 include.mean = F) 
+modelo.ma.2 
+
+
+```
+
+
+
+## Modelo ARIMA. Validacion por medio de la funcion auto.arima 
+
+Como pudimos comprobar en los puntos anteriores, la seleccion de parametros del modelo clasico Arima, depende de las caracteristicas de la serie de tiempo a evaluar. Es por ello que decidimos comparar el calculo manual de nuestras variables con respecto al modelo automatico que viene incluido en la libreria de forecast auto.arima.
+
+Para mostrar los resultados, debemos habilitar la opcion trace la cual permite evaluar todos los modelos que pudiesen resultar de la serie de tiempo. Asi mismo, decidimos utilizar 2 parametros mas y configurarlos en Falso - Stepwise y Approximation - los cuales maximizan la busqueda del mejor modelo, al tiempo que sacrifica tanto numero de modelos a evaluar asi como velocidad de respuesta. 
+
+
+```{r echo=FALSE, warning=FALSE}
+modelo.AR <- auto.arima(estacion.ts, trace = T,
+                        stepwise = F,
+                        approximation = F,
+                        allowmean = F)
+modelo.AR
+```
+Como resultado, podemos concluir que el Modelo ARIMA mas optimo para nuestea serie de datos es el que utiliza un AR = 1, MA = 2 y 0 en su atributo diferenciador.
+
+## Analisis
+
+
+### Prediccion del Modelo
+
+Utilicemos nuestro modelo ARIMA para pronosticar los siguintes 12 meses de saldo en las cuentas del banco.
+
+```{r echo=FALSE, warning=FALSE}
+
+pred.arima <- forecast(modelo.AR, h=12)
+
+plot(pred.arima)
+print("Veamos mas en detalle la prediccion de los valores")
+plot(pred.arima,
+     xlim = c(2023.2,2024.1))
+print("Valores de la prediccion:")
+pred.arima$mean
+
+
+```
+Ahora hagamos las validaciones del modelo
+```{r echo=FALSE, warning=FALSE}
+library(tsoutliers)
+#midata <- tsoutliers::tso(estacion.ts)
+
+
+```
+

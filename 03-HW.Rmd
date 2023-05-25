@@ -1,0 +1,113 @@
+---
+editor_options: 
+  markdown: 
+    wrap: sentence
+---
+
+
+# Holt-Winters(HW) y Suavizamiento Exp.
+
+## HW
+
+Para aplicar la metodología de Holt-Winters y suavizamiento exponencial a la serie de tiempo indice.ts, podemos utilizar las funciones correspondientes de R. La metodología de Holt-Winters es adecuada para modelar series de tiempo con componentes de tendencia y estacionalidad. 
+El resultado del modelo Holt-Winters proporciona las componentes de tendencia (trend), estacionalidad (seasonal) y residuos (residuals). Estas componentes ayudan a comprender los patrones y la estructura de la serie de tiempo.
+
+A continuación, se muestra cómo aplicar ambas técnicas a la serie de tiempo indice.ts:
+
+```{r message=FALSE, warning=FALSE}
+# Aplicar la metodología de Holt-Winters
+hw_model <- HoltWinters(indice.ts)
+
+# Obtener las componentes del modelo (tendencia, estacionalidad y residuos)
+trend <- hw_model$components$trend
+seasonal <- hw_model$components$seasonal
+residuals <- hw_model$components$random
+
+# Imprimir las componentes
+print("Tendencia:")
+print(trend)
+print("Estacionalidad:")
+print(seasonal)
+print("Residuos:")
+print(residuals)
+
+```
+Suavizamiento exponencial:
+El suavizamiento exponencial,es útil para suavizar las fluctuaciones en la serie de tiempo.
+
+
+```{r message=FALSE, warning=FALSE}
+# Aplicar suavizamiento exponencial
+smoothed <- HoltWinters(indice.ts, beta = FALSE, gamma = FALSE)$fitted
+
+# Imprimir la serie de tiempo suavizada
+print("Serie de tiempo suavizada:")
+print(smoothed)
+
+```
+
+La función HoltWinters con los argumentos beta = FALSE y gamma = FALSE aplica el suavizamiento exponencial simple sin considerar la componente de estacionalidad en el modelo.
+
+Al aplicar esta metodología y el suavizamiento exponencial a la serie de tiempo indice.ts, se obtendrá la tendencia, la estacionalidad, los residuos y la serie de tiempo suavizada. Estos resultados ayudarán a comprender la estructura y los patrones de la serie de tiempo.
+
+
+```{r message=FALSE, warning=FALSE}
+
+hw_model=HoltWinters(indice.ts, seasonal = "additive")
+plot(hw_model)
+```
+Utilizando el comando HoltWinters en R, podemos generar una gráfica en color rojo que representa una serie de datos aproximada a los datos originales en color negro. Cabe destacar que toda serie de tiempo consta de un componente constante, tendencia y estacionalidad. Para ajustar la serie según estas características, realizamos lo siguiente:
+
+```{r message=FALSE, warning=FALSE}
+
+plot(fitted(hw_model))
+```
+En la gráfica se puede observar la descomposición en las cuatro componentes mencionadas previamente.
+
+
+El método Holt Winters nos permite realizar predicciones utilizando la serie de tiempo. A continuación, se muestra el proceso de generación de predicciones.
+
+```{r message=FALSE, warning=FALSE}
+
+pred=predict(hw_model, 12, prediction.interval = TRUE)
+pred
+```
+Se generan predicciones para los próximos 12 meses (May 2023 - Apr 2024) y se procede a graficar la predicción.
+
+
+```{r message=FALSE, warning=FALSE}
+
+plot(hw_model, pred)
+```
+En la gráfica se muestran la tendencia de los valores pronosticados junto con sus intervalos de confianza.
+
+
+Tambien podemos utilizar la funcion hw
+
+```{r message=FALSE, warning=FALSE}
+
+# Calcular el modelo de Holt-Winters utilizando la función hw():
+  
+hw_model1 <- HoltWinters(indice.ts)
+hw_model1
+```
+
+se generan predicciones para los próximos 12 periodos.
+
+```{r message=FALSE, warning=FALSE}
+
+# Obtener las predicciones del modelo para un horizonte de tiempo determinado:
+library(forecast) 
+predictions <- forecast(hw_model1, h = 12)  # Predicciones para los próximos 12 periodos
+```
+
+
+Esto generará un gráfico que muestra la serie de tiempo original y las predicciones del modelo de Holt-Winters.
+
+
+```{r message=FALSE, warning=FALSE}
+
+plot(hw_model1, main = "Modelo de Holt-Winters: Serie de tiempo y predicciones")
+lines(predictions$mean, col = "blue")
+legend("bottomright", legend = c("Serie de tiempo", "Predicciones"), col = c("black", "blue"), lty = 1)
+```

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capitulo 5 Modelo ARIMA | Bookdown - Grupo B</title>
+<meta name="author" content="Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J">
+<meta name="description" content="Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo.  5.1 Modelos ## ── Attaching packages...">
+<meta name="generator" content="bookdown 0.33 with bs4_book()">
+<meta property="og:title" content="Capitulo 5 Modelo ARIMA | Bookdown - Grupo B">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo.  5.1 Modelos ## ── Attaching packages...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capitulo 5 Modelo ARIMA | Bookdown - Grupo B">
+<meta name="twitter:description" content="Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo.  5.1 Modelos ## ── Attaching packages...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Bookdown - Grupo B</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Propuesta</a></li>
+<li><a class="" href="Analisis.html"><span class="header-section-number">2</span> Analisis Exploratorio</a></li>
+<li><a class="" href="estacionalidad-y-descomposicion.html"><span class="header-section-number">3</span> Estacionalidad y Descomposicion</a></li>
+<li><a class="" href="holt-wintershw-y-suavizamiento-exp..html"><span class="header-section-number">4</span> Holt-Winters(HW) y Suavizamiento Exp.</a></li>
+<li><a class="active" href="modelo-arima.html"><span class="header-section-number">5</span> Modelo ARIMA</a></li>
+<li><a class="" href="final-words.html"><span class="header-section-number">6</span> Final Words</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="modelo-arima" class="section level1" number="5">
+<h1>
+<span class="header-section-number">Capitulo 5</span> Modelo ARIMA<a class="anchor" aria-label="anchor" href="#modelo-arima"><i class="fas fa-link"></i></a>
+</h1>
+<p>Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo.</p>
+<div id="modelos" class="section level2" number="5.1">
+<h2>
+<span class="header-section-number">5.1</span> Modelos<a class="anchor" aria-label="anchor" href="#modelos"><i class="fas fa-link"></i></a>
+</h2>
+<pre><code>## ── Attaching packages ────────────────────────────────────────────── fpp2 2.5 ──</code></pre>
+<pre><code>## ✔ fma       2.5     ✔ expsmooth 2.3</code></pre>
+<pre><code>## </code></pre>
+<pre><code>## [1] "Verificamos la estacionalidad del modelo (p&lt;0.05)"</code></pre>
+<pre><code>## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  modelo_ts
+## Dickey-Fuller = -3.7052, Lag order = 3, p-value = 0.0316
+## alternative hypothesis: stationary</code></pre>
+<p>Como resultado, dentro de nuestros modelos ARIMA podemos asegurar que el parametro d = 0.</p>
+<div id="modelo-basado-solamente-en-auro-regresion-ar.-debemos-ubicar-los-parametros-d-y-q-en-0." class="section level3" number="5.1.1">
+<h3>
+<span class="header-section-number">5.1.1</span> Modelo basado solamente en Auro Regresion (AR). Debemos ubicar los parametros d y q en 0.<a class="anchor" aria-label="anchor" href="#modelo-basado-solamente-en-auro-regresion-ar.-debemos-ubicar-los-parametros-d-y-q-en-0."><i class="fas fa-link"></i></a>
+</h3>
+<p>Por medio del analisis ACF y PACF verificamos los lags</p>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-24-1.png" width="672"></div>
+<div class="inline-figure">Procedemos a diferenciarla ya que es No-Estacionaria
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-25-1.png" width="672">
+</div>
+<pre><code>## [1] 0</code></pre>
+<p>En el grafico PAFC podemos ver los lag en 1 como punto significativo de cambio.</p>
+<p>Construyamos entonces nuestro modelo con valor AR (p) = 1. A tener en cuenta: Al tener un modelo diferenciado, debemos especificar que no se incluya la media en los calculos ya que la misma es 0.</p>
+<pre><code>## 
+## Call:
+## arima(x = estacion.ts, order = c(1, 0, 0), include.mean = F)
+## 
+## Coefficients:
+##           ar1
+##       -0.4010
+## s.e.   0.1139
+## 
+## sigma^2 estimated as 1.621e+23:  log likelihood = -1772.91,  aic = 3549.83</code></pre>
+</div>
+<div id="modelo-basado-solamente-en-el-moving-average-ma.-parametros-p-y-d-en-0" class="section level3" number="5.1.2">
+<h3>
+<span class="header-section-number">5.1.2</span> Modelo basado solamente en el Moving Average (MA). Parametros p y d en 0<a class="anchor" aria-label="anchor" href="#modelo-basado-solamente-en-el-moving-average-ma.-parametros-p-y-d-en-0"><i class="fas fa-link"></i></a>
+</h3>
+<p>Utilizando el grafico ACF revisamos cual seria el punto de inflexion y luego procedemos a crear nuestro modelo</p>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-27-1.png" width="672"></div>
+<pre><code>## [1] "Observamos que el 2ndo lag contiene el ultimo cambio significativo. Ademas el 1ero es descartable siempre ya que es comparable solo consigo mismo."</code></pre>
+<pre><code>## 
+## Call:
+## arima(x = estacion.ts, order = c(0, 0, 2), include.mean = F)
+## 
+## Coefficients:
+##           ma1     ma2
+##       -0.5263  0.2126
+## s.e.   0.1412  0.1260
+## 
+## sigma^2 estimated as 1.556e+23:  log likelihood = -1771.7,  aic = 3549.39</code></pre>
+</div>
+</div>
+<div id="modelo-arima.-validacion-por-medio-de-la-funcion-auto.arima" class="section level2" number="5.2">
+<h2>
+<span class="header-section-number">5.2</span> Modelo ARIMA. Validacion por medio de la funcion auto.arima<a class="anchor" aria-label="anchor" href="#modelo-arima.-validacion-por-medio-de-la-funcion-auto.arima"><i class="fas fa-link"></i></a>
+</h2>
+<p>Como pudimos comprobar en los puntos anteriores, la seleccion de parametros del modelo clasico Arima, depende de las caracteristicas de la serie de tiempo a evaluar. Es por ello que decidimos comparar el calculo manual de nuestras variables con respecto al modelo automatico que viene incluido en la libreria de forecast auto.arima.</p>
+<p>Para mostrar los resultados, debemos habilitar la opcion trace la cual permite evaluar todos los modelos que pudiesen resultar de la serie de tiempo. Asi mismo, decidimos utilizar 2 parametros mas y configurarlos en Falso - Stepwise y Approximation - los cuales maximizan la busqueda del mejor modelo, al tiempo que sacrifica tanto numero de modelos a evaluar asi como velocidad de respuesta.</p>
+<pre><code>## 
+##  ARIMA(0,0,0)            with zero mean     : 3559.137
+##  ARIMA(0,0,0)(0,0,1)[12] with zero mean     : 3561.092
+##  ARIMA(0,0,0)(1,0,0)[12] with zero mean     : 3561.089
+##  ARIMA(0,0,0)(1,0,1)[12] with zero mean     : 3563.321
+##  ARIMA(0,0,1)            with zero mean     : 3550.238
+##  ARIMA(0,0,1)(0,0,1)[12] with zero mean     : 3551.857
+##  ARIMA(0,0,1)(1,0,0)[12] with zero mean     : 3551.834
+##  ARIMA(0,0,1)(1,0,1)[12] with zero mean     : Inf
+##  ARIMA(0,0,2)            with zero mean     : 3549.801
+##  ARIMA(0,0,2)(0,0,1)[12] with zero mean     : 3551.52
+##  ARIMA(0,0,2)(1,0,0)[12] with zero mean     : 3551.505
+##  ARIMA(0,0,2)(1,0,1)[12] with zero mean     : Inf
+##  ARIMA(0,0,3)            with zero mean     : 3549.69
+##  ARIMA(0,0,3)(0,0,1)[12] with zero mean     : 3551.74
+##  ARIMA(0,0,3)(1,0,0)[12] with zero mean     : 3551.735
+##  ARIMA(0,0,3)(1,0,1)[12] with zero mean     : 3554.18
+##  ARIMA(0,0,4)            with zero mean     : 3551.745
+##  ARIMA(0,0,4)(0,0,1)[12] with zero mean     : 3553.955
+##  ARIMA(0,0,4)(1,0,0)[12] with zero mean     : 3553.952
+##  ARIMA(0,0,5)            with zero mean     : 3553.08
+##  ARIMA(1,0,0)            with zero mean     : 3550.027
+##  ARIMA(1,0,0)(0,0,1)[12] with zero mean     : 3551.701
+##  ARIMA(1,0,0)(1,0,0)[12] with zero mean     : 3551.685
+##  ARIMA(1,0,0)(1,0,1)[12] with zero mean     : Inf
+##  ARIMA(1,0,1)            with zero mean     : 3551.278
+##  ARIMA(1,0,1)(0,0,1)[12] with zero mean     : 3552.931
+##  ARIMA(1,0,1)(1,0,0)[12] with zero mean     : 3552.909
+##  ARIMA(1,0,1)(1,0,1)[12] with zero mean     : Inf
+##  ARIMA(1,0,2)            with zero mean     : 3544.017
+##  ARIMA(1,0,2)(0,0,1)[12] with zero mean     : 3546.351
+##  ARIMA(1,0,2)(1,0,0)[12] with zero mean     : 3546.354
+##  ARIMA(1,0,2)(1,0,1)[12] with zero mean     : 3548.724
+##  ARIMA(1,0,3)            with zero mean     : 3546.198
+##  ARIMA(1,0,3)(0,0,1)[12] with zero mean     : 3548.603
+##  ARIMA(1,0,3)(1,0,0)[12] with zero mean     : 3548.607
+##  ARIMA(1,0,4)            with zero mean     : 3548.636
+##  ARIMA(2,0,0)            with zero mean     : 3550.466
+##  ARIMA(2,0,0)(0,0,1)[12] with zero mean     : 3552.099
+##  ARIMA(2,0,0)(1,0,0)[12] with zero mean     : 3552.075
+##  ARIMA(2,0,0)(1,0,1)[12] with zero mean     : Inf
+##  ARIMA(2,0,1)            with zero mean     : 3552.408
+##  ARIMA(2,0,1)(0,0,1)[12] with zero mean     : 3554.165
+##  ARIMA(2,0,1)(1,0,0)[12] with zero mean     : 3554.143
+##  ARIMA(2,0,1)(1,0,1)[12] with zero mean     : Inf
+##  ARIMA(2,0,2)            with zero mean     : 3546.184
+##  ARIMA(2,0,2)(0,0,1)[12] with zero mean     : 3548.584
+##  ARIMA(2,0,2)(1,0,0)[12] with zero mean     : 3548.589
+##  ARIMA(2,0,3)            with zero mean     : 3548.597
+##  ARIMA(3,0,0)            with zero mean     : 3551.834
+##  ARIMA(3,0,0)(0,0,1)[12] with zero mean     : 3553.7
+##  ARIMA(3,0,0)(1,0,0)[12] with zero mean     : 3553.683
+##  ARIMA(3,0,0)(1,0,1)[12] with zero mean     : Inf
+##  ARIMA(3,0,1)            with zero mean     : 3548.871
+##  ARIMA(3,0,1)(0,0,1)[12] with zero mean     : Inf
+##  ARIMA(3,0,1)(1,0,0)[12] with zero mean     : 3551.285
+##  ARIMA(3,0,2)            with zero mean     : 3548.575
+##  ARIMA(4,0,0)            with zero mean     : 3552.398
+##  ARIMA(4,0,0)(0,0,1)[12] with zero mean     : 3554.534
+##  ARIMA(4,0,0)(1,0,0)[12] with zero mean     : 3554.529
+##  ARIMA(4,0,1)            with zero mean     : 3550.555
+##  ARIMA(5,0,0)            with zero mean     : 3553.42
+## 
+## 
+## 
+##  Best model: ARIMA(1,0,2)            with zero mean</code></pre>
+<pre><code>## Series: estacion.ts 
+## ARIMA(1,0,2) with zero mean 
+## 
+## Coefficients:
+##          ar1      ma1     ma2
+##       0.9023  -1.5331  0.6856
+## s.e.  0.0701   0.1188  0.1099
+## 
+## sigma^2 = 1.417e+23:  log likelihood = -1767.66
+## AIC=3543.33   AICc=3544.02   BIC=3551.9</code></pre>
+<p>Como resultado, podemos concluir que el Modelo ARIMA mas optimo para nuestea serie de datos es el que utiliza un AR = 1, MA = 2 y 0 en su atributo diferenciador.</p>
+</div>
+<div id="analisis" class="section level2" number="5.3">
+<h2>
+<span class="header-section-number">5.3</span> Analisis<a class="anchor" aria-label="anchor" href="#analisis"><i class="fas fa-link"></i></a>
+</h2>
+<div id="prediccion-del-modelo" class="section level3" number="5.3.1">
+<h3>
+<span class="header-section-number">5.3.1</span> Prediccion del Modelo<a class="anchor" aria-label="anchor" href="#prediccion-del-modelo"><i class="fas fa-link"></i></a>
+</h3>
+<p>Utilicemos nuestro modelo ARIMA para pronosticar los siguintes 12 meses de saldo en las cuentas del banco.</p>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-29-1.png" width="672"></div>
+<pre><code>## [1] "Veamos mas en detalle la prediccion de los valores"</code></pre>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-29-2.png" width="672"></div>
+<pre><code>## [1] "Valores de la prediccion:"</code></pre>
+<pre><code>##               Jan          Feb          Mar          Apr          May
+## 2023                                                     165668225906
+## 2024 -33590498111 -30309584374 -27349130158 -24677834944             
+##               Jun          Jul          Aug          Sep          Oct
+## 2023 -68971819772 -62235075641 -56156335340 -50671329091 -45722064595
+## 2024                                                                 
+##               Nov          Dec
+## 2023 -41256213885 -37226560069
+## 2024</code></pre>
+<p>Ahora hagamos las validaciones del modelo</p>
+
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="holt-wintershw-y-suavizamiento-exp..html"><span class="header-section-number">4</span> Holt-Winters(HW) y Suavizamiento Exp.</a></div>
+<div class="next"><a href="final-words.html"><span class="header-section-number">6</span> Final Words</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#modelo-arima"><span class="header-section-number">5</span> Modelo ARIMA</a></li>
+<li>
+<a class="nav-link" href="#modelos"><span class="header-section-number">5.1</span> Modelos</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#modelo-basado-solamente-en-auro-regresion-ar.-debemos-ubicar-los-parametros-d-y-q-en-0."><span class="header-section-number">5.1.1</span> Modelo basado solamente en Auro Regresion (AR). Debemos ubicar los parametros d y q en 0.</a></li>
+<li><a class="nav-link" href="#modelo-basado-solamente-en-el-moving-average-ma.-parametros-p-y-d-en-0"><span class="header-section-number">5.1.2</span> Modelo basado solamente en el Moving Average (MA). Parametros p y d en 0</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#modelo-arima.-validacion-por-medio-de-la-funcion-auto.arima"><span class="header-section-number">5.2</span> Modelo ARIMA. Validacion por medio de la funcion auto.arima</a></li>
+<li>
+<a class="nav-link" href="#analisis"><span class="header-section-number">5.3</span> Analisis</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#prediccion-del-modelo"><span class="header-section-number">5.3.1</span> Prediccion del Modelo</a></li></ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Bookdown - Grupo B</strong>" was written by Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J. It was last built on 2023-05-24.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>
