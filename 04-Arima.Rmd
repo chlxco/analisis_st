@@ -99,7 +99,8 @@ pred.arima$mean
 Ahora hagamos las validaciones del modelo
 ```{r echo=FALSE, warning=FALSE}
 library(tsoutliers)
-#midata <- tsoutliers::tso(estacion.ts)
+library(zoo)
+#outliers_excess_ts <- tso(estacion.ts, types = c("TC", "AO", "LS", "IO", "SLS"))
 
 
 ```

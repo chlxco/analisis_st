@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capitulo 6 Modelos Logaritmicos, Prophet y otros | Bookdown - Grupo B</title>
+<meta name="author" content="Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J">
+<meta name="description" content="Transformación logarítmica: La transformación logarítmica es útil cuando hay una tendencia exponencial en la serie de tiempo y la varianza aumenta con el nivel de la serie. Aplicar la...">
+<meta name="generator" content="bookdown 0.33 with bs4_book()">
+<meta property="og:title" content="Capitulo 6 Modelos Logaritmicos, Prophet y otros | Bookdown - Grupo B">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Transformación logarítmica: La transformación logarítmica es útil cuando hay una tendencia exponencial en la serie de tiempo y la varianza aumenta con el nivel de la serie. Aplicar la...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capitulo 6 Modelos Logaritmicos, Prophet y otros | Bookdown - Grupo B">
+<meta name="twitter:description" content="Transformación logarítmica: La transformación logarítmica es útil cuando hay una tendencia exponencial en la serie de tiempo y la varianza aumenta con el nivel de la serie. Aplicar la...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Bookdown - Grupo B</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Propuesta</a></li>
+<li><a class="" href="Analisis.html"><span class="header-section-number">2</span> Analisis Exploratorio</a></li>
+<li><a class="" href="estacionalidad-y-descomposicion.html"><span class="header-section-number">3</span> Estacionalidad y Descomposicion</a></li>
+<li><a class="" href="holt-wintershw-y-suavizamiento-exp..html"><span class="header-section-number">4</span> Holt-Winters(HW) y Suavizamiento Exp.</a></li>
+<li><a class="" href="modelo-arima.html"><span class="header-section-number">5</span> Modelo ARIMA</a></li>
+<li><a class="active" href="modelos-logaritmicos-prophet-y-otros.html"><span class="header-section-number">6</span> Modelos Logaritmicos, Prophet y otros</a></li>
+<li><a class="" href="references.html">References</a></li>
+<li><a class="" href="modelo-con-pruebas-de-diferenciacion-log-para-arima.html"><span class="header-section-number">7</span> Modelo con Pruebas de diferenciacion log para ARIMA</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="modelos-logaritmicos-prophet-y-otros" class="section level1" number="6">
+<h1>
+<span class="header-section-number">Capitulo 6</span> Modelos Logaritmicos, Prophet y otros<a class="anchor" aria-label="anchor" href="#modelos-logaritmicos-prophet-y-otros"><i class="fas fa-link"></i></a>
+</h1>
+<p><strong>Transformación logarítmica:</strong>
+La transformación logarítmica es útil cuando hay una tendencia exponencial en la serie de tiempo y la varianza aumenta con el nivel de la serie. Aplicar la transformación logarítmica puede ayudar a reducir la tendencia y estabilizar la varianza.se Puede utilizar la función log() para aplicar esta transformación:</p>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Aplicar la transformación logarítmica</span></span>
+<span><span class="va">serie_log</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">indice.ts</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Graficar la serie transformada</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">serie_log</span>, main <span class="op">=</span> <span class="st">"Serie de tiempo transformada (Logarítmica)"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-31-1.png" width="672"></div>
+<p><strong>Transformación de raíz cuadrada:</strong>
+La transformación de raíz cuadrada se utiliza cuando la varianza aumenta con el nivel de la serie de tiempo. Al aplicar esta transformación, se reduce la dispersión de los valores más altos y se estabiliza la varianza. Puedes utilizar la función sqrt() para aplicar esta transformación:</p>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Aplicar la transformación de raíz cuadrada</span></span>
+<span><span class="va">serie_sqrt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">indice.ts</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Graficar la serie transformada</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">serie_sqrt</span>, main <span class="op">=</span> <span class="st">"Serie de tiempo transformada (Raíz Cuadrada)"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure">
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-32-1.png" width="672">
+Al aplicar estas transformaciones, se espera que la serie de tiempo transformada tenga una tendencia y variabilidad reducidas en comparación con la serie original.</div>
+<p><strong>Metodología de Holt-Winters:</strong></p>
+<p>Para aplicar la metodología de Holt-Winters y suavizamiento exponencial a la serie de tiempo indice.ts, podemos utilizar las funciones correspondientes de R. La metodología de Holt-Winters es adecuada para modelar series de tiempo con componentes de tendencia y estacionalidad.
+El resultado del modelo Holt-Winters proporciona las componentes de tendencia (trend), estacionalidad (seasonal) y residuos (residuals). Estas componentes ayudan a comprender los patrones y la estructura de la serie de tiempo.</p>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.robjhyndman.com/forecast/">forecast</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Aplicar la metodología de Holt-Winters</span></span>
+<span><span class="va">hw_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/HoltWinters.html">HoltWinters</a></span><span class="op">(</span><span class="va">indice.ts</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Obtener el pronóstico utilizando el modelo Holt-Winters</span></span>
+<span><span class="va">hw_forecast</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/forecast.html">forecast</a></span><span class="op">(</span><span class="va">hw_model</span>, h <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>  <span class="co"># Pronóstico para los próximos 12 periodos</span></span>
+<span></span>
+<span><span class="co"># Graficar la serie de tiempo y el pronóstico</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">hw_forecast</span>, main <span class="op">=</span> <span class="st">"Pronóstico utilizando Holt-Winters"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure">
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-33-1.png" width="672">
+Además de la metodología de Holt-Winters, también puedes aplicar técnicas de suavizamiento para obtener una versión suavizada de la serie de tiempo. Una técnica común es el suavizamiento exponencial simple, que calcula un promedio ponderado de los valores anteriores para obtener la versión suavizada de la serie.Se Puede utilizar la función ses() de la librería forecast para aplicar esta técnica:</div>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Aplicar suavizamiento exponencial simple</span></span>
+<span><span class="va">ses_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/ses.html">ses</a></span><span class="op">(</span><span class="va">indice.ts</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Obtener la serie suavizada</span></span>
+<span><span class="va">horizon</span> <span class="op">&lt;-</span> <span class="fl">6</span>  <span class="co"># Pronosticar 6 períodos hacia adelante</span></span>
+<span><span class="va">ses_smooth</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/forecast.html">forecast</a></span><span class="op">(</span><span class="va">ses_model</span>, h <span class="op">=</span> <span class="va">horizon</span><span class="op">)</span><span class="op">$</span><span class="va">mean</span></span>
+<span></span>
+<span><span class="co"># Graficar la serie de tiempo y la versión suavizada</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">indice.ts</span>, type <span class="op">=</span> <span class="st">"l"</span>, col <span class="op">=</span> <span class="st">"#00a0dc"</span>, main <span class="op">=</span> <span class="st">"Suavizamiento exponencial simple"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">ses_smooth</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure">
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-34-1.png" width="672">
+El resultado del suavizamiento exponencial simple se muestra en el gráfico que se generó. Aquí hay una explicación de lo que puedes observar en el resultado:</div>
+<p>La línea azul representa la serie de tiempo original, es decir, los valores observados de la variable a lo largo del tiempo.
+La línea roja representa la versión suavizada de la serie de tiempo, obtenida mediante el suavizamiento exponencial simple.
+El suavizamiento exponencial simple utiliza un promedio ponderado de los valores anteriores para generar la versión suavizada. A medida que avanzas en el tiempo, la línea roja muestra una representación suavizada de la tendencia general de la serie.
+La versión suavizada ayuda a eliminar el ruido y las fluctuaciones más pequeñas presentes en la serie original. Esto permite visualizar mejor la tendencia subyacente en los datos.
+Observa cómo la línea roja se ajusta a la tendencia general de la serie original. En general, el suavizamiento exponencial simple puede ser útil para identificar patrones de tendencia en los datos y proporcionar una representación más clara de la evolución de la variable a lo largo del tiempo.</p>
+<p><strong>Modelos estacionarios en series de tiempo</strong></p>
+<p>Enfoque de regresión lineal clásico:</p>
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Crear una variable de tiempo numérica</span></span>
+<span><span class="va">time</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">indice.ts</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Ajustar un modelo lineal y estacionario</span></span>
+<span><span class="va">lm_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">indice.ts</span> <span class="op">~</span> <span class="va">time</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Obtener los coeficientes del modelo</span></span>
+<span><span class="va">coef_lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">lm_model</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Graficar la serie de tiempo y el modelo ajustado</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">indice.ts</span>, type <span class="op">=</span> <span class="st">"l"</span>, col <span class="op">=</span> <span class="st">"#00a0dc"</span>, main <span class="op">=</span> <span class="st">"Ajuste lineal y estacionario"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/fitted.values.html">fitted</a></span><span class="op">(</span><span class="va">lm_model</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-35-1.png" width="672"></div>
+<p><strong>Algoritmo Facebook´s Prophet:</strong></p>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Instalar y cargar la librería prophet</span></span>
+<span><span class="co">#install.packages("prophet")</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/facebook/prophet">prophet</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Crear un dataframe con la serie de tiempo</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>ds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span><span class="op">(</span><span class="va">datos</span><span class="op">$</span><span class="va">Periodo</span><span class="op">)</span>,</span>
+<span>                 y <span class="op">=</span> <span class="va">datos</span><span class="op">$</span><span class="va">Saldo</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Ajustar el modelo Prophet</span></span>
+<span><span class="va">prophet_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/prophet/man/prophet.html">prophet</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Realizar un pronóstico para los próximos 12 meses</span></span>
+<span><span class="va">future</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/prophet/man/make_future_dataframe.html">make_future_dataframe</a></span><span class="op">(</span><span class="va">prophet_model</span>, periods <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span><span class="va">forecast</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">prophet_model</span>, <span class="va">future</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Graficar el pronóstico</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">prophet_model</span>, <span class="va">forecast</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-36-1.png" width="672"></div>
+<p><strong>Redes neuronales ELMAN y Jordan</strong>*</p>
+<p>RED ELMAN:</p>
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Instalar y cargar la librería RSNNS</span></span>
+<span><span class="co">#install.packages("RSNNS")</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cbergmeir/RSNNS">RSNNS</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Crear un dataframe con la serie de tiempo</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Tiempo <span class="op">=</span> <span class="va">time</span>,</span>
+<span>                 Valor <span class="op">=</span> <span class="va">indice.ts</span>,</span>
+<span>                 Lag1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lag.html">lag</a></span><span class="op">(</span><span class="va">indice.ts</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>                 Lag2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lag.html">lag</a></span><span class="op">(</span><span class="va">indice.ts</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>                 Lag3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lag.html">lag</a></span><span class="op">(</span><span class="va">indice.ts</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Convertir los datos de entrada a formato de matriz</span></span>
+<span><span class="va">input_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Lag1"</span>, <span class="st">"Lag2"</span>, <span class="st">"Lag3"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">output_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">df</span><span class="op">[</span>, <span class="st">"Valor"</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Definir la arquitectura de la red Elman</span></span>
+<span><span class="va">elman_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/RSNNS/man/elman.html">elman</a></span><span class="op">(</span><span class="va">input_data</span>, <span class="va">output_data</span>, hidden <span class="op">=</span> <span class="fl">3</span>, learnFunc <span class="op">=</span> <span class="st">"Std_Backpropagation"</span>, </span>
+<span>                     maxit <span class="op">=</span> <span class="fl">1000</span>, linear.output <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Realizar el pronóstico con la red Elman</span></span>
+<span><span class="va">elman_forecast</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">elman_model</span>, <span class="va">input_data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Graficar el pronóstico</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">indice.ts</span>, type <span class="op">=</span> <span class="st">"l"</span>, col <span class="op">=</span> <span class="st">"#00a0dc"</span>, main <span class="op">=</span> <span class="st">"Pronóstico con Red Elman"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">elman_forecast</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-37-1.png" width="672"></div>
+<p><strong>Red Jordan:</strong>*</p>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Crear un dataframe con la serie de tiempo</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Tiempo <span class="op">=</span> <span class="va">time</span>,</span>
+<span>                 Valor <span class="op">=</span> <span class="va">indice.ts</span>,</span>
+<span>                 Lag1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lag.html">lag</a></span><span class="op">(</span><span class="va">indice.ts</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>                 Lag2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lag.html">lag</a></span><span class="op">(</span><span class="va">indice.ts</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>                 Lag3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lag.html">lag</a></span><span class="op">(</span><span class="va">indice.ts</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Convertir los datos de entrada a formato de matriz</span></span>
+<span><span class="va">input_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Lag1"</span>, <span class="st">"Lag2"</span>, <span class="st">"Lag3"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">output_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">df</span><span class="op">[</span>, <span class="st">"Valor"</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Definir la arquitectura de la red Jordan</span></span>
+<span><span class="va">jordan_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/RSNNS/man/jordan.html">jordan</a></span><span class="op">(</span><span class="va">input_data</span>, <span class="va">output_data</span>, hidden_units <span class="op">=</span> <span class="fl">3</span>, activation <span class="op">=</span> <span class="st">"tanh"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Realizar el pronóstico con la red Jordan</span></span>
+<span><span class="va">jordan_forecast</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">jordan_model</span>, <span class="va">input_data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Graficar el pronóstico</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">indice.ts</span>, type <span class="op">=</span> <span class="st">"l"</span>, col <span class="op">=</span> <span class="st">"#00a0dc"</span>, main <span class="op">=</span> <span class="st">"Pronóstico con Red Jordan"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">jordan_forecast</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-38-1.png" width="672"></div>
+
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="modelo-arima.html"><span class="header-section-number">5</span> Modelo ARIMA</a></div>
+<div class="next"><a href="references.html">References</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav"><li><a class="nav-link" href="#modelos-logaritmicos-prophet-y-otros"><span class="header-section-number">6</span> Modelos Logaritmicos, Prophet y otros</a></li></ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Bookdown - Grupo B</strong>" was written by Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J. It was last built on 2023-06-05.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

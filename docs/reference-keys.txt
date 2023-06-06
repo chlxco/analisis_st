@@ -28,4 +28,6 @@ modelo-basado-solamente-en-el-moving-average-ma.-parametros-p-y-d-en-0
 modelo-arima.-validacion-por-medio-de-la-funcion-auto.arima
 analisis
 prediccion-del-modelo
-final-words
+modelos-logaritmicos-prophet-y-otros
+modelo-con-pruebas-de-diferenciacion-log-para-arima
+modelos-1

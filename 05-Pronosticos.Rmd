@@ -1,0 +1,172 @@
+# Modelos Logaritmicos, Prophet y otros
+
+**Transformación logarítmica:**
+La transformación logarítmica es útil cuando hay una tendencia exponencial en la serie de tiempo y la varianza aumenta con el nivel de la serie. Aplicar la transformación logarítmica puede ayudar a reducir la tendencia y estabilizar la varianza.se Puede utilizar la función log() para aplicar esta transformación:
+
+```{r message=FALSE, warning=FALSE}
+# Aplicar la transformación logarítmica
+serie_log <- log(indice.ts)
+
+# Graficar la serie transformada
+plot(serie_log, main = "Serie de tiempo transformada (Logarítmica)")
+
+
+```
+
+**Transformación de raíz cuadrada:**
+La transformación de raíz cuadrada se utiliza cuando la varianza aumenta con el nivel de la serie de tiempo. Al aplicar esta transformación, se reduce la dispersión de los valores más altos y se estabiliza la varianza. Puedes utilizar la función sqrt() para aplicar esta transformación:
+
+```{r}
+# Aplicar la transformación de raíz cuadrada
+serie_sqrt <- sqrt(indice.ts)
+
+# Graficar la serie transformada
+plot(serie_sqrt, main = "Serie de tiempo transformada (Raíz Cuadrada)")
+
+
+```
+Al aplicar estas transformaciones, se espera que la serie de tiempo transformada tenga una tendencia y variabilidad reducidas en comparación con la serie original.  
+
+**Metodología de Holt-Winters:**
+
+Para aplicar la metodología de Holt-Winters y suavizamiento exponencial a la serie de tiempo indice.ts, podemos utilizar las funciones correspondientes de R. La metodología de Holt-Winters es adecuada para modelar series de tiempo con componentes de tendencia y estacionalidad. 
+El resultado del modelo Holt-Winters proporciona las componentes de tendencia (trend), estacionalidad (seasonal) y residuos (residuals). Estas componentes ayudan a comprender los patrones y la estructura de la serie de tiempo.
+
+```{r message=FALSE, warning=FALSE}
+library(forecast)
+
+# Aplicar la metodología de Holt-Winters
+hw_model <- HoltWinters(indice.ts)
+
+# Obtener el pronóstico utilizando el modelo Holt-Winters
+hw_forecast <- forecast(hw_model, h = 12)  # Pronóstico para los próximos 12 periodos
+
+# Graficar la serie de tiempo y el pronóstico
+plot(hw_forecast, main = "Pronóstico utilizando Holt-Winters")
+
+```
+Además de la metodología de Holt-Winters, también puedes aplicar técnicas de suavizamiento para obtener una versión suavizada de la serie de tiempo. Una técnica común es el suavizamiento exponencial simple, que calcula un promedio ponderado de los valores anteriores para obtener la versión suavizada de la serie.Se Puede utilizar la función ses() de la librería forecast para aplicar esta técnica:
+
+```{r message=FALSE, warning=FALSE}
+# Aplicar suavizamiento exponencial simple
+ses_model <- ses(indice.ts)
+
+# Obtener la serie suavizada
+horizon <- 6  # Pronosticar 6 períodos hacia adelante
+ses_smooth <- forecast(ses_model, h = horizon)$mean
+
+# Graficar la serie de tiempo y la versión suavizada
+plot(indice.ts, type = "l", col = "#00a0dc", main = "Suavizamiento exponencial simple")
+lines(ses_smooth, col = "red")
+
+
+
+```
+El resultado del suavizamiento exponencial simple se muestra en el gráfico que se generó. Aquí hay una explicación de lo que puedes observar en el resultado:
+
+La línea azul representa la serie de tiempo original, es decir, los valores observados de la variable a lo largo del tiempo.
+La línea roja representa la versión suavizada de la serie de tiempo, obtenida mediante el suavizamiento exponencial simple.
+El suavizamiento exponencial simple utiliza un promedio ponderado de los valores anteriores para generar la versión suavizada. A medida que avanzas en el tiempo, la línea roja muestra una representación suavizada de la tendencia general de la serie.
+La versión suavizada ayuda a eliminar el ruido y las fluctuaciones más pequeñas presentes en la serie original. Esto permite visualizar mejor la tendencia subyacente en los datos.
+Observa cómo la línea roja se ajusta a la tendencia general de la serie original. En general, el suavizamiento exponencial simple puede ser útil para identificar patrones de tendencia en los datos y proporcionar una representación más clara de la evolución de la variable a lo largo del tiempo.
+
+**Modelos estacionarios en series de tiempo**
+ 
+Enfoque de regresión lineal clásico:
+```{r}
+# Crear una variable de tiempo numérica
+time <- 1:length(indice.ts)
+
+# Ajustar un modelo lineal y estacionario
+lm_model <- lm(indice.ts ~ time)
+
+# Obtener los coeficientes del modelo
+coef_lm <- coef(lm_model)
+
+# Graficar la serie de tiempo y el modelo ajustado
+plot(indice.ts, type = "l", col = "#00a0dc", main = "Ajuste lineal y estacionario")
+lines(fitted(lm_model), col = "red")
+
+```
+
+**Algoritmo Facebook´s Prophet:**
+
+```{r message=FALSE, warning=FALSE}
+# Instalar y cargar la librería prophet
+#install.packages("prophet")
+library(prophet)
+
+# Crear un dataframe con la serie de tiempo
+df <- data.frame(ds = as.Date(datos$Periodo),
+                 y = datos$Saldo)
+
+# Ajustar el modelo Prophet
+prophet_model <- prophet(df)
+
+# Realizar un pronóstico para los próximos 12 meses
+future <- make_future_dataframe(prophet_model, periods = 12)
+forecast <- predict(prophet_model, future)
+
+# Graficar el pronóstico
+plot(prophet_model, forecast)
+
+```
+
+ **Redes neuronales ELMAN y Jordan***
+ 
+RED ELMAN:
+```{r message=FALSE, warning=FALSE}
+# Instalar y cargar la librería RSNNS
+#install.packages("RSNNS")
+library(RSNNS)
+
+# Crear un dataframe con la serie de tiempo
+df <- data.frame(Tiempo = time,
+                 Valor = indice.ts,
+                 Lag1 = lag(indice.ts, 1),
+                 Lag2 = lag(indice.ts, 2),
+                 Lag3 = lag(indice.ts, 3))
+
+# Convertir los datos de entrada a formato de matriz
+input_data <- as.matrix(df[, c("Lag1", "Lag2", "Lag3")])
+output_data <- as.matrix(df[, "Valor"])
+
+# Definir la arquitectura de la red Elman
+elman_model <- elman(input_data, output_data, hidden = 3, learnFunc = "Std_Backpropagation", 
+                     maxit = 1000, linear.output = TRUE)
+
+# Realizar el pronóstico con la red Elman
+elman_forecast <- predict(elman_model, input_data)
+
+# Graficar el pronóstico
+plot(indice.ts, type = "l", col = "#00a0dc", main = "Pronóstico con Red Elman")
+lines(elman_forecast, col = "red")
+ 
+
+
+```
+ 
+**Red Jordan:***
+```{r message=FALSE, warning=FALSE}
+# Crear un dataframe con la serie de tiempo
+df <- data.frame(Tiempo = time,
+                 Valor = indice.ts,
+                 Lag1 = lag(indice.ts, 1),
+                 Lag2 = lag(indice.ts, 2),
+                 Lag3 = lag(indice.ts, 3))
+
+# Convertir los datos de entrada a formato de matriz
+input_data <- as.matrix(df[, c("Lag1", "Lag2", "Lag3")])
+output_data <- as.matrix(df[, "Valor"])
+
+# Definir la arquitectura de la red Jordan
+jordan_model <- jordan(input_data, output_data, hidden_units = 3, activation = "tanh")
+
+# Realizar el pronóstico con la red Jordan
+jordan_forecast <- predict(jordan_model, input_data)
+
+# Graficar el pronóstico
+plot(indice.ts, type = "l", col = "#00a0dc", main = "Pronóstico con Red Jordan")
+lines(jordan_forecast, col = "red")
+
+```

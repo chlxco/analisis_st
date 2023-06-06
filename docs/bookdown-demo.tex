@@ -124,7 +124,7 @@
 
 \title{Bookdown - Grupo B}
 \author{Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J}
-\date{2023-05-24}
+\date{2023-06-05}
 
 \begin{document}
 \maketitle
@@ -923,10 +923,368 @@ Utilicemos nuestro modelo ARIMA para pronosticar los siguintes 12 meses de saldo
 
 Ahora hagamos las validaciones del modelo
 
-\hypertarget{final-words}{%
-\chapter{Final Words}\label{final-words}}
+\hypertarget{modelos-logaritmicos-prophet-y-otros}{%
+\chapter{Modelos Logaritmicos, Prophet y otros}\label{modelos-logaritmicos-prophet-y-otros}}
 
-We have finished a nice book.
+\textbf{Transformación logarítmica:}
+La transformación logarítmica es útil cuando hay una tendencia exponencial en la serie de tiempo y la varianza aumenta con el nivel de la serie. Aplicar la transformación logarítmica puede ayudar a reducir la tendencia y estabilizar la varianza.se Puede utilizar la función log() para aplicar esta transformación:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Aplicar la transformación logarítmica}
+\NormalTok{serie\_log }\OtherTok{\textless{}{-}} \FunctionTok{log}\NormalTok{(indice.ts)}
+
+\CommentTok{\# Graficar la serie transformada}
+\FunctionTok{plot}\NormalTok{(serie\_log, }\AttributeTok{main =} \StringTok{"Serie de tiempo transformada (Logarítmica)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-31-1.pdf}
+
+\textbf{Transformación de raíz cuadrada:}
+La transformación de raíz cuadrada se utiliza cuando la varianza aumenta con el nivel de la serie de tiempo. Al aplicar esta transformación, se reduce la dispersión de los valores más altos y se estabiliza la varianza. Puedes utilizar la función sqrt() para aplicar esta transformación:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Aplicar la transformación de raíz cuadrada}
+\NormalTok{serie\_sqrt }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(indice.ts)}
+
+\CommentTok{\# Graficar la serie transformada}
+\FunctionTok{plot}\NormalTok{(serie\_sqrt, }\AttributeTok{main =} \StringTok{"Serie de tiempo transformada (Raíz Cuadrada)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-32-1.pdf}
+Al aplicar estas transformaciones, se espera que la serie de tiempo transformada tenga una tendencia y variabilidad reducidas en comparación con la serie original.
+
+\textbf{Metodología de Holt-Winters:}
+
+Para aplicar la metodología de Holt-Winters y suavizamiento exponencial a la serie de tiempo indice.ts, podemos utilizar las funciones correspondientes de R. La metodología de Holt-Winters es adecuada para modelar series de tiempo con componentes de tendencia y estacionalidad.
+El resultado del modelo Holt-Winters proporciona las componentes de tendencia (trend), estacionalidad (seasonal) y residuos (residuals). Estas componentes ayudan a comprender los patrones y la estructura de la serie de tiempo.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(forecast)}
+
+\CommentTok{\# Aplicar la metodología de Holt{-}Winters}
+\NormalTok{hw\_model }\OtherTok{\textless{}{-}} \FunctionTok{HoltWinters}\NormalTok{(indice.ts)}
+
+\CommentTok{\# Obtener el pronóstico utilizando el modelo Holt{-}Winters}
+\NormalTok{hw\_forecast }\OtherTok{\textless{}{-}} \FunctionTok{forecast}\NormalTok{(hw\_model, }\AttributeTok{h =} \DecValTok{12}\NormalTok{)  }\CommentTok{\# Pronóstico para los próximos 12 periodos}
+
+\CommentTok{\# Graficar la serie de tiempo y el pronóstico}
+\FunctionTok{plot}\NormalTok{(hw\_forecast, }\AttributeTok{main =} \StringTok{"Pronóstico utilizando Holt{-}Winters"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-33-1.pdf}
+Además de la metodología de Holt-Winters, también puedes aplicar técnicas de suavizamiento para obtener una versión suavizada de la serie de tiempo. Una técnica común es el suavizamiento exponencial simple, que calcula un promedio ponderado de los valores anteriores para obtener la versión suavizada de la serie.Se Puede utilizar la función ses() de la librería forecast para aplicar esta técnica:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Aplicar suavizamiento exponencial simple}
+\NormalTok{ses\_model }\OtherTok{\textless{}{-}} \FunctionTok{ses}\NormalTok{(indice.ts)}
+
+\CommentTok{\# Obtener la serie suavizada}
+\NormalTok{horizon }\OtherTok{\textless{}{-}} \DecValTok{6}  \CommentTok{\# Pronosticar 6 períodos hacia adelante}
+\NormalTok{ses\_smooth }\OtherTok{\textless{}{-}} \FunctionTok{forecast}\NormalTok{(ses\_model, }\AttributeTok{h =}\NormalTok{ horizon)}\SpecialCharTok{$}\NormalTok{mean}
+
+\CommentTok{\# Graficar la serie de tiempo y la versión suavizada}
+\FunctionTok{plot}\NormalTok{(indice.ts, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{col =} \StringTok{"\#00a0dc"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Suavizamiento exponencial simple"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(ses\_smooth, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-34-1.pdf}
+El resultado del suavizamiento exponencial simple se muestra en el gráfico que se generó. Aquí hay una explicación de lo que puedes observar en el resultado:
+
+La línea azul representa la serie de tiempo original, es decir, los valores observados de la variable a lo largo del tiempo.
+La línea roja representa la versión suavizada de la serie de tiempo, obtenida mediante el suavizamiento exponencial simple.
+El suavizamiento exponencial simple utiliza un promedio ponderado de los valores anteriores para generar la versión suavizada. A medida que avanzas en el tiempo, la línea roja muestra una representación suavizada de la tendencia general de la serie.
+La versión suavizada ayuda a eliminar el ruido y las fluctuaciones más pequeñas presentes en la serie original. Esto permite visualizar mejor la tendencia subyacente en los datos.
+Observa cómo la línea roja se ajusta a la tendencia general de la serie original. En general, el suavizamiento exponencial simple puede ser útil para identificar patrones de tendencia en los datos y proporcionar una representación más clara de la evolución de la variable a lo largo del tiempo.
+
+\textbf{Modelos estacionarios en series de tiempo}
+
+Enfoque de regresión lineal clásico:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Crear una variable de tiempo numérica}
+\NormalTok{time }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(indice.ts)}
+
+\CommentTok{\# Ajustar un modelo lineal y estacionario}
+\NormalTok{lm\_model }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(indice.ts }\SpecialCharTok{\textasciitilde{}}\NormalTok{ time)}
+
+\CommentTok{\# Obtener los coeficientes del modelo}
+\NormalTok{coef\_lm }\OtherTok{\textless{}{-}} \FunctionTok{coef}\NormalTok{(lm\_model)}
+
+\CommentTok{\# Graficar la serie de tiempo y el modelo ajustado}
+\FunctionTok{plot}\NormalTok{(indice.ts, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{col =} \StringTok{"\#00a0dc"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Ajuste lineal y estacionario"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(lm\_model), }\AttributeTok{col =} \StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-35-1.pdf}
+
+\textbf{Algoritmo Facebook´s Prophet:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Instalar y cargar la librería prophet}
+\CommentTok{\#install.packages("prophet")}
+\FunctionTok{library}\NormalTok{(prophet)}
+
+\CommentTok{\# Crear un dataframe con la serie de tiempo}
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{ds =} \FunctionTok{as.Date}\NormalTok{(datos}\SpecialCharTok{$}\NormalTok{Periodo),}
+                 \AttributeTok{y =}\NormalTok{ datos}\SpecialCharTok{$}\NormalTok{Saldo)}
+
+\CommentTok{\# Ajustar el modelo Prophet}
+\NormalTok{prophet\_model }\OtherTok{\textless{}{-}} \FunctionTok{prophet}\NormalTok{(df)}
+
+\CommentTok{\# Realizar un pronóstico para los próximos 12 meses}
+\NormalTok{future }\OtherTok{\textless{}{-}} \FunctionTok{make\_future\_dataframe}\NormalTok{(prophet\_model, }\AttributeTok{periods =} \DecValTok{12}\NormalTok{)}
+\NormalTok{forecast }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(prophet\_model, future)}
+
+\CommentTok{\# Graficar el pronóstico}
+\FunctionTok{plot}\NormalTok{(prophet\_model, forecast)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-36-1.pdf}
+
+\textbf{Redes neuronales ELMAN y Jordan}*
+
+RED ELMAN:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Instalar y cargar la librería RSNNS}
+\CommentTok{\#install.packages("RSNNS")}
+\FunctionTok{library}\NormalTok{(RSNNS)}
+
+\CommentTok{\# Crear un dataframe con la serie de tiempo}
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{Tiempo =}\NormalTok{ time,}
+                 \AttributeTok{Valor =}\NormalTok{ indice.ts,}
+                 \AttributeTok{Lag1 =} \FunctionTok{lag}\NormalTok{(indice.ts, }\DecValTok{1}\NormalTok{),}
+                 \AttributeTok{Lag2 =} \FunctionTok{lag}\NormalTok{(indice.ts, }\DecValTok{2}\NormalTok{),}
+                 \AttributeTok{Lag3 =} \FunctionTok{lag}\NormalTok{(indice.ts, }\DecValTok{3}\NormalTok{))}
+
+\CommentTok{\# Convertir los datos de entrada a formato de matriz}
+\NormalTok{input\_data }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(df[, }\FunctionTok{c}\NormalTok{(}\StringTok{"Lag1"}\NormalTok{, }\StringTok{"Lag2"}\NormalTok{, }\StringTok{"Lag3"}\NormalTok{)])}
+\NormalTok{output\_data }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(df[, }\StringTok{"Valor"}\NormalTok{])}
+
+\CommentTok{\# Definir la arquitectura de la red Elman}
+\NormalTok{elman\_model }\OtherTok{\textless{}{-}} \FunctionTok{elman}\NormalTok{(input\_data, output\_data, }\AttributeTok{hidden =} \DecValTok{3}\NormalTok{, }\AttributeTok{learnFunc =} \StringTok{"Std\_Backpropagation"}\NormalTok{, }
+                     \AttributeTok{maxit =} \DecValTok{1000}\NormalTok{, }\AttributeTok{linear.output =} \ConstantTok{TRUE}\NormalTok{)}
+
+\CommentTok{\# Realizar el pronóstico con la red Elman}
+\NormalTok{elman\_forecast }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(elman\_model, input\_data)}
+
+\CommentTok{\# Graficar el pronóstico}
+\FunctionTok{plot}\NormalTok{(indice.ts, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{col =} \StringTok{"\#00a0dc"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Pronóstico con Red Elman"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(elman\_forecast, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-37-1.pdf}
+
+\textbf{Red Jordan:}*
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Crear un dataframe con la serie de tiempo}
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{Tiempo =}\NormalTok{ time,}
+                 \AttributeTok{Valor =}\NormalTok{ indice.ts,}
+                 \AttributeTok{Lag1 =} \FunctionTok{lag}\NormalTok{(indice.ts, }\DecValTok{1}\NormalTok{),}
+                 \AttributeTok{Lag2 =} \FunctionTok{lag}\NormalTok{(indice.ts, }\DecValTok{2}\NormalTok{),}
+                 \AttributeTok{Lag3 =} \FunctionTok{lag}\NormalTok{(indice.ts, }\DecValTok{3}\NormalTok{))}
+
+\CommentTok{\# Convertir los datos de entrada a formato de matriz}
+\NormalTok{input\_data }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(df[, }\FunctionTok{c}\NormalTok{(}\StringTok{"Lag1"}\NormalTok{, }\StringTok{"Lag2"}\NormalTok{, }\StringTok{"Lag3"}\NormalTok{)])}
+\NormalTok{output\_data }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(df[, }\StringTok{"Valor"}\NormalTok{])}
+
+\CommentTok{\# Definir la arquitectura de la red Jordan}
+\NormalTok{jordan\_model }\OtherTok{\textless{}{-}} \FunctionTok{jordan}\NormalTok{(input\_data, output\_data, }\AttributeTok{hidden\_units =} \DecValTok{3}\NormalTok{, }\AttributeTok{activation =} \StringTok{"tanh"}\NormalTok{)}
+
+\CommentTok{\# Realizar el pronóstico con la red Jordan}
+\NormalTok{jordan\_forecast }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(jordan\_model, input\_data)}
+
+\CommentTok{\# Graficar el pronóstico}
+\FunctionTok{plot}\NormalTok{(indice.ts, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{col =} \StringTok{"\#00a0dc"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Pronóstico con Red Jordan"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(jordan\_forecast, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-38-1.pdf}
+
+\hypertarget{modelo-con-pruebas-de-diferenciacion-log-para-arima}{%
+\chapter{Modelo con Pruebas de diferenciacion log para ARIMA}\label{modelo-con-pruebas-de-diferenciacion-log-para-arima}}
+
+Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo.
+
+\begin{verbatim}
+##               Jan          Feb          Mar          Apr          May
+## 2018 2.562223e+12 2.601532e+12 2.653315e+12 2.717915e+12 2.852608e+12
+## 2019 3.732137e+12 3.810740e+12 3.923380e+12 3.995810e+12 4.092819e+12
+## 2020 2.022405e+12 4.295886e+12 4.304185e+12 4.195404e+12 4.177219e+12
+## 2021 4.369300e+12 4.478002e+12 4.595047e+12 4.627874e+12 4.705783e+12
+## 2022 6.351501e+12 6.555819e+12 6.739823e+12 6.925001e+12 7.132542e+12
+## 2023 8.083445e+12 7.951094e+12 7.812947e+12 7.765132e+12             
+##               Jun          Jul          Aug          Sep          Oct
+## 2018 2.986446e+12 3.102493e+12 3.196138e+12 3.272388e+12 3.394038e+12
+## 2019 4.164386e+12 4.198177e+12 4.267921e+12 4.307340e+12 4.113506e+12
+## 2020 4.164434e+12 4.082507e+12 4.067948e+12 4.120926e+12 4.182877e+12
+## 2021 4.846473e+12 4.983882e+12 5.091594e+12 5.385784e+12 5.730839e+12
+## 2022 7.435792e+12 7.529328e+12 7.670212e+12 7.789046e+12 7.903472e+12
+## 2023                                                                 
+##               Nov          Dec
+## 2018 3.617129e+12 3.690229e+12
+## 2019 4.314034e+12 4.455499e+12
+## 2020 4.344709e+12 4.384188e+12
+## 2021 5.955740e+12 6.164705e+12
+## 2022 8.115444e+12 8.154174e+12
+## 2023
+\end{verbatim}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-39-1.pdf} \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-39-2.pdf} \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-39-3.pdf}
+
+\begin{verbatim}
+## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  indice.ts
+## Dickey-Fuller = -1.2017, Lag order = 3, p-value = 0.8984
+## alternative hypothesis: stationary
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  mits
+## Dickey-Fuller = -1.9544, Lag order = 3, p-value = 0.5934
+## alternative hypothesis: stationary
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  mmits
+## Dickey-Fuller = -5.3844, Lag order = 3, p-value = 0.01
+## alternative hypothesis: stationary
+\end{verbatim}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-39-4.pdf}
+
+\begin{verbatim}
+## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  mmits
+## Dickey-Fuller = -5.3844, Lag order = 3, p-value = 0.01
+## alternative hypothesis: stationary
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  ARIMA(2,0,2)(1,0,1)[12] with non-zero mean : Inf
+##  ARIMA(0,0,0)            with non-zero mean : -65.53048
+##  ARIMA(1,0,0)(1,0,0)[12] with non-zero mean : -78.58046
+##  ARIMA(0,0,1)(0,0,1)[12] with non-zero mean : -88.02136
+##  ARIMA(0,0,0)            with zero mean     : -66.66478
+##  ARIMA(0,0,1)            with non-zero mean : -90.27983
+##  ARIMA(0,0,1)(1,0,0)[12] with non-zero mean : -88.01915
+##  ARIMA(0,0,1)(1,0,1)[12] with non-zero mean : Inf
+##  ARIMA(1,0,1)            with non-zero mean : -88.46913
+##  ARIMA(0,0,2)            with non-zero mean : -88.62053
+##  ARIMA(1,0,0)            with non-zero mean : -80.81767
+##  ARIMA(1,0,2)            with non-zero mean : -86.98859
+##  ARIMA(0,0,1)            with zero mean     : -83.77733
+## 
+##  Best model: ARIMA(0,0,1)            with non-zero mean
+\end{verbatim}
+
+\begin{verbatim}
+## Series: mmits 
+## ARIMA(0,0,1) with non-zero mean 
+## 
+## Coefficients:
+##           ma1    mean
+##       -0.6742  0.0182
+## s.e.   0.0846  0.0047
+## 
+## sigma^2 = 0.01291:  log likelihood = 48.34
+## AIC=-90.69   AICc=-90.28   BIC=-84.26
+\end{verbatim}
+
+\begin{verbatim}
+##          Point Forecast       Lo 80     Hi 80      Lo 95     Hi 95
+## May 2023     0.06780752 -0.07779118 0.2134062 -0.1548665 0.2904815
+## Jun 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Jul 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Aug 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Sep 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Oct 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Nov 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Dec 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Jan 2024     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Feb 2024     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Mar 2024     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Apr 2024     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+\end{verbatim}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-39-5.pdf}
+
+\begin{verbatim}
+## Series: mmits 
+## Regression with ARIMA(2,0,0) errors 
+## 
+## Coefficients:
+##           ar1      ar2  intercept     TC19    LS20     TC21    AO22     TC23
+##       -1.4393  -0.6456     0.0292  -0.0961  0.2422  -0.6172  0.7346  -0.4820
+## s.e.   0.0981   0.0953     0.0038   0.0226  0.0286   0.0719  0.0863   0.0285
+##         AO25     TC28    LS31     LS35    TC44
+##       0.6319  -0.2536  -0.180  -0.0733  0.0521
+## s.e.  0.0492   0.0384   0.022   0.0130  0.0145
+## 
+## sigma^2 = 0.002827:  log likelihood = 101.48
+## AIC=-174.96   AICc=-166.21   BIC=-144.96
+## 
+## Outliers:
+##    type ind    time  coefhat   tstat
+## 1    TC  19 2019:08 -0.09610  -4.262
+## 2    LS  20 2019:09  0.24224   8.461
+## 3    TC  21 2019:10 -0.61716  -8.580
+## 4    AO  22 2019:11  0.73456   8.516
+## 5    TC  23 2019:12 -0.48196 -16.888
+## 6    AO  25 2020:02  0.63191  12.842
+## 7    TC  28 2020:05 -0.25360  -6.606
+## 8    LS  31 2020:08 -0.17998  -8.190
+## 9    LS  35 2020:12 -0.07327  -5.620
+## 10   TC  44 2021:09  0.05214   3.608
+\end{verbatim}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-39-6.pdf}
+
+\hypertarget{modelos-1}{%
+\section{Modelos}\label{modelos-1}}
+
+segundo paso
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# }
+\CommentTok{\# mi.Arima \textless{}{-} auto.arima(f.dds, trace = T)}
+\CommentTok{\# mi.Arima}
+\CommentTok{\# arifor \textless{}{-} forecast(mi.Arima,h=8)}
+\CommentTok{\# arifor$mean}
+\CommentTok{\# plot(arifor)}
+\CommentTok{\# }
+\end{Highlighting}
+\end{Shaded}
+
 
   \bibliography{book.bib,packages.bib}
 
