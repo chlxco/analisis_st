@@ -1,0 +1,102 @@
+# Modelo con Pruebas de diferenciacion log para ARIMA
+
+Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo.
+
+
+
+```{r echo=FALSE, warning=FALSE}
+library(tseries)
+library(tsoutliers)
+
+# Cambio el tipo de dato de la columna temporal(Periodo)
+datos$Periodo <- as.Date(paste0(datos$Periodo, "-01"))
+
+# Consolido el df en funcion de la variable de interes (Saldo)
+datos <- aggregate(Saldo ~ Periodo, data = datos, sum)
+
+# Genero mi objeto ts para el analisis
+indice.ts <- ts(datos$Saldo, start = c(2018,1), frequency = 12)
+plot(indice.ts)
+#indice.ts<-tsclean(indice.ts)
+print(indice.ts)
+plot(indice.ts)
+Acf(indice.ts)
+pacf(indice.ts)
+adf.test(indice.ts)
+
+mits <- log(indice.ts)
+adf.test(mits)
+mmits <- diff(mits)
+adf.test(mmits)
+tsdisplay(mmits)
+
+adf.test(mmits)
+
+mimod <- auto.arima(mmits, trace = T)
+mimod
+
+# modelo <- auto.arima(indice.ts,ic="aic",trace=T)
+# modelo
+# acf(ts(modelo$residuals))
+# pacf(ts(modelo$residuals))
+# 
+mifore <- forecast(mimod, h=12)
+mifore
+plot(mifore)
+outliers_excess_ts <- tso(mmits)
+outliers_excess_ts
+plot(outliers_excess_ts)
+# print("Ajustamos la estacionalidad de la serie de tiempo por medio del comando seasadj")
+# indice_adj <- seasadj(descomposicion)
+# 
+# print("Luego removemos la tendencia (trend) con el comando diff")
+# #modelo_ts <- diff(indice_adj)
+# #adf.test(modelo_ts)
+# 
+# plot(indice_adj)
+# adf.test(indice_adj)
+
+# deco <- decompose(indice.ts)
+# plot(deco)
+# print(deco)
+# deseason <- seasadj(deco)
+# plot(deseason)
+# print(deseason)
+# ddseason <- diff(deseason)
+# plot(ddseason)
+# adf.test(ddseason)
+# acf(ddseason)
+# pacf(ddseason)
+# f.dds <- diff(ddseason)
+# plot(f.dds)
+# print(f.dds)
+# acf(f.dds)
+# pacf(f.dds)
+# adf.test(f.dds)
+```
+
+## Modelos
+
+```{r echo=FALSE, warning=FALSE}
+# library(fpp2)
+# library(tseries)
+# class(f.dds)
+# plot(f.dds)
+# adf.test(f.dds)
+# tsdisplay(f.dds)
+
+```
+segundo paso
+```{r}
+
+# 
+# mi.Arima <- auto.arima(f.dds, trace = T)
+# mi.Arima
+# arifor <- forecast(mi.Arima,h=8)
+# arifor$mean
+# plot(arifor)
+# 
+
+
+```
+
