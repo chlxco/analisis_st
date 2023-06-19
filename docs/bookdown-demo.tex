@@ -1353,149 +1353,6 @@ Enfoque de regresión lineal clásico:
 
 \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-41-1.pdf}
 
-\hypertarget{modelo-con-pruebas-de-diferenciacion-log-para-arima}{%
-\chapter{Modelo con Pruebas de diferenciacion log para ARIMA}\label{modelo-con-pruebas-de-diferenciacion-log-para-arima}}
-
-Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo.
-
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-42-1.pdf} \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-42-2.pdf}
-
-\begin{verbatim}
-## 
-##  Augmented Dickey-Fuller Test
-## 
-## data:  indice.ts
-## Dickey-Fuller = -1.2017, Lag order = 3, p-value = 0.8984
-## alternative hypothesis: stationary
-\end{verbatim}
-
-\begin{verbatim}
-## 
-##  Augmented Dickey-Fuller Test
-## 
-## data:  mits
-## Dickey-Fuller = -1.9544, Lag order = 3, p-value = 0.5934
-## alternative hypothesis: stationary
-\end{verbatim}
-
-\begin{verbatim}
-## 
-##  Augmented Dickey-Fuller Test
-## 
-## data:  mmits
-## Dickey-Fuller = -5.3844, Lag order = 3, p-value = 0.01
-## alternative hypothesis: stationary
-\end{verbatim}
-
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-42-3.pdf}
-
-\begin{verbatim}
-## 
-##  Augmented Dickey-Fuller Test
-## 
-## data:  mmits
-## Dickey-Fuller = -5.3844, Lag order = 3, p-value = 0.01
-## alternative hypothesis: stationary
-\end{verbatim}
-
-\begin{verbatim}
-## 
-##  ARIMA(2,0,2)(1,0,1)[12] with non-zero mean : Inf
-##  ARIMA(0,0,0)            with non-zero mean : -65.53048
-##  ARIMA(1,0,0)(1,0,0)[12] with non-zero mean : -78.58046
-##  ARIMA(0,0,1)(0,0,1)[12] with non-zero mean : -88.02136
-##  ARIMA(0,0,0)            with zero mean     : -66.66478
-##  ARIMA(0,0,1)            with non-zero mean : -90.27983
-##  ARIMA(0,0,1)(1,0,0)[12] with non-zero mean : -88.01915
-##  ARIMA(0,0,1)(1,0,1)[12] with non-zero mean : Inf
-##  ARIMA(1,0,1)            with non-zero mean : -88.46913
-##  ARIMA(0,0,2)            with non-zero mean : -88.62053
-##  ARIMA(1,0,0)            with non-zero mean : -80.81767
-##  ARIMA(1,0,2)            with non-zero mean : -86.98859
-##  ARIMA(0,0,1)            with zero mean     : -83.77733
-## 
-##  Best model: ARIMA(0,0,1)            with non-zero mean
-\end{verbatim}
-
-\begin{verbatim}
-## Series: mmits 
-## ARIMA(0,0,1) with non-zero mean 
-## 
-## Coefficients:
-##           ma1    mean
-##       -0.6742  0.0182
-## s.e.   0.0846  0.0047
-## 
-## sigma^2 = 0.01291:  log likelihood = 48.34
-## AIC=-90.69   AICc=-90.28   BIC=-84.26
-\end{verbatim}
-
-\begin{verbatim}
-##          Point Forecast       Lo 80     Hi 80      Lo 95     Hi 95
-## May 2023     0.06780752 -0.07779118 0.2134062 -0.1548665 0.2904815
-## Jun 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
-## Jul 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
-## Aug 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
-## Sep 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
-## Oct 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
-## Nov 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
-## Dec 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
-## Jan 2024     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
-## Feb 2024     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
-## Mar 2024     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
-## Apr 2024     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
-\end{verbatim}
-
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-42-4.pdf}
-
-\begin{verbatim}
-## Series: mmits 
-## Regression with ARIMA(2,0,0) errors 
-## 
-## Coefficients:
-##           ar1      ar2  intercept     TC19    LS20     TC21    AO22     TC23
-##       -1.4393  -0.6456     0.0292  -0.0961  0.2422  -0.6172  0.7346  -0.4820
-## s.e.   0.0981   0.0953     0.0038   0.0226  0.0286   0.0719  0.0863   0.0285
-##         AO25     TC28    LS31     LS35    TC44
-##       0.6319  -0.2536  -0.180  -0.0733  0.0521
-## s.e.  0.0492   0.0384   0.022   0.0130  0.0145
-## 
-## sigma^2 = 0.002827:  log likelihood = 101.48
-## AIC=-174.96   AICc=-166.21   BIC=-144.96
-## 
-## Outliers:
-##    type ind    time  coefhat   tstat
-## 1    TC  19 2019:08 -0.09610  -4.262
-## 2    LS  20 2019:09  0.24224   8.461
-## 3    TC  21 2019:10 -0.61716  -8.580
-## 4    AO  22 2019:11  0.73456   8.516
-## 5    TC  23 2019:12 -0.48196 -16.888
-## 6    AO  25 2020:02  0.63191  12.842
-## 7    TC  28 2020:05 -0.25360  -6.606
-## 8    LS  31 2020:08 -0.17998  -8.190
-## 9    LS  35 2020:12 -0.07327  -5.620
-## 10   TC  44 2021:09  0.05214   3.608
-\end{verbatim}
-
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-42-5.pdf}
-
-\hypertarget{modelos-1}{%
-\section{Modelos}\label{modelos-1}}
-
-segundo paso
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# }
-\CommentTok{\# mi.Arima \textless{}{-} auto.arima(f.dds, trace = T)}
-\CommentTok{\# mi.Arima}
-\CommentTok{\# arifor \textless{}{-} forecast(mi.Arima,h=8)}
-\CommentTok{\# arifor$mean}
-\CommentTok{\# plot(arifor)}
-\CommentTok{\# }
-\end{Highlighting}
-\end{Shaded}
-
 \hypertarget{modelos-de-redes-neuronales-recurrentes}{%
 \chapter{Modelos de Redes Neuronales Recurrentes}\label{modelos-de-redes-neuronales-recurrentes}}
 
@@ -1597,7 +1454,7 @@ Ahora convierto mis datos a una time series y luego para el procesamiento de la 
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-46-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-43-1.pdf}
 Ahora dividiremos el el numero de filas totales
 
 \begin{Shaded}
@@ -1663,7 +1520,7 @@ Veamos como evoluciona el error
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-51-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-48-1.pdf}
 Asi podemos ver que el error converge extremadamente rapido
 
 Ahora procederemos a hacer la la pred con el resto de terminosde la seria
@@ -1677,7 +1534,7 @@ Ahora procederemos a hacer la la pred con el resto de terminosde la seria
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-52-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-49-1.pdf}
 ahora predicciones
 
 \begin{Shaded}
@@ -1761,10 +1618,10 @@ veamos los valores
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-55-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-52-1.pdf}
 
 \hypertarget{jordan}{%
-\chapter{Jordan}\label{jordan}}
+\section{Jordan}\label{jordan}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1784,7 +1641,7 @@ Ploteamos el error iterativo de 7 neuronas:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-57-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-54-1.pdf}
 
 Veamos ahora el error
 
@@ -1797,7 +1654,7 @@ Veamos ahora el error
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-58-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-55-1.pdf}
 Procedemos con la prediccion
 
 \begin{Shaded}
@@ -1874,7 +1731,7 @@ Ahora veamoslo en la grafica
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-60-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-57-1.pdf}
 
   \bibliography{book.bib,packages.bib}
 

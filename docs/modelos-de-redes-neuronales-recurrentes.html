@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Capitulo 8 Modelos de Redes Neuronales Recurrentes | Bookdown - Grupo B</title>
+<title>Capitulo 7 Modelos de Redes Neuronales Recurrentes | Bookdown - Grupo B</title>
 <meta name="author" content="Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J">
-<meta name="description" content="8.1 Elman Abro la fuente library(forecast) library(timsac) library(ggplot2) library(changepoint) library(readxl) library(RSNNS) library(quantmod) ## Loading required package: xts ## Loading...">
+<meta name="description" content="7.1 Elman Abro la fuente library(forecast) library(timsac) library(ggplot2) library(changepoint) library(readxl) library(RSNNS) library(quantmod) ## Loading required package: xts ## Loading...">
 <meta name="generator" content="bookdown 0.33 with bs4_book()">
-<meta property="og:title" content="Capitulo 8 Modelos de Redes Neuronales Recurrentes | Bookdown - Grupo B">
+<meta property="og:title" content="Capitulo 7 Modelos de Redes Neuronales Recurrentes | Bookdown - Grupo B">
 <meta property="og:type" content="book">
-<meta property="og:description" content="8.1 Elman Abro la fuente library(forecast) library(timsac) library(ggplot2) library(changepoint) library(readxl) library(RSNNS) library(quantmod) ## Loading required package: xts ## Loading...">
+<meta property="og:description" content="7.1 Elman Abro la fuente library(forecast) library(timsac) library(ggplot2) library(changepoint) library(readxl) library(RSNNS) library(quantmod) ## Loading required package: xts ## Loading...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Capitulo 8 Modelos de Redes Neuronales Recurrentes | Bookdown - Grupo B">
-<meta name="twitter:description" content="8.1 Elman Abro la fuente library(forecast) library(timsac) library(ggplot2) library(changepoint) library(readxl) library(RSNNS) library(quantmod) ## Loading required package: xts ## Loading...">
+<meta name="twitter:title" content="Capitulo 7 Modelos de Redes Neuronales Recurrentes | Bookdown - Grupo B">
+<meta name="twitter:description" content="7.1 Elman Abro la fuente library(forecast) library(timsac) library(ggplot2) library(changepoint) library(readxl) library(RSNNS) library(quantmod) ## Loading required package: xts ## Loading...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -48,10 +48,7 @@
 <li><a class="" href="holt-wintershw-y-suavizamiento-exp..html"><span class="header-section-number">4</span> Holt-Winters(HW) y Suavizamiento Exp.</a></li>
 <li><a class="" href="modelo-arima.html"><span class="header-section-number">5</span> Modelo ARIMA</a></li>
 <li><a class="" href="modelos-logaritmicos-prophet-y-otros.html"><span class="header-section-number">6</span> Modelos Logaritmicos, Prophet y otros</a></li>
-<li><a class="" href="references.html">References</a></li>
-<li><a class="" href="modelo-con-pruebas-de-diferenciacion-log-para-arima.html"><span class="header-section-number">7</span> Modelo con Pruebas de diferenciacion log para ARIMA</a></li>
-<li><a class="active" href="modelos-de-redes-neuronales-recurrentes.html"><span class="header-section-number">8</span> Modelos de Redes Neuronales Recurrentes</a></li>
-<li><a class="" href="jordan.html"><span class="header-section-number">9</span> Jordan</a></li>
+<li><a class="active" href="modelos-de-redes-neuronales-recurrentes.html"><span class="header-section-number">7</span> Modelos de Redes Neuronales Recurrentes</a></li>
 </ul>
 
         <div class="book-extra">
@@ -59,16 +56,16 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="modelos-de-redes-neuronales-recurrentes" class="section level1" number="8">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="modelos-de-redes-neuronales-recurrentes" class="section level1" number="7">
 <h1>
-<span class="header-section-number">Capitulo 8</span> Modelos de Redes Neuronales Recurrentes<a class="anchor" aria-label="anchor" href="#modelos-de-redes-neuronales-recurrentes"><i class="fas fa-link"></i></a>
+<span class="header-section-number">Capitulo 7</span> Modelos de Redes Neuronales Recurrentes<a class="anchor" aria-label="anchor" href="#modelos-de-redes-neuronales-recurrentes"><i class="fas fa-link"></i></a>
 </h1>
-<div id="elman" class="section level2" number="8.1">
+<div id="elman" class="section level2" number="7.1">
 <h2>
-<span class="header-section-number">8.1</span> Elman<a class="anchor" aria-label="anchor" href="#elman"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.1</span> Elman<a class="anchor" aria-label="anchor" href="#elman"><i class="fas fa-link"></i></a>
 </h2>
 <p>Abro la fuente</p>
-<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.robjhyndman.com/forecast/">forecast</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">timsac</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
@@ -78,7 +75,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.quantmod.com">quantmod</a></span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Loading required package: xts</code></pre>
 <pre><code>## Loading required package: TTR</code></pre>
-<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"./fuente/BASE_Clientes.xlsx"</span><span class="op">)</span></span>
 <span><span class="va">datos</span></span></code></pre></div>
 <pre><code>## # A tibble: 643,570 × 8
@@ -96,7 +93,7 @@
 ## 10 2018-01 CDC               1            0  9034715. Femen… Dependiente privado
 ## # ℹ 643,560 more rows
 ## # ℹ 1 more variable: Cuidad_res &lt;chr&gt;</code></pre>
-<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Cambio el tipo de dato de la columna temporal(Periodo)</span></span>
 <span><span class="va">datos</span><span class="op">$</span><span class="va">Periodo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/zoo/man/yearmon.html">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">datos</span><span class="op">$</span><span class="va">Periodo</span>, <span class="st">"-01"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -128,14 +125,14 @@
 ## 2022 8.115444e+12 8.154174e+12
 ## 2023</code></pre>
 <p>Ahora convierto mis datos a una time series y luego para el procesamiento de la red neuronal la guardare en una ts normalizada entre 0 y 1</p>
-<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">as.ts</a></span><span class="op">(</span><span class="va">indice.ts</span>,<span class="cn">F</span><span class="op">)</span></span>
 <span><span class="va">S</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">Z</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">S</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure">
-<img src="bookdown-demo_files/figure-html/unnamed-chunk-46-1.png" width="672">
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-43-1.png" width="672">
 Ahora dividiremos el el numero de filas totales</div>
-<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lineas_totales</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">S</span><span class="op">)</span></span>
 <span><span class="va">t_train</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">lineas_totales</span><span class="op">*</span><span class="fl">0.75</span>, digits<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span>
 <span><span class="va">l_train</span> <span class="op">&lt;-</span> <span class="fl">0</span><span class="op">:</span><span class="op">(</span><span class="va">t_train</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span> </span>
@@ -143,7 +140,7 @@ Ahora dividiremos el el numero de filas totales</div>
 <span><span class="va">t_test</span></span></code></pre></div>
 <pre><code>##  [1] 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64</code></pre>
 <p>Ahora crearemos un df cn los nodos que adelantaran un valor en el futuro</p>
-<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/zoo/man/as.zoo.html">as.zoo</a></span><span class="op">(</span><span class="va">S</span><span class="op">)</span></span>
 <span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/quantmod/man/Lag.html">Lag</a></span><span class="op">(</span><span class="va">y</span>, k <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/quantmod/man/Lag.html">Lag</a></span><span class="op">(</span><span class="va">y</span>, k <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
@@ -161,32 +158,32 @@ Ahora dividiremos el el numero de filas totales</div>
 <span><span class="co"># Elimenemos los valores desplazados</span></span>
 <span><span class="va">slogN</span> <span class="op">&lt;-</span> <span class="va">slogN</span><span class="op">[</span><span class="op">-</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span>,<span class="op">]</span></span></code></pre></div>
 <p>Acto seguido, especificaremos los inputs y outputs de la red</p>
-<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">inputs</span> <span class="op">&lt;-</span> <span class="va">slogN</span><span class="op">[</span>,<span class="fl">2</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span></span>
 <span><span class="va">outputs</span> <span class="op">&lt;-</span> <span class="va">slogN</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></span></code></pre></div>
 <p>Con la informaion en su lugar, procedamos a crear la red de Elman</p>
-<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">44</span><span class="op">)</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="va">fit</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/RSNNS/man/elman.html">elman</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">[</span><span class="va">t_train</span><span class="op">]</span>,<span class="va">outputs</span><span class="op">[</span><span class="va">t_train</span><span class="op">]</span>,size<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">7</span>,<span class="fl">3</span><span class="op">)</span>,learnFuncParams<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span><span class="op">)</span>,maxit<span class="op">=</span><span class="fl">1000</span><span class="op">)</span></span></code></pre></div>
 <p>Veamos como evoluciona el error</p>
-<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/RSNNS/man/plotIterativeError.html">plotIterativeError</a></span><span class="op">(</span><span class="va">fit</span>, main <span class="op">=</span> <span class="st">"Iterative Error for 7,3 NeuronError Iterativo para neuronas 7,3"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure">
-<img src="bookdown-demo_files/figure-html/unnamed-chunk-51-1.png" width="672">
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-48-1.png" width="672">
 Asi podemos ver que el error converge extremadamente rapido</div>
 <p>Ahora procederemos a hacer la la pred con el resto de terminosde la seria</p>
-<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html">as.vector</a></span><span class="op">(</span><span class="va">outputs</span><span class="op">[</span><span class="op">-</span><span class="va">t_test</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">y</span>,type<span class="op">=</span><span class="st">"l"</span><span class="op">)</span></span>
 <span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="va">inputs</span><span class="op">[</span><span class="op">-</span><span class="va">t_test</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">pred</span>,col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure">
-<img src="bookdown-demo_files/figure-html/unnamed-chunk-52-1.png" width="672">
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-49-1.png" width="672">
 ahora predicciones</div>
-<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">predictions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit</span>,<span class="va">inputs</span><span class="op">[</span><span class="op">-</span><span class="va">t_train</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p>desnormalizamos datos</p>
-<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod5</span> <span class="op">&lt;-</span> <span class="va">predictions</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span></span>
 <span><span class="va">mod5</span></span></code></pre></div>
 <pre><code>##                  [,1]
@@ -242,22 +239,111 @@ ahora predicciones</div>
 ## Mar 2023 7.950325e+12
 ## Apr 2023 7.941412e+12</code></pre>
 <p>veamos los valores</p>
-<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">lineas_totales</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">mod5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/vector.html">as.vector</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span>,<span class="va">mod5</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">lineas_totales</span><span class="op">]</span>, <span class="va">y</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">lineas_totales</span><span class="op">]</span>,col <span class="op">=</span> <span class="st">"blue"</span>, type<span class="op">=</span><span class="st">"l"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span> <span class="va">x</span><span class="op">[</span><span class="op">(</span><span class="va">lineas_totales</span><span class="op">)</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">]</span>, <span class="va">y</span><span class="op">[</span><span class="op">(</span><span class="va">lineas_totales</span><span class="op">)</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">]</span>, col<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-55-1.png" width="672"></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-52-1.png" width="672"></div>
+</div>
+<div id="jordan" class="section level2" number="7.2">
+<h2>
+<span class="header-section-number">7.2</span> Jordan<a class="anchor" aria-label="anchor" href="#jordan"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fit</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/RSNNS/man/jordan.html">jordan</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">[</span><span class="va">t_train</span><span class="op">]</span>,</span>
+<span>    <span class="va">outputs</span><span class="op">[</span><span class="va">t_train</span><span class="op">]</span>,</span>
+<span>    size<span class="op">=</span><span class="fl">6</span>,</span>
+<span>    learnFuncParams<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.01</span><span class="op">)</span>,</span>
+<span>    maxit<span class="op">=</span><span class="fl">100000</span><span class="op">)</span></span></code></pre></div>
+<p>Ploteamos el error iterativo de 7 neuronas:</p>
+<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/RSNNS/man/plotIterativeError.html">plotIterativeError</a></span><span class="op">(</span><span class="va">fit</span>, main <span class="op">=</span> <span class="st">"Iterative Error for 7 Neuron"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-54-1.png" width="672"></div>
+<p>Veamos ahora el error</p>
+<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html">as.vector</a></span><span class="op">(</span><span class="va">outputs</span><span class="op">[</span><span class="op">-</span><span class="va">t_test</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">y</span>,type<span class="op">=</span><span class="st">"l"</span><span class="op">)</span></span>
+<span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="va">inputs</span><span class="op">[</span><span class="op">-</span><span class="va">t_test</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">pred</span>,col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure">
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-55-1.png" width="672">
+Procedemos con la prediccion</div>
+<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">predictions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit</span>,<span class="va">inputs</span><span class="op">[</span><span class="op">-</span><span class="va">t_train</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">mod_jordan</span> <span class="op">&lt;-</span> <span class="va">predictions</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span></span>
+<span><span class="va">mod_jordan</span></span></code></pre></div>
+<pre><code>##                  [,1]
+## Jan 2019 7.496510e+12
+## Feb 2019 7.466085e+12
+## Mar 2019 7.485655e+12
+## Apr 2019 7.484994e+12
+## May 2019 7.482381e+12
+## Jun 2019 7.492138e+12
+## Jul 2019 7.487598e+12
+## Aug 2019 7.476202e+12
+## Sep 2019 7.511885e+12
+## Oct 2019 7.521976e+12
+## Nov 2019 7.491398e+12
+## Dec 2019 7.565753e+12
+## Jan 2020 7.545399e+12
+## Feb 2020 7.212222e+12
+## Mar 2020 8.100570e+12
+## Apr 2020 7.577544e+12
+## May 2020 7.313275e+12
+## Jun 2020 7.852690e+12
+## Jul 2020 7.598834e+12
+## Aug 2020 7.626874e+12
+## Sep 2020 7.644746e+12
+## Oct 2020 7.805679e+12
+## Nov 2020 7.340772e+12
+## Dec 2020 7.427901e+12
+## Jan 2021 7.561133e+12
+## Feb 2021 7.616939e+12
+## Mar 2021 7.613438e+12
+## Apr 2021 7.586914e+12
+## May 2021 7.548052e+12
+## Jun 2021 7.545705e+12
+## Jul 2021 7.539354e+12
+## Aug 2021 7.516734e+12
+## Sep 2021 7.527965e+12
+## Oct 2021 7.563203e+12
+## Nov 2021 7.529698e+12
+## Dec 2021 7.477176e+12
+## Jan 2022 7.490395e+12
+## Feb 2022 7.473057e+12
+## Mar 2022 7.439036e+12
+## Apr 2022 7.421486e+12
+## May 2022 7.410294e+12
+## Jun 2022 7.385566e+12
+## Jul 2022 7.381260e+12
+## Aug 2022 7.371684e+12
+## Sep 2022 7.414113e+12
+## Oct 2022 7.432210e+12
+## Nov 2022 7.416511e+12
+## Jan 2023 7.429574e+12
+## Feb 2023 7.427371e+12
+## Mar 2023 7.454445e+12
+## Apr 2023 7.493430e+12</code></pre>
+<p>Ahora veamoslo en la grafica</p>
+<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">lineas_totales</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">mod_jordan</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/vector.html">as.vector</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span>,<span class="va">mod_jordan</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">lineas_totales</span><span class="op">]</span>, <span class="va">y</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">lineas_totales</span><span class="op">]</span>,col <span class="op">=</span> <span class="st">"blue"</span>, type<span class="op">=</span><span class="st">"l"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span> <span class="va">x</span><span class="op">[</span><span class="op">(</span><span class="va">lineas_totales</span><span class="op">)</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">]</span>, <span class="va">y</span><span class="op">[</span><span class="op">(</span><span class="va">lineas_totales</span><span class="op">)</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">]</span>, col<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-57-1.png" width="672"></div>
+
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="modelo-con-pruebas-de-diferenciacion-log-para-arima.html"><span class="header-section-number">7</span> Modelo con Pruebas de diferenciacion log para ARIMA</a></div>
-<div class="next"><a href="jordan.html"><span class="header-section-number">9</span> Jordan</a></div>
+<div class="prev"><a href="modelos-logaritmicos-prophet-y-otros.html"><span class="header-section-number">6</span> Modelos Logaritmicos, Prophet y otros</a></div>
+<div class="empty"></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#modelos-de-redes-neuronales-recurrentes"><span class="header-section-number">8</span> Modelos de Redes Neuronales Recurrentes</a></li>
-<li><a class="nav-link" href="#elman"><span class="header-section-number">8.1</span> Elman</a></li>
+<li><a class="nav-link" href="#modelos-de-redes-neuronales-recurrentes"><span class="header-section-number">7</span> Modelos de Redes Neuronales Recurrentes</a></li>
+<li><a class="nav-link" href="#elman"><span class="header-section-number">7.1</span> Elman</a></li>
+<li><a class="nav-link" href="#jordan"><span class="header-section-number">7.2</span> Jordan</a></li>
 </ul>
 
       <div class="book-extra">
