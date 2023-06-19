@@ -124,7 +124,7 @@
 
 \title{Bookdown - Grupo B}
 \author{Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J}
-\date{2023-06-05}
+\date{2023-06-18}
 
 \begin{document}
 \maketitle
@@ -711,7 +711,9 @@ Esto generará un gráfico que muestra la serie de tiempo original y las predicc
 \hypertarget{modelo-arima}{%
 \chapter{Modelo ARIMA}\label{modelo-arima}}
 
-Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo.
+\#\#Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo.
+
+En esta seccion, intentaremos abordar el algoritmo ARIMA dentro de la serie de tiempo. Primero consrtruiremos el modelo optimo AR, luego MA y posteriormente utilizaremos la funcion Autoarima para encontrar los parametros optimos.
 
 \hypertarget{modelos}{%
 \section{Modelos}\label{modelos}}
@@ -741,7 +743,7 @@ Metodología Box-Jenkins para identificar modelos autoregresivos integrados de m
 ## alternative hypothesis: stationary
 \end{verbatim}
 
-Como resultado, dentro de nuestros modelos ARIMA podemos asegurar que el parametro d = 0.
+Como se puede observar, se rechaza la hipotesis ho y aceptamos la alterna. xxxxxxx , dentro de nuestros modelos ARIMA podemos asegurar que el parametro d = 0.
 
 \hypertarget{modelo-basado-solamente-en-auro-regresion-ar.-debemos-ubicar-los-parametros-d-y-q-en-0.}{%
 \subsection{Modelo basado solamente en Auro Regresion (AR). Debemos ubicar los parametros d y q en 0.}\label{modelo-basado-solamente-en-auro-regresion-ar.-debemos-ubicar-los-parametros-d-y-q-en-0.}}
@@ -782,7 +784,7 @@ Utilizando el grafico ACF revisamos cual seria el punto de inflexion y luego pro
 \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-27-1.pdf}
 
 \begin{verbatim}
-## [1] "Observamos que el 2ndo lag contiene el ultimo cambio significativo. Ademas el 1ero es descartable siempre ya que es comparable solo consigo mismo."
+## [1] "Observamos que el 2do lag contiene el ultimo cambio significativo. Ademas el 1ero es descartable siempre ya que es comparable solo consigo mismo."
 \end{verbatim}
 
 \begin{verbatim}
@@ -923,6 +925,304 @@ Utilicemos nuestro modelo ARIMA para pronosticar los siguintes 12 meses de saldo
 
 Ahora hagamos las validaciones del modelo
 
+\begin{verbatim}
+## [1] "Error in solve.default(res$hessian * n.used, A) :\nLapack routine dgesv: system is exactly singular: U[1,1] = 0"
+\end{verbatim}
+
+\begin{verbatim}
+## [1] "Al aplicar la funcion tso para encontrar los outliers, nos arroja un error de singularidad, por lo que descarta el uso de diferenciacion para convertir el ts a estacionario."
+\end{verbatim}
+
+\hypertarget{diferenciacion-logaritmica}{%
+\subsection{Diferenciacion Logaritmica}\label{diferenciacion-logaritmica}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Genero mi objeto ts para el analisis}
+\NormalTok{indice.ts }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(datos}\SpecialCharTok{$}\NormalTok{Saldo, }\AttributeTok{start =} \FunctionTok{c}\NormalTok{(}\DecValTok{2018}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{frequency =} \DecValTok{12}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(indice.ts)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-31-1.pdf}
+
+\hypertarget{diferenciacion-por-logaritmo}{%
+\subsubsection{Diferenciacion por Logaritmo}\label{diferenciacion-por-logaritmo}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mits }\OtherTok{\textless{}{-}} \FunctionTok{log}\NormalTok{(indice.ts)}
+
+\CommentTok{\# Prueba de Estacionariedad}
+\FunctionTok{adf.test}\NormalTok{(mits)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  mits
+## Dickey-Fuller = -1.9544, Lag order = 3, p-value = 0.5934
+## alternative hypothesis: stationary
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\StringTok{"Continua siendo No{-}Estacionaria. Procederemos a diferenciarla"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Continua siendo No-Estacionaria. Procederemos a diferenciarla"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mmits }\OtherTok{\textless{}{-}} \FunctionTok{diff}\NormalTok{(mits)}
+\FunctionTok{adf.test}\NormalTok{(mmits)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in adf.test(mmits): p-value smaller than printed p-value
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  mmits
+## Dickey-Fuller = -5.3844, Lag order = 3, p-value = 0.01
+## alternative hypothesis: stationary
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{tsdisplay}\NormalTok{(mmits)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-32-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{adf.test}\NormalTok{(mmits)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in adf.test(mmits): p-value smaller than printed p-value
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  mmits
+## Dickey-Fuller = -5.3844, Lag order = 3, p-value = 0.01
+## alternative hypothesis: stationary
+\end{verbatim}
+
+Finalmente podemos recharar la h0 ya que p\textless0.05
+
+\hypertarget{procedamos-a-calular-el-modelo-arima-mas-optimo}{%
+\subsubsection{Procedamos a calular el modelo Arima mas optimo:}\label{procedamos-a-calular-el-modelo-arima-mas-optimo}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mimod }\OtherTok{\textless{}{-}} \FunctionTok{auto.arima}\NormalTok{(mmits, }\AttributeTok{trace =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  ARIMA(2,0,2)(1,0,1)[12] with non-zero mean : Inf
+##  ARIMA(0,0,0)            with non-zero mean : -65.53048
+##  ARIMA(1,0,0)(1,0,0)[12] with non-zero mean : -78.58046
+##  ARIMA(0,0,1)(0,0,1)[12] with non-zero mean : -88.02136
+##  ARIMA(0,0,0)            with zero mean     : -66.66478
+##  ARIMA(0,0,1)            with non-zero mean : -90.27983
+##  ARIMA(0,0,1)(1,0,0)[12] with non-zero mean : -88.01915
+##  ARIMA(0,0,1)(1,0,1)[12] with non-zero mean : Inf
+##  ARIMA(1,0,1)            with non-zero mean : -88.46913
+##  ARIMA(0,0,2)            with non-zero mean : -88.62053
+##  ARIMA(1,0,0)            with non-zero mean : -80.81767
+##  ARIMA(1,0,2)            with non-zero mean : -86.98859
+##  ARIMA(0,0,1)            with zero mean     : -83.77733
+## 
+##  Best model: ARIMA(0,0,1)            with non-zero mean
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mimod}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Series: mmits 
+## ARIMA(0,0,1) with non-zero mean 
+## 
+## Coefficients:
+##           ma1    mean
+##       -0.6742  0.0182
+## s.e.   0.0846  0.0047
+## 
+## sigma^2 = 0.01291:  log likelihood = 48.34
+## AIC=-90.69   AICc=-90.28   BIC=-84.26
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Hagamos la prediccion de los siguientes 12 meses.}
+\NormalTok{mifore }\OtherTok{\textless{}{-}} \FunctionTok{forecast}\NormalTok{(mimod, }\AttributeTok{h=}\DecValTok{12}\NormalTok{)}
+\NormalTok{mifore}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          Point Forecast       Lo 80     Hi 80      Lo 95     Hi 95
+## May 2023     0.06780752 -0.07779118 0.2134062 -0.1548665 0.2904815
+## Jun 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Jul 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Aug 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Sep 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Oct 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Nov 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Dec 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Jan 2024     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Feb 2024     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Mar 2024     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Apr 2024     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(mifore)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-33-1.pdf}
+
+\hypertarget{revisemos-el-efecto-de-los-outliers}{%
+\subsection{Revisemos el efecto de los outliers:}\label{revisemos-el-efecto-de-los-outliers}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{outliers\_excess\_ts }\OtherTok{\textless{}{-}} \FunctionTok{tso}\NormalTok{(mmits)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in locate.outliers.iloop(resid = resid, pars = pars, cval = cval, :
+## stopped when 'maxit.iloop' was reached
+
+## Warning in locate.outliers.iloop(resid = resid, pars = pars, cval = cval, :
+## stopped when 'maxit.iloop' was reached
+
+## Warning in locate.outliers.iloop(resid = resid, pars = pars, cval = cval, :
+## stopped when 'maxit.iloop' was reached
+
+## Warning in locate.outliers.iloop(resid = resid, pars = pars, cval = cval, :
+## stopped when 'maxit.iloop' was reached
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in locate.outliers.oloop(y = y, fit = fit, types = types, cval = cval,
+## : stopped when 'maxit.oloop = 4' was reached
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{outliers\_excess\_ts}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Series: mmits 
+## Regression with ARIMA(2,0,0) errors 
+## 
+## Coefficients:
+##           ar1      ar2  intercept     TC19    LS20     TC21    AO22     TC23
+##       -1.4393  -0.6456     0.0292  -0.0961  0.2422  -0.6172  0.7346  -0.4820
+## s.e.   0.0981   0.0953     0.0038   0.0226  0.0286   0.0719  0.0863   0.0285
+##         AO25     TC28    LS31     LS35    TC44
+##       0.6319  -0.2536  -0.180  -0.0733  0.0521
+## s.e.  0.0492   0.0384   0.022   0.0130  0.0145
+## 
+## sigma^2 = 0.002827:  log likelihood = 101.48
+## AIC=-174.96   AICc=-166.21   BIC=-144.96
+## 
+## Outliers:
+##    type ind    time  coefhat   tstat
+## 1    TC  19 2019:08 -0.09610  -4.262
+## 2    LS  20 2019:09  0.24224   8.461
+## 3    TC  21 2019:10 -0.61716  -8.580
+## 4    AO  22 2019:11  0.73456   8.516
+## 5    TC  23 2019:12 -0.48196 -16.888
+## 6    AO  25 2020:02  0.63191  12.842
+## 7    TC  28 2020:05 -0.25360  -6.606
+## 8    LS  31 2020:08 -0.17998  -8.190
+## 9    LS  35 2020:12 -0.07327  -5.620
+## 10   TC  44 2021:09  0.05214   3.608
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(outliers\_excess\_ts)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-34-1.pdf}
+
+La gráfica de Outliers muestra los 10 valores que difieren significativamente del patrón general de la serie de tiempo.
+
+\hypertarget{por-ultimo-haremos-un-check-de-los-residuos.}{%
+\subsubsection{Por ultimo haremos un check de los residuos.}\label{por-ultimo-haremos-un-check-de-los-residuos.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{checkresiduals}\NormalTok{(mimod)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-35-1.pdf}
+
+\begin{verbatim}
+## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(0,0,1) with non-zero mean
+## Q* = 2.0482, df = 12, p-value = 0.9993
+## 
+## Model df: 1.   Total lags used: 13
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{residuales }\OtherTok{\textless{}{-}}\NormalTok{ mimod}\SpecialCharTok{$}\NormalTok{residuals}
+
+\FunctionTok{t.test}\NormalTok{(residuales, }\AttributeTok{alternative=}\StringTok{\textquotesingle{}two.sided\textquotesingle{}}\NormalTok{, }\AttributeTok{conf.level=}\FloatTok{0.95}\NormalTok{, }\AttributeTok{mu=}\DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  One Sample t-test
+## 
+## data:  residuales
+## t = 0.047608, df = 62, p-value = 0.9622
+## alternative hypothesis: true mean is not equal to 0
+## 95 percent confidence interval:
+##  -0.02770451  0.02905634
+## sample estimates:
+##    mean of x 
+## 0.0006759195
+\end{verbatim}
+
+Con esta grafica podemos concluir que los residuales presentan una distribucion normal, que los errores residuales se mantienen dentro del rango de significancia aceptable (0.95) y por medio de un t-test pudimos corroborar que la media de los residuos es 0.
+
 \hypertarget{modelos-logaritmicos-prophet-y-otros}{%
 \chapter{Modelos Logaritmicos, Prophet y otros}\label{modelos-logaritmicos-prophet-y-otros}}
 
@@ -939,7 +1239,7 @@ La transformación logarítmica es útil cuando hay una tendencia exponencial en
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-31-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-36-1.pdf}
 
 \textbf{Transformación de raíz cuadrada:}
 La transformación de raíz cuadrada se utiliza cuando la varianza aumenta con el nivel de la serie de tiempo. Al aplicar esta transformación, se reduce la dispersión de los valores más altos y se estabiliza la varianza. Puedes utilizar la función sqrt() para aplicar esta transformación:
@@ -954,7 +1254,7 @@ La transformación de raíz cuadrada se utiliza cuando la varianza aumenta con e
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-32-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-37-1.pdf}
 Al aplicar estas transformaciones, se espera que la serie de tiempo transformada tenga una tendencia y variabilidad reducidas en comparación con la serie original.
 
 \textbf{Metodología de Holt-Winters:}
@@ -977,7 +1277,7 @@ El resultado del modelo Holt-Winters proporciona las componentes de tendencia (t
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-33-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-38-1.pdf}
 Además de la metodología de Holt-Winters, también puedes aplicar técnicas de suavizamiento para obtener una versión suavizada de la serie de tiempo. Una técnica común es el suavizamiento exponencial simple, que calcula un promedio ponderado de los valores anteriores para obtener la versión suavizada de la serie.Se Puede utilizar la función ses() de la librería forecast para aplicar esta técnica:
 
 \begin{Shaded}
@@ -995,7 +1295,7 @@ Además de la metodología de Holt-Winters, también puedes aplicar técnicas de
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-34-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-39-1.pdf}
 El resultado del suavizamiento exponencial simple se muestra en el gráfico que se generó. Aquí hay una explicación de lo que puedes observar en el resultado:
 
 La línea azul representa la serie de tiempo original, es decir, los valores observados de la variable a lo largo del tiempo.
@@ -1025,7 +1325,7 @@ Enfoque de regresión lineal clásico:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-35-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-40-1.pdf}
 
 \textbf{Algoritmo Facebook´s Prophet:}
 
@@ -1051,103 +1351,14 @@ Enfoque de regresión lineal clásico:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-36-1.pdf}
-
-\textbf{Redes neuronales ELMAN y Jordan}*
-
-RED ELMAN:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Instalar y cargar la librería RSNNS}
-\CommentTok{\#install.packages("RSNNS")}
-\FunctionTok{library}\NormalTok{(RSNNS)}
-
-\CommentTok{\# Crear un dataframe con la serie de tiempo}
-\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{Tiempo =}\NormalTok{ time,}
-                 \AttributeTok{Valor =}\NormalTok{ indice.ts,}
-                 \AttributeTok{Lag1 =} \FunctionTok{lag}\NormalTok{(indice.ts, }\DecValTok{1}\NormalTok{),}
-                 \AttributeTok{Lag2 =} \FunctionTok{lag}\NormalTok{(indice.ts, }\DecValTok{2}\NormalTok{),}
-                 \AttributeTok{Lag3 =} \FunctionTok{lag}\NormalTok{(indice.ts, }\DecValTok{3}\NormalTok{))}
-
-\CommentTok{\# Convertir los datos de entrada a formato de matriz}
-\NormalTok{input\_data }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(df[, }\FunctionTok{c}\NormalTok{(}\StringTok{"Lag1"}\NormalTok{, }\StringTok{"Lag2"}\NormalTok{, }\StringTok{"Lag3"}\NormalTok{)])}
-\NormalTok{output\_data }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(df[, }\StringTok{"Valor"}\NormalTok{])}
-
-\CommentTok{\# Definir la arquitectura de la red Elman}
-\NormalTok{elman\_model }\OtherTok{\textless{}{-}} \FunctionTok{elman}\NormalTok{(input\_data, output\_data, }\AttributeTok{hidden =} \DecValTok{3}\NormalTok{, }\AttributeTok{learnFunc =} \StringTok{"Std\_Backpropagation"}\NormalTok{, }
-                     \AttributeTok{maxit =} \DecValTok{1000}\NormalTok{, }\AttributeTok{linear.output =} \ConstantTok{TRUE}\NormalTok{)}
-
-\CommentTok{\# Realizar el pronóstico con la red Elman}
-\NormalTok{elman\_forecast }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(elman\_model, input\_data)}
-
-\CommentTok{\# Graficar el pronóstico}
-\FunctionTok{plot}\NormalTok{(indice.ts, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{col =} \StringTok{"\#00a0dc"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Pronóstico con Red Elman"}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(elman\_forecast, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-37-1.pdf}
-
-\textbf{Red Jordan:}*
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Crear un dataframe con la serie de tiempo}
-\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{Tiempo =}\NormalTok{ time,}
-                 \AttributeTok{Valor =}\NormalTok{ indice.ts,}
-                 \AttributeTok{Lag1 =} \FunctionTok{lag}\NormalTok{(indice.ts, }\DecValTok{1}\NormalTok{),}
-                 \AttributeTok{Lag2 =} \FunctionTok{lag}\NormalTok{(indice.ts, }\DecValTok{2}\NormalTok{),}
-                 \AttributeTok{Lag3 =} \FunctionTok{lag}\NormalTok{(indice.ts, }\DecValTok{3}\NormalTok{))}
-
-\CommentTok{\# Convertir los datos de entrada a formato de matriz}
-\NormalTok{input\_data }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(df[, }\FunctionTok{c}\NormalTok{(}\StringTok{"Lag1"}\NormalTok{, }\StringTok{"Lag2"}\NormalTok{, }\StringTok{"Lag3"}\NormalTok{)])}
-\NormalTok{output\_data }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(df[, }\StringTok{"Valor"}\NormalTok{])}
-
-\CommentTok{\# Definir la arquitectura de la red Jordan}
-\NormalTok{jordan\_model }\OtherTok{\textless{}{-}} \FunctionTok{jordan}\NormalTok{(input\_data, output\_data, }\AttributeTok{hidden\_units =} \DecValTok{3}\NormalTok{, }\AttributeTok{activation =} \StringTok{"tanh"}\NormalTok{)}
-
-\CommentTok{\# Realizar el pronóstico con la red Jordan}
-\NormalTok{jordan\_forecast }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(jordan\_model, input\_data)}
-
-\CommentTok{\# Graficar el pronóstico}
-\FunctionTok{plot}\NormalTok{(indice.ts, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{col =} \StringTok{"\#00a0dc"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Pronóstico con Red Jordan"}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(jordan\_forecast, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-38-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-41-1.pdf}
 
 \hypertarget{modelo-con-pruebas-de-diferenciacion-log-para-arima}{%
 \chapter{Modelo con Pruebas de diferenciacion log para ARIMA}\label{modelo-con-pruebas-de-diferenciacion-log-para-arima}}
 
 Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo.
 
-\begin{verbatim}
-##               Jan          Feb          Mar          Apr          May
-## 2018 2.562223e+12 2.601532e+12 2.653315e+12 2.717915e+12 2.852608e+12
-## 2019 3.732137e+12 3.810740e+12 3.923380e+12 3.995810e+12 4.092819e+12
-## 2020 2.022405e+12 4.295886e+12 4.304185e+12 4.195404e+12 4.177219e+12
-## 2021 4.369300e+12 4.478002e+12 4.595047e+12 4.627874e+12 4.705783e+12
-## 2022 6.351501e+12 6.555819e+12 6.739823e+12 6.925001e+12 7.132542e+12
-## 2023 8.083445e+12 7.951094e+12 7.812947e+12 7.765132e+12             
-##               Jun          Jul          Aug          Sep          Oct
-## 2018 2.986446e+12 3.102493e+12 3.196138e+12 3.272388e+12 3.394038e+12
-## 2019 4.164386e+12 4.198177e+12 4.267921e+12 4.307340e+12 4.113506e+12
-## 2020 4.164434e+12 4.082507e+12 4.067948e+12 4.120926e+12 4.182877e+12
-## 2021 4.846473e+12 4.983882e+12 5.091594e+12 5.385784e+12 5.730839e+12
-## 2022 7.435792e+12 7.529328e+12 7.670212e+12 7.789046e+12 7.903472e+12
-## 2023                                                                 
-##               Nov          Dec
-## 2018 3.617129e+12 3.690229e+12
-## 2019 4.314034e+12 4.455499e+12
-## 2020 4.344709e+12 4.384188e+12
-## 2021 5.955740e+12 6.164705e+12
-## 2022 8.115444e+12 8.154174e+12
-## 2023
-\end{verbatim}
-
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-39-1.pdf} \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-39-2.pdf} \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-39-3.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-42-1.pdf} \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-42-2.pdf}
 
 \begin{verbatim}
 ## 
@@ -1176,7 +1387,7 @@ Metodología Box-Jenkins para identificar modelos autoregresivos integrados de m
 ## alternative hypothesis: stationary
 \end{verbatim}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-39-4.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-42-3.pdf}
 
 \begin{verbatim}
 ## 
@@ -1235,7 +1446,7 @@ Metodología Box-Jenkins para identificar modelos autoregresivos integrados de m
 ## Apr 2024     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
 \end{verbatim}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-39-5.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-42-4.pdf}
 
 \begin{verbatim}
 ## Series: mmits 
@@ -1266,7 +1477,7 @@ Metodología Box-Jenkins para identificar modelos autoregresivos integrados de m
 ## 10   TC  44 2021:09  0.05214   3.608
 \end{verbatim}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-39-6.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-42-5.pdf}
 
 \hypertarget{modelos-1}{%
 \section{Modelos}\label{modelos-1}}
@@ -1285,6 +1496,385 @@ segundo paso
 \end{Highlighting}
 \end{Shaded}
 
+\hypertarget{modelos-de-redes-neuronales-recurrentes}{%
+\chapter{Modelos de Redes Neuronales Recurrentes}\label{modelos-de-redes-neuronales-recurrentes}}
+
+\hypertarget{elman}{%
+\section{Elman}\label{elman}}
+
+Abro la fuente
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(forecast)}
+\FunctionTok{library}\NormalTok{(timsac)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(changepoint)}
+\FunctionTok{library}\NormalTok{(readxl)}
+\FunctionTok{library}\NormalTok{(RSNNS)}
+\FunctionTok{library}\NormalTok{(quantmod)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: xts
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: TTR
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{datos }\OtherTok{\textless{}{-}} \FunctionTok{read\_excel}\NormalTok{(}\StringTok{"./fuente/BASE\_Clientes.xlsx"}\NormalTok{)}
+\NormalTok{datos}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 643,570 x 8
+##    Periodo Sub_Tipo N_Clientes DIAS_DE_MORA     Saldo Genero grupo_actividad_eco
+##    <chr>   <chr>         <dbl>        <dbl>     <dbl> <chr>  <chr>              
+##  1 2018-01 CDC               4            0 15824105. Femen~ Dependiente privado
+##  2 2018-01 CDC               1            0  6810373. Femen~ Dependiente privado
+##  3 2018-01 CDC               6            6 28819502. Femen~ Dependiente privado
+##  4 2018-01 CDC              12           63 81343674. Femen~ Dependiente privado
+##  5 2018-01 CDC               1           21  7524344. Femen~ Dependiente privado
+##  6 2018-01 CDC               4            0 12974213. Femen~ Dependiente privado
+##  7 2018-01 CDC               3            1 21348609. Femen~ Dependiente privado
+##  8 2018-01 CDC               2            0 11475858. Femen~ Dependiente privado
+##  9 2018-01 CDC              10           38 60012355. Femen~ Dependiente privado
+## 10 2018-01 CDC               1            0  9034715. Femen~ Dependiente privado
+## # i 643,560 more rows
+## # i 1 more variable: Cuidad_res <chr>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Cambio el tipo de dato de la columna temporal(Periodo)}
+\NormalTok{datos}\SpecialCharTok{$}\NormalTok{Periodo }\OtherTok{\textless{}{-}} \FunctionTok{as.Date}\NormalTok{(}\FunctionTok{paste0}\NormalTok{(datos}\SpecialCharTok{$}\NormalTok{Periodo, }\StringTok{"{-}01"}\NormalTok{))}
+
+\CommentTok{\# Consolido el df en funcion de la variable de interes (Saldo)}
+\NormalTok{datos }\OtherTok{\textless{}{-}} \FunctionTok{aggregate}\NormalTok{(Saldo }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Periodo, }\AttributeTok{data =}\NormalTok{ datos, sum)}
+
+\CommentTok{\# Genero mi objeto ts para el analisis}
+\NormalTok{indice.ts }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(datos}\SpecialCharTok{$}\NormalTok{Saldo, }\AttributeTok{start =} \FunctionTok{c}\NormalTok{(}\DecValTok{2018}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{frequency =} \DecValTok{12}\NormalTok{)}
+\NormalTok{indice.ts}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##               Jan          Feb          Mar          Apr          May
+## 2018 2.562223e+12 2.601532e+12 2.653315e+12 2.717915e+12 2.852608e+12
+## 2019 3.732137e+12 3.810740e+12 3.923380e+12 3.995810e+12 4.092819e+12
+## 2020 2.022405e+12 4.295886e+12 4.304185e+12 4.195404e+12 4.177219e+12
+## 2021 4.369300e+12 4.478002e+12 4.595047e+12 4.627874e+12 4.705783e+12
+## 2022 6.351501e+12 6.555819e+12 6.739823e+12 6.925001e+12 7.132542e+12
+## 2023 8.083445e+12 7.951094e+12 7.812947e+12 7.765132e+12             
+##               Jun          Jul          Aug          Sep          Oct
+## 2018 2.986446e+12 3.102493e+12 3.196138e+12 3.272388e+12 3.394038e+12
+## 2019 4.164386e+12 4.198177e+12 4.267921e+12 4.307340e+12 4.113506e+12
+## 2020 4.164434e+12 4.082507e+12 4.067948e+12 4.120926e+12 4.182877e+12
+## 2021 4.846473e+12 4.983882e+12 5.091594e+12 5.385784e+12 5.730839e+12
+## 2022 7.435792e+12 7.529328e+12 7.670212e+12 7.789046e+12 7.903472e+12
+## 2023                                                                 
+##               Nov          Dec
+## 2018 3.617129e+12 3.690229e+12
+## 2019 4.314034e+12 4.455499e+12
+## 2020 4.344709e+12 4.384188e+12
+## 2021 5.955740e+12 6.164705e+12
+## 2022 8.115444e+12 8.154174e+12
+## 2023
+\end{verbatim}
+
+Ahora convierto mis datos a una time series y luego para el procesamiento de la red neuronal la guardare en una ts normalizada entre 0 y 1
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Z }\OtherTok{\textless{}{-}} \FunctionTok{as.ts}\NormalTok{(indice.ts,F)}
+\NormalTok{S }\OtherTok{\textless{}{-}}\NormalTok{ (Z}\SpecialCharTok{{-}}\FunctionTok{min}\NormalTok{(Z))}\SpecialCharTok{/}\NormalTok{(}\FunctionTok{max}\NormalTok{(Z)}\SpecialCharTok{{-}}\FunctionTok{min}\NormalTok{(Z))}
+\FunctionTok{plot}\NormalTok{(S)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-46-1.pdf}
+Ahora dividiremos el el numero de filas totales
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lineas\_totales }\OtherTok{\textless{}{-}}\FunctionTok{length}\NormalTok{(S)}
+\NormalTok{t\_train }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(lineas\_totales}\SpecialCharTok{*}\FloatTok{0.75}\NormalTok{, }\AttributeTok{digits=}\DecValTok{0}\NormalTok{)}
+\NormalTok{l\_train }\OtherTok{\textless{}{-}} \DecValTok{0}\SpecialCharTok{:}\NormalTok{(t\_train}\DecValTok{{-}1}\NormalTok{) }
+\NormalTok{t\_test }\OtherTok{\textless{}{-}}\NormalTok{ (t\_train)}\SpecialCharTok{:}\NormalTok{lineas\_totales}
+\NormalTok{t\_test}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64
+\end{verbatim}
+
+Ahora crearemos un df cn los nodos que adelantaran un valor en el futuro
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{as.zoo}\NormalTok{(S)}
+\NormalTok{x1 }\OtherTok{\textless{}{-}} \FunctionTok{Lag}\NormalTok{(y, }\AttributeTok{k =} \DecValTok{1}\NormalTok{)}
+\NormalTok{x2 }\OtherTok{\textless{}{-}} \FunctionTok{Lag}\NormalTok{(y, }\AttributeTok{k =} \DecValTok{2}\NormalTok{)}
+\NormalTok{x3 }\OtherTok{\textless{}{-}} \FunctionTok{Lag}\NormalTok{(y, }\AttributeTok{k =} \DecValTok{3}\NormalTok{)}
+\NormalTok{x4 }\OtherTok{\textless{}{-}} \FunctionTok{Lag}\NormalTok{(y, }\AttributeTok{k =} \DecValTok{4}\NormalTok{)}
+\NormalTok{x5 }\OtherTok{\textless{}{-}} \FunctionTok{Lag}\NormalTok{(y, }\AttributeTok{k =} \DecValTok{5}\NormalTok{)}
+\NormalTok{x6 }\OtherTok{\textless{}{-}} \FunctionTok{Lag}\NormalTok{(y, }\AttributeTok{k =} \DecValTok{6}\NormalTok{)}
+\NormalTok{x7 }\OtherTok{\textless{}{-}} \FunctionTok{Lag}\NormalTok{(y, }\AttributeTok{k =} \DecValTok{7}\NormalTok{)}
+\NormalTok{x8 }\OtherTok{\textless{}{-}} \FunctionTok{Lag}\NormalTok{(y, }\AttributeTok{k =} \DecValTok{8}\NormalTok{)}
+\NormalTok{x9 }\OtherTok{\textless{}{-}} \FunctionTok{Lag}\NormalTok{(y, }\AttributeTok{k =} \DecValTok{9}\NormalTok{)}
+\NormalTok{x10 }\OtherTok{\textless{}{-}} \FunctionTok{Lag}\NormalTok{(y, }\AttributeTok{k =} \DecValTok{10}\NormalTok{)}
+\NormalTok{x11 }\OtherTok{\textless{}{-}} \FunctionTok{Lag}\NormalTok{(y, }\AttributeTok{k =} \DecValTok{11}\NormalTok{)}
+\NormalTok{x12 }\OtherTok{\textless{}{-}} \FunctionTok{Lag}\NormalTok{(y, }\AttributeTok{k =} \DecValTok{12}\NormalTok{)}
+\NormalTok{slogN }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(y,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12)}
+\CommentTok{\# Elimenemos los valores desplazados}
+\NormalTok{slogN }\OtherTok{\textless{}{-}}\NormalTok{ slogN[}\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{12}\NormalTok{),]}
+\end{Highlighting}
+\end{Shaded}
+
+Acto seguido, especificaremos los inputs y outputs de la red
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{inputs }\OtherTok{\textless{}{-}}\NormalTok{ slogN[,}\DecValTok{2}\SpecialCharTok{:}\DecValTok{13}\NormalTok{]}
+\NormalTok{outputs }\OtherTok{\textless{}{-}}\NormalTok{ slogN[,}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+Con la informaion en su lugar, procedamos a crear la red de Elman
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{44}\NormalTok{)}
+\NormalTok{fit }\OtherTok{\textless{}{-}}\NormalTok{ fit}\OtherTok{\textless{}{-}}\FunctionTok{elman}\NormalTok{(inputs[t\_train],outputs[t\_train],}\AttributeTok{size=}\FunctionTok{c}\NormalTok{(}\DecValTok{7}\NormalTok{,}\DecValTok{3}\NormalTok{),}\AttributeTok{learnFuncParams=}\FunctionTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{),}\AttributeTok{maxit=}\DecValTok{1000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Veamos como evoluciona el error
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plotIterativeError}\NormalTok{(fit, }\AttributeTok{main =} \StringTok{"Iterative Error for 7,3 NeuronError Iterativo para neuronas 7,3"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-51-1.pdf}
+Asi podemos ver que el error converge extremadamente rapido
+
+Ahora procederemos a hacer la la pred con el resto de terminosde la seria
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{as.vector}\NormalTok{(outputs[}\SpecialCharTok{{-}}\NormalTok{t\_test])}
+\FunctionTok{plot}\NormalTok{(y,}\AttributeTok{type=}\StringTok{"l"}\NormalTok{)}
+\NormalTok{pred }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(fit, inputs[}\SpecialCharTok{{-}}\NormalTok{t\_test])}
+\FunctionTok{lines}\NormalTok{(pred,}\AttributeTok{col =} \StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-52-1.pdf}
+ahora predicciones
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{predictions }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(fit,inputs[}\SpecialCharTok{{-}}\NormalTok{t\_train])}
+\end{Highlighting}
+\end{Shaded}
+
+desnormalizamos datos
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod5 }\OtherTok{\textless{}{-}}\NormalTok{ predictions}\SpecialCharTok{*}\NormalTok{(}\FunctionTok{max}\NormalTok{(Z)}\SpecialCharTok{{-}}\FunctionTok{min}\NormalTok{(Z))}\SpecialCharTok{+}\FunctionTok{min}\NormalTok{(Z)}
+\NormalTok{mod5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                  [,1]
+## Jan 2019 7.479485e+12
+## Feb 2019 7.740388e+12
+## Mar 2019 7.873136e+12
+## Apr 2019 7.928784e+12
+## May 2019 7.941933e+12
+## Jun 2019 7.943447e+12
+## Jul 2019 7.948358e+12
+## Aug 2019 7.945146e+12
+## Sep 2019 7.939442e+12
+## Oct 2019 7.937759e+12
+## Nov 2019 7.920444e+12
+## Dec 2019 7.907079e+12
+## Jan 2020 7.936890e+12
+## Feb 2020 7.831769e+12
+## Mar 2020 7.738073e+12
+## Apr 2020 8.019925e+12
+## May 2020 7.972166e+12
+## Jun 2020 7.923414e+12
+## Jul 2020 7.970784e+12
+## Aug 2020 7.867600e+12
+## Sep 2020 7.793710e+12
+## Oct 2020 7.860149e+12
+## Nov 2020 7.885598e+12
+## Dec 2020 7.920199e+12
+## Jan 2021 8.008120e+12
+## Feb 2021 7.961386e+12
+## Mar 2021 7.909667e+12
+## Apr 2021 7.910477e+12
+## May 2021 7.914930e+12
+## Jun 2021 7.920344e+12
+## Jul 2021 7.939212e+12
+## Aug 2021 7.952321e+12
+## Sep 2021 7.956209e+12
+## Oct 2021 7.965167e+12
+## Nov 2021 7.983909e+12
+## Dec 2021 7.994656e+12
+## Jan 2022 7.995008e+12
+## Feb 2022 7.991864e+12
+## Mar 2022 7.984059e+12
+## Apr 2022 7.983623e+12
+## May 2022 7.990518e+12
+## Jun 2022 7.996664e+12
+## Jul 2022 8.005999e+12
+## Aug 2022 8.011570e+12
+## Sep 2022 7.995227e+12
+## Oct 2022 7.984048e+12
+## Nov 2022 7.973629e+12
+## Jan 2023 7.978833e+12
+## Feb 2023 7.965210e+12
+## Mar 2023 7.950325e+12
+## Apr 2023 7.941412e+12
+\end{verbatim}
+
+veamos los valores
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(lineas\_totales}\SpecialCharTok{+}\FunctionTok{length}\NormalTok{(mod5))}
+\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{as.vector}\NormalTok{(Z),mod5)}
+\FunctionTok{plot}\NormalTok{(x[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{lineas\_totales], y[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{lineas\_totales],}\AttributeTok{col =} \StringTok{"blue"}\NormalTok{, }\AttributeTok{type=}\StringTok{"l"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{( x[(lineas\_totales)}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(x)], y[(lineas\_totales)}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(x)], }\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-55-1.pdf}
+
+\hypertarget{jordan}{%
+\chapter{Jordan}\label{jordan}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit}\OtherTok{\textless{}{-}}\FunctionTok{jordan}\NormalTok{(inputs[t\_train],}
+\NormalTok{    outputs[t\_train],}
+    \AttributeTok{size=}\DecValTok{6}\NormalTok{,}
+    \AttributeTok{learnFuncParams=}\FunctionTok{c}\NormalTok{(}\FloatTok{0.01}\NormalTok{),}
+    \AttributeTok{maxit=}\DecValTok{100000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Ploteamos el error iterativo de 7 neuronas:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plotIterativeError}\NormalTok{(fit, }\AttributeTok{main =} \StringTok{"Iterative Error for 7 Neuron"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-57-1.pdf}
+
+Veamos ahora el error
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{as.vector}\NormalTok{(outputs[}\SpecialCharTok{{-}}\NormalTok{t\_test])}
+\FunctionTok{plot}\NormalTok{(y,}\AttributeTok{type=}\StringTok{"l"}\NormalTok{)}
+\NormalTok{pred }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(fit, inputs[}\SpecialCharTok{{-}}\NormalTok{t\_test])}
+\FunctionTok{lines}\NormalTok{(pred,}\AttributeTok{col =} \StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-58-1.pdf}
+Procedemos con la prediccion
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{predictions }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(fit,inputs[}\SpecialCharTok{{-}}\NormalTok{t\_train])}
+\NormalTok{mod\_jordan }\OtherTok{\textless{}{-}}\NormalTok{ predictions}\SpecialCharTok{*}\NormalTok{(}\FunctionTok{max}\NormalTok{(Z)}\SpecialCharTok{{-}}\FunctionTok{min}\NormalTok{(Z))}\SpecialCharTok{+}\FunctionTok{min}\NormalTok{(Z)}
+\NormalTok{mod\_jordan}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                  [,1]
+## Jan 2019 7.496510e+12
+## Feb 2019 7.466085e+12
+## Mar 2019 7.485655e+12
+## Apr 2019 7.484994e+12
+## May 2019 7.482381e+12
+## Jun 2019 7.492138e+12
+## Jul 2019 7.487598e+12
+## Aug 2019 7.476202e+12
+## Sep 2019 7.511885e+12
+## Oct 2019 7.521976e+12
+## Nov 2019 7.491398e+12
+## Dec 2019 7.565753e+12
+## Jan 2020 7.545399e+12
+## Feb 2020 7.212222e+12
+## Mar 2020 8.100570e+12
+## Apr 2020 7.577544e+12
+## May 2020 7.313275e+12
+## Jun 2020 7.852690e+12
+## Jul 2020 7.598834e+12
+## Aug 2020 7.626874e+12
+## Sep 2020 7.644746e+12
+## Oct 2020 7.805679e+12
+## Nov 2020 7.340772e+12
+## Dec 2020 7.427901e+12
+## Jan 2021 7.561133e+12
+## Feb 2021 7.616939e+12
+## Mar 2021 7.613438e+12
+## Apr 2021 7.586914e+12
+## May 2021 7.548052e+12
+## Jun 2021 7.545705e+12
+## Jul 2021 7.539354e+12
+## Aug 2021 7.516734e+12
+## Sep 2021 7.527965e+12
+## Oct 2021 7.563203e+12
+## Nov 2021 7.529698e+12
+## Dec 2021 7.477176e+12
+## Jan 2022 7.490395e+12
+## Feb 2022 7.473057e+12
+## Mar 2022 7.439036e+12
+## Apr 2022 7.421486e+12
+## May 2022 7.410294e+12
+## Jun 2022 7.385566e+12
+## Jul 2022 7.381260e+12
+## Aug 2022 7.371684e+12
+## Sep 2022 7.414113e+12
+## Oct 2022 7.432210e+12
+## Nov 2022 7.416511e+12
+## Jan 2023 7.429574e+12
+## Feb 2023 7.427371e+12
+## Mar 2023 7.454445e+12
+## Apr 2023 7.493430e+12
+\end{verbatim}
+
+Ahora veamoslo en la grafica
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(lineas\_totales}\SpecialCharTok{+}\FunctionTok{length}\NormalTok{(mod\_jordan))}
+\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{as.vector}\NormalTok{(Z),mod\_jordan)}
+\FunctionTok{plot}\NormalTok{(x[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{lineas\_totales], y[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{lineas\_totales],}\AttributeTok{col =} \StringTok{"blue"}\NormalTok{, }\AttributeTok{type=}\StringTok{"l"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{( x[(lineas\_totales)}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(x)], y[(lineas\_totales)}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(x)], }\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-60-1.pdf}
 
   \bibliography{book.bib,packages.bib}
 

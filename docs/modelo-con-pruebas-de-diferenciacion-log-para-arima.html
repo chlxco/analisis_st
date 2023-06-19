@@ -6,14 +6,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Capitulo 7 Modelo con Pruebas de diferenciacion log para ARIMA | Bookdown - Grupo B</title>
 <meta name="author" content="Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J">
-<meta name="description" content="Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo. ##        Jan     Feb     Mar     Apr...">
+<meta name="description" content="Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo. ## ## Augmented Dickey-Fuller Test ##...">
 <meta name="generator" content="bookdown 0.33 with bs4_book()">
 <meta property="og:title" content="Capitulo 7 Modelo con Pruebas de diferenciacion log para ARIMA | Bookdown - Grupo B">
 <meta property="og:type" content="book">
-<meta property="og:description" content="Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo. ##        Jan     Feb     Mar     Apr...">
+<meta property="og:description" content="Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo. ## ## Augmented Dickey-Fuller Test ##...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Capitulo 7 Modelo con Pruebas de diferenciacion log para ARIMA | Bookdown - Grupo B">
-<meta name="twitter:description" content="Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo. ##        Jan     Feb     Mar     Apr...">
+<meta name="twitter:description" content="Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo. ## ## Augmented Dickey-Fuller Test ##...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -50,6 +50,8 @@
 <li><a class="" href="modelos-logaritmicos-prophet-y-otros.html"><span class="header-section-number">6</span> Modelos Logaritmicos, Prophet y otros</a></li>
 <li><a class="" href="references.html">References</a></li>
 <li><a class="active" href="modelo-con-pruebas-de-diferenciacion-log-para-arima.html"><span class="header-section-number">7</span> Modelo con Pruebas de diferenciacion log para ARIMA</a></li>
+<li><a class="" href="modelos-de-redes-neuronales-recurrentes.html"><span class="header-section-number">8</span> Modelos de Redes Neuronales Recurrentes</a></li>
+<li><a class="" href="jordan.html"><span class="header-section-number">9</span> Jordan</a></li>
 </ul>
 
         <div class="book-extra">
@@ -62,28 +64,7 @@
 <span class="header-section-number">Capitulo 7</span> Modelo con Pruebas de diferenciacion log para ARIMA<a class="anchor" aria-label="anchor" href="#modelo-con-pruebas-de-diferenciacion-log-para-arima"><i class="fas fa-link"></i></a>
 </h1>
 <p>Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo.</p>
-<pre><code>##               Jan          Feb          Mar          Apr          May
-## 2018 2.562223e+12 2.601532e+12 2.653315e+12 2.717915e+12 2.852608e+12
-## 2019 3.732137e+12 3.810740e+12 3.923380e+12 3.995810e+12 4.092819e+12
-## 2020 2.022405e+12 4.295886e+12 4.304185e+12 4.195404e+12 4.177219e+12
-## 2021 4.369300e+12 4.478002e+12 4.595047e+12 4.627874e+12 4.705783e+12
-## 2022 6.351501e+12 6.555819e+12 6.739823e+12 6.925001e+12 7.132542e+12
-## 2023 8.083445e+12 7.951094e+12 7.812947e+12 7.765132e+12             
-##               Jun          Jul          Aug          Sep          Oct
-## 2018 2.986446e+12 3.102493e+12 3.196138e+12 3.272388e+12 3.394038e+12
-## 2019 4.164386e+12 4.198177e+12 4.267921e+12 4.307340e+12 4.113506e+12
-## 2020 4.164434e+12 4.082507e+12 4.067948e+12 4.120926e+12 4.182877e+12
-## 2021 4.846473e+12 4.983882e+12 5.091594e+12 5.385784e+12 5.730839e+12
-## 2022 7.435792e+12 7.529328e+12 7.670212e+12 7.789046e+12 7.903472e+12
-## 2023                                                                 
-##               Nov          Dec
-## 2018 3.617129e+12 3.690229e+12
-## 2019 4.314034e+12 4.455499e+12
-## 2020 4.344709e+12 4.384188e+12
-## 2021 5.955740e+12 6.164705e+12
-## 2022 8.115444e+12 8.154174e+12
-## 2023</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-39-1.png" width="672"><img src="bookdown-demo_files/figure-html/unnamed-chunk-39-2.png" width="672"><img src="bookdown-demo_files/figure-html/unnamed-chunk-39-3.png" width="672"></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-42-1.png" width="672"><img src="bookdown-demo_files/figure-html/unnamed-chunk-42-2.png" width="672"></p>
 <pre><code>## 
 ##  Augmented Dickey-Fuller Test
 ## 
@@ -102,7 +83,7 @@
 ## data:  mmits
 ## Dickey-Fuller = -5.3844, Lag order = 3, p-value = 0.01
 ## alternative hypothesis: stationary</code></pre>
-<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-39-4.png" width="672"></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-42-3.png" width="672"></div>
 <pre><code>## 
 ##  Augmented Dickey-Fuller Test
 ## 
@@ -148,7 +129,7 @@
 ## Feb 2024     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
 ## Mar 2024     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
 ## Apr 2024     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051</code></pre>
-<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-39-5.png" width="672"></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-42-4.png" width="672"></div>
 <pre><code>## Series: mmits 
 ## Regression with ARIMA(2,0,0) errors 
 ## 
@@ -175,13 +156,13 @@
 ## 8    LS  31 2020:08 -0.17998  -8.190
 ## 9    LS  35 2020:12 -0.07327  -5.620
 ## 10   TC  44 2021:09  0.05214   3.608</code></pre>
-<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-39-6.png" width="672"></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-42-5.png" width="672"></div>
 <div id="modelos-1" class="section level2" number="7.1">
 <h2>
 <span class="header-section-number">7.1</span> Modelos<a class="anchor" aria-label="anchor" href="#modelos-1"><i class="fas fa-link"></i></a>
 </h2>
 <p>segundo paso</p>
-<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># </span></span>
 <span><span class="co"># mi.Arima &lt;- auto.arima(f.dds, trace = T)</span></span>
 <span><span class="co"># mi.Arima</span></span>
@@ -194,7 +175,7 @@
 </div>
   <div class="chapter-nav">
 <div class="prev"><a href="references.html">References</a></div>
-<div class="empty"></div>
+<div class="next"><a href="modelos-de-redes-neuronales-recurrentes.html"><span class="header-section-number">8</span> Modelos de Redes Neuronales Recurrentes</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
@@ -216,7 +197,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Bookdown - Grupo B</strong>" was written by Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J. It was last built on 2023-06-05.</p>
+    <p>"<strong>Bookdown - Grupo B</strong>" was written by Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J. It was last built on 2023-06-18.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -28,6 +28,14 @@ modelo-basado-solamente-en-el-moving-average-ma.-parametros-p-y-d-en-0
 modelo-arima.-validacion-por-medio-de-la-funcion-auto.arima
 analisis
 prediccion-del-modelo
+diferenciacion-logaritmica
+diferenciacion-por-logaritmo
+procedamos-a-calular-el-modelo-arima-mas-optimo
+revisemos-el-efecto-de-los-outliers
+por-ultimo-haremos-un-check-de-los-residuos.
 modelos-logaritmicos-prophet-y-otros
 modelo-con-pruebas-de-diferenciacion-log-para-arima
 modelos-1
+modelos-de-redes-neuronales-recurrentes
+elman
+jordan

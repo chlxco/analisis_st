@@ -1,0 +1,166 @@
+# Modelos de Redes Neuronales Recurrentes
+
+## Elman
+
+Abro la fuente
+
+```{r}
+library(forecast)
+library(timsac)
+library(ggplot2)
+library(changepoint)
+library(readxl)
+library(RSNNS)
+library(quantmod)
+
+
+datos <- read_excel("./fuente/BASE_Clientes.xlsx")
+datos
+# Cambio el tipo de dato de la columna temporal(Periodo)
+datos$Periodo <- as.Date(paste0(datos$Periodo, "-01"))
+
+# Consolido el df en funcion de la variable de interes (Saldo)
+datos <- aggregate(Saldo ~ Periodo, data = datos, sum)
+
+# Genero mi objeto ts para el analisis
+indice.ts <- ts(datos$Saldo, start = c(2018,1), frequency = 12)
+indice.ts
+```
+
+Ahora convierto mis datos a una time series  y luego para el procesamiento de la red neuronal la guardare en una ts normalizada entre 0 y 1
+
+```{r}
+Z <- as.ts(indice.ts,F)
+S <- (Z-min(Z))/(max(Z)-min(Z))
+plot(S)
+
+```
+Ahora dividiremos el el numero de filas totales
+
+```{r}
+lineas_totales <-length(S)
+t_train <- round(lineas_totales*0.75, digits=0)
+l_train <- 0:(t_train-1) 
+t_test <- (t_train):lineas_totales
+t_test
+
+```
+Ahora crearemos un df cn los nodos que adelantaran un valor en el futuro
+
+```{r}
+y <- as.zoo(S)
+x1 <- Lag(y, k = 1)
+x2 <- Lag(y, k = 2)
+x3 <- Lag(y, k = 3)
+x4 <- Lag(y, k = 4)
+x5 <- Lag(y, k = 5)
+x6 <- Lag(y, k = 6)
+x7 <- Lag(y, k = 7)
+x8 <- Lag(y, k = 8)
+x9 <- Lag(y, k = 9)
+x10 <- Lag(y, k = 10)
+x11 <- Lag(y, k = 11)
+x12 <- Lag(y, k = 12)
+slogN <- cbind(y,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12)
+# Elimenemos los valores desplazados
+slogN <- slogN[-(1:12),]
+```
+
+Acto seguido, especificaremos los inputs y outputs de la red
+
+```{r}
+inputs <- slogN[,2:13]
+outputs <- slogN[,1]
+
+```
+
+Con la informaion en su lugar, procedamos a crear la red de Elman
+
+```{r}
+set.seed(44)
+fit <- fit<-elman(inputs[t_train],outputs[t_train],size=c(7,3),learnFuncParams=c(0.1),maxit=1000)
+```
+Veamos como evoluciona el error
+```{r}
+plotIterativeError(fit, main = "Iterative Error for 7,3 NeuronError Iterativo para neuronas 7,3")
+```
+Asi podemos ver que el error converge extremadamente rapido
+
+Ahora procederemos a hacer la la pred con el resto de terminosde la seria
+
+```{r}
+y <- as.vector(outputs[-t_test])
+plot(y,type="l")
+pred <- predict(fit, inputs[-t_test])
+lines(pred,col = "red")
+```
+ahora predicciones
+```{r}
+predictions <- predict(fit,inputs[-t_train])
+```
+desnormalizamos datos
+
+```{r}
+mod5 <- predictions*(max(Z)-min(Z))+min(Z)
+mod5
+```
+
+veamos los valores
+
+```{r}
+x <- 1:(lineas_totales+length(mod5))
+y <- c(as.vector(Z),mod5)
+plot(x[1:lineas_totales], y[1:lineas_totales],col = "blue", type="l")
+lines( x[(lineas_totales):length(x)], y[(lineas_totales):length(x)], col="red")
+```
+
+# Jordan
+
+```{r}
+fit<-jordan(inputs[t_train],
+    outputs[t_train],
+    size=6,
+    learnFuncParams=c(0.01),
+    maxit=100000)
+```
+
+Ploteamos el error iterativo de 7 neuronas:
+```{r}
+plotIterativeError(fit, main = "Iterative Error for 7 Neuron")
+```
+
+
+Veamos ahora el error
+
+```{r}
+y <- as.vector(outputs[-t_test])
+plot(y,type="l")
+pred <- predict(fit, inputs[-t_test])
+lines(pred,col = "red")
+```
+Procedemos con la prediccion
+```{r}
+predictions <- predict(fit,inputs[-t_train])
+mod_jordan <- predictions*(max(Z)-min(Z))+min(Z)
+mod_jordan
+```
+
+Ahora veamoslo en la grafica
+
+```{r}
+x <- 1:(lineas_totales+length(mod_jordan))
+y <- c(as.vector(Z),mod_jordan)
+plot(x[1:lineas_totales], y[1:lineas_totales],col = "blue", type="l")
+lines( x[(lineas_totales):length(x)], y[(lineas_totales):length(x)], col="red")
+```
+
+
+
+
+
+
+
+
+
+
+

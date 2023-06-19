@@ -1,16 +1,19 @@
 # Modelo ARIMA
+##Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo.
 
-Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo.
+En esta seccion, intentaremos abordar el algoritmo ARIMA dentro de la serie de tiempo. Primero consrtruiremos el modelo optimo AR, luego MA y posteriormente utilizaremos la funcion Autoarima para encontrar los parametros optimos.
 
 ## Modelos
 
 ```{r echo=FALSE, warning=FALSE}
 library(fpp2)
+library(tseries) 
+
 print("Verificamos la estacionalidad del modelo (p<0.05)")
 adf.test(modelo_ts)
 
 ```
-Como resultado, dentro de nuestros modelos ARIMA podemos asegurar que el parametro d = 0.
+Como se puede observar, se rechaza la hipotesis ho y aceptamos la alterna. xxxxxxx , dentro de nuestros modelos ARIMA podemos asegurar que el parametro d = 0.
 
 ### Modelo basado solamente en Auro Regresion (AR). Debemos ubicar los parametros d y q en 0.
 
@@ -46,7 +49,7 @@ Utilizando el grafico ACF revisamos cual seria el punto de inflexion y luego pro
 ```{r echo=FALSE, warning=FALSE}
 acf(estacion.ts)
 
-print("Observamos que el 2ndo lag contiene el ultimo cambio significativo. Ademas el 1ero es descartable siempre ya que es comparable solo consigo mismo.")
+print("Observamos que el 2do lag contiene el ultimo cambio significativo. Ademas el 1ero es descartable siempre ya que es comparable solo consigo mismo.")
 
 #Creacion del modelo MA
 
@@ -96,12 +99,88 @@ pred.arima$mean
 
 
 ```
+
 Ahora hagamos las validaciones del modelo
+
 ```{r echo=FALSE, warning=FALSE}
 library(tsoutliers)
 library(zoo)
+
+print("Error in solve.default(res$hessian * n.used, A) :
+Lapack routine dgesv: system is exactly singular: U[1,1] = 0")
+
+print ( "Al aplicar la funcion tso para encontrar los outliers, nos arroja un error de singularidad, por lo que descarta el uso de diferenciacion para convertir el ts a estacionario.")
+
 #outliers_excess_ts <- tso(estacion.ts, types = c("TC", "AO", "LS", "IO", "SLS"))
 
 
 ```
+
+### Diferenciacion Logaritmica
+
+```{r}
+# Genero mi objeto ts para el analisis
+indice.ts <- ts(datos$Saldo, start = c(2018,1), frequency = 12)
+plot(indice.ts)
+```
+
+#### Diferenciacion por Logaritmo
+
+```{r}
+
+mits <- log(indice.ts)
+
+# Prueba de Estacionariedad
+adf.test(mits)
+print("Continua siendo No-Estacionaria. Procederemos a diferenciarla")
+
+mmits <- diff(mits)
+adf.test(mmits)
+tsdisplay(mmits)
+
+adf.test(mmits)
+
+```
+Finalmente podemos recharar la h0 ya que p<0.05
+
+#### Procedamos a calular el modelo Arima mas optimo:
+
+```{r}
+
+mimod <- auto.arima(mmits, trace = T)
+mimod
+
+# Hagamos la prediccion de los siguientes 12 meses.
+mifore <- forecast(mimod, h=12)
+mifore
+plot(mifore)
+```
+
+### Revisemos el efecto de los outliers:
+
+```{r}
+outliers_excess_ts <- tso(mmits)
+outliers_excess_ts
+plot(outliers_excess_ts)
+
+
+```
+
+
+
+
+La gráfica de Outliers muestra los 10 valores que difieren significativamente del patrón general de la serie de tiempo. 
+
+#### Por ultimo haremos un check de los residuos.
+
+```{r}
+checkresiduals(mimod)
+residuales <- mimod$residuals
+
+t.test(residuales, alternative='two.sided', conf.level=0.95, mu=0)
+
+```
+Con esta grafica podemos concluir que los residuales presentan una distribucion normal, que los errores residuales se mantienen dentro del rango de significancia aceptable (0.95) y por medio de un t-test pudimos corroborar que la media de los residuos es 0.
+
+
 

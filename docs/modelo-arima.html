@@ -6,14 +6,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Capitulo 5 Modelo ARIMA | Bookdown - Grupo B</title>
 <meta name="author" content="Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J">
-<meta name="description" content="Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo.  5.1 Modelos ## ── Attaching packages...">
+<meta name="description" content="##Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo. En esta seccion, intentaremos...">
 <meta name="generator" content="bookdown 0.33 with bs4_book()">
 <meta property="og:title" content="Capitulo 5 Modelo ARIMA | Bookdown - Grupo B">
 <meta property="og:type" content="book">
-<meta property="og:description" content="Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo.  5.1 Modelos ## ── Attaching packages...">
+<meta property="og:description" content="##Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo. En esta seccion, intentaremos...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Capitulo 5 Modelo ARIMA | Bookdown - Grupo B">
-<meta name="twitter:description" content="Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo.  5.1 Modelos ## ── Attaching packages...">
+<meta name="twitter:description" content="##Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo. En esta seccion, intentaremos...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -50,6 +50,8 @@
 <li><a class="" href="modelos-logaritmicos-prophet-y-otros.html"><span class="header-section-number">6</span> Modelos Logaritmicos, Prophet y otros</a></li>
 <li><a class="" href="references.html">References</a></li>
 <li><a class="" href="modelo-con-pruebas-de-diferenciacion-log-para-arima.html"><span class="header-section-number">7</span> Modelo con Pruebas de diferenciacion log para ARIMA</a></li>
+<li><a class="" href="modelos-de-redes-neuronales-recurrentes.html"><span class="header-section-number">8</span> Modelos de Redes Neuronales Recurrentes</a></li>
+<li><a class="" href="jordan.html"><span class="header-section-number">9</span> Jordan</a></li>
 </ul>
 
         <div class="book-extra">
@@ -61,7 +63,8 @@
 <h1>
 <span class="header-section-number">Capitulo 5</span> Modelo ARIMA<a class="anchor" aria-label="anchor" href="#modelo-arima"><i class="fas fa-link"></i></a>
 </h1>
-<p>Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo.</p>
+<p>##Metodología Box-Jenkins para identificar modelos autoregresivos integrados de media móvil (ARIMA) para analizar y predecir valores futuros de serie de tiempo.</p>
+<p>En esta seccion, intentaremos abordar el algoritmo ARIMA dentro de la serie de tiempo. Primero consrtruiremos el modelo optimo AR, luego MA y posteriormente utilizaremos la funcion Autoarima para encontrar los parametros optimos.</p>
 <div id="modelos" class="section level2" number="5.1">
 <h2>
 <span class="header-section-number">5.1</span> Modelos<a class="anchor" aria-label="anchor" href="#modelos"><i class="fas fa-link"></i></a>
@@ -76,7 +79,7 @@
 ## data:  modelo_ts
 ## Dickey-Fuller = -3.7052, Lag order = 3, p-value = 0.0316
 ## alternative hypothesis: stationary</code></pre>
-<p>Como resultado, dentro de nuestros modelos ARIMA podemos asegurar que el parametro d = 0.</p>
+<p>Como se puede observar, se rechaza la hipotesis ho y aceptamos la alterna. xxxxxxx , dentro de nuestros modelos ARIMA podemos asegurar que el parametro d = 0.</p>
 <div id="modelo-basado-solamente-en-auro-regresion-ar.-debemos-ubicar-los-parametros-d-y-q-en-0." class="section level3" number="5.1.1">
 <h3>
 <span class="header-section-number">5.1.1</span> Modelo basado solamente en Auro Regresion (AR). Debemos ubicar los parametros d y q en 0.<a class="anchor" aria-label="anchor" href="#modelo-basado-solamente-en-auro-regresion-ar.-debemos-ubicar-los-parametros-d-y-q-en-0."><i class="fas fa-link"></i></a>
@@ -106,7 +109,7 @@
 </h3>
 <p>Utilizando el grafico ACF revisamos cual seria el punto de inflexion y luego procedemos a crear nuestro modelo</p>
 <div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-27-1.png" width="672"></div>
-<pre><code>## [1] "Observamos que el 2ndo lag contiene el ultimo cambio significativo. Ademas el 1ero es descartable siempre ya que es comparable solo consigo mismo."</code></pre>
+<pre><code>## [1] "Observamos que el 2do lag contiene el ultimo cambio significativo. Ademas el 1ero es descartable siempre ya que es comparable solo consigo mismo."</code></pre>
 <pre><code>## 
 ## Call:
 ## arima(x = estacion.ts, order = c(0, 0, 2), include.mean = F)
@@ -226,7 +229,199 @@
 ## 2023 -41256213885 -37226560069
 ## 2024</code></pre>
 <p>Ahora hagamos las validaciones del modelo</p>
+<pre><code>## [1] "Error in solve.default(res$hessian * n.used, A) :\nLapack routine dgesv: system is exactly singular: U[1,1] = 0"</code></pre>
+<pre><code>## [1] "Al aplicar la funcion tso para encontrar los outliers, nos arroja un error de singularidad, por lo que descarta el uso de diferenciacion para convertir el ts a estacionario."</code></pre>
+</div>
+<div id="diferenciacion-logaritmica" class="section level3" number="5.3.2">
+<h3>
+<span class="header-section-number">5.3.2</span> Diferenciacion Logaritmica<a class="anchor" aria-label="anchor" href="#diferenciacion-logaritmica"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Genero mi objeto ts para el analisis</span></span>
+<span><span class="va">indice.ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">datos</span><span class="op">$</span><span class="va">Saldo</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2018</span>,<span class="fl">1</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">indice.ts</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-31-1.png" width="672"></div>
+<div id="diferenciacion-por-logaritmo" class="section level4" number="5.3.2.1">
+<h4>
+<span class="header-section-number">5.3.2.1</span> Diferenciacion por Logaritmo<a class="anchor" aria-label="anchor" href="#diferenciacion-por-logaritmo"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">indice.ts</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Prueba de Estacionariedad</span></span>
+<span><span class="fu">adf.test</span><span class="op">(</span><span class="va">mits</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  mits
+## Dickey-Fuller = -1.9544, Lag order = 3, p-value = 0.5934
+## alternative hypothesis: stationary</code></pre>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"Continua siendo No-Estacionaria. Procederemos a diferenciarla"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] "Continua siendo No-Estacionaria. Procederemos a diferenciarla"</code></pre>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mmits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">mits</span><span class="op">)</span></span>
+<span><span class="fu">adf.test</span><span class="op">(</span><span class="va">mmits</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Warning in adf.test(mmits): p-value smaller than printed p-value</code></pre>
+<pre><code>## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  mmits
+## Dickey-Fuller = -5.3844, Lag order = 3, p-value = 0.01
+## alternative hypothesis: stationary</code></pre>
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/tsdisplay.html">tsdisplay</a></span><span class="op">(</span><span class="va">mmits</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-32-1.png" width="672"></div>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">adf.test</span><span class="op">(</span><span class="va">mmits</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Warning in adf.test(mmits): p-value smaller than printed p-value</code></pre>
+<pre><code>## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  mmits
+## Dickey-Fuller = -5.3844, Lag order = 3, p-value = 0.01
+## alternative hypothesis: stationary</code></pre>
+<p>Finalmente podemos recharar la h0 ya que p&lt;0.05</p>
+</div>
+<div id="procedamos-a-calular-el-modelo-arima-mas-optimo" class="section level4" number="5.3.2.2">
+<h4>
+<span class="header-section-number">5.3.2.2</span> Procedamos a calular el modelo Arima mas optimo:<a class="anchor" aria-label="anchor" href="#procedamos-a-calular-el-modelo-arima-mas-optimo"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mimod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/auto.arima.html">auto.arima</a></span><span class="op">(</span><span class="va">mmits</span>, trace <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+##  ARIMA(2,0,2)(1,0,1)[12] with non-zero mean : Inf
+##  ARIMA(0,0,0)            with non-zero mean : -65.53048
+##  ARIMA(1,0,0)(1,0,0)[12] with non-zero mean : -78.58046
+##  ARIMA(0,0,1)(0,0,1)[12] with non-zero mean : -88.02136
+##  ARIMA(0,0,0)            with zero mean     : -66.66478
+##  ARIMA(0,0,1)            with non-zero mean : -90.27983
+##  ARIMA(0,0,1)(1,0,0)[12] with non-zero mean : -88.01915
+##  ARIMA(0,0,1)(1,0,1)[12] with non-zero mean : Inf
+##  ARIMA(1,0,1)            with non-zero mean : -88.46913
+##  ARIMA(0,0,2)            with non-zero mean : -88.62053
+##  ARIMA(1,0,0)            with non-zero mean : -80.81767
+##  ARIMA(1,0,2)            with non-zero mean : -86.98859
+##  ARIMA(0,0,1)            with zero mean     : -83.77733
+## 
+##  Best model: ARIMA(0,0,1)            with non-zero mean</code></pre>
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mimod</span></span></code></pre></div>
+<pre><code>## Series: mmits 
+## ARIMA(0,0,1) with non-zero mean 
+## 
+## Coefficients:
+##           ma1    mean
+##       -0.6742  0.0182
+## s.e.   0.0846  0.0047
+## 
+## sigma^2 = 0.01291:  log likelihood = 48.34
+## AIC=-90.69   AICc=-90.28   BIC=-84.26</code></pre>
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Hagamos la prediccion de los siguientes 12 meses.</span></span>
+<span><span class="va">mifore</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/forecast.html">forecast</a></span><span class="op">(</span><span class="va">mimod</span>, h<span class="op">=</span><span class="fl">12</span><span class="op">)</span></span>
+<span><span class="va">mifore</span></span></code></pre></div>
+<pre><code>##          Point Forecast       Lo 80     Hi 80      Lo 95     Hi 95
+## May 2023     0.06780752 -0.07779118 0.2134062 -0.1548665 0.2904815
+## Jun 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Jul 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Aug 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Sep 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Oct 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Nov 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Dec 2023     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Jan 2024     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Feb 2024     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Mar 2024     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051
+## Apr 2024     0.01815148 -0.15744629 0.1937492 -0.2504021 0.2867051</code></pre>
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mifore</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-33-1.png" width="672"></div>
+</div>
+</div>
+<div id="revisemos-el-efecto-de-los-outliers" class="section level3" number="5.3.3">
+<h3>
+<span class="header-section-number">5.3.3</span> Revisemos el efecto de los outliers:<a class="anchor" aria-label="anchor" href="#revisemos-el-efecto-de-los-outliers"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">outliers_excess_ts</span> <span class="op">&lt;-</span> <span class="fu">tso</span><span class="op">(</span><span class="va">mmits</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Warning in locate.outliers.iloop(resid = resid, pars = pars, cval = cval, :
+## stopped when 'maxit.iloop' was reached
 
+## Warning in locate.outliers.iloop(resid = resid, pars = pars, cval = cval, :
+## stopped when 'maxit.iloop' was reached
+
+## Warning in locate.outliers.iloop(resid = resid, pars = pars, cval = cval, :
+## stopped when 'maxit.iloop' was reached
+
+## Warning in locate.outliers.iloop(resid = resid, pars = pars, cval = cval, :
+## stopped when 'maxit.iloop' was reached</code></pre>
+<pre><code>## Warning in locate.outliers.oloop(y = y, fit = fit, types = types, cval = cval,
+## : stopped when 'maxit.oloop = 4' was reached</code></pre>
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">outliers_excess_ts</span></span></code></pre></div>
+<pre><code>## Series: mmits 
+## Regression with ARIMA(2,0,0) errors 
+## 
+## Coefficients:
+##           ar1      ar2  intercept     TC19    LS20     TC21    AO22     TC23
+##       -1.4393  -0.6456     0.0292  -0.0961  0.2422  -0.6172  0.7346  -0.4820
+## s.e.   0.0981   0.0953     0.0038   0.0226  0.0286   0.0719  0.0863   0.0285
+##         AO25     TC28    LS31     LS35    TC44
+##       0.6319  -0.2536  -0.180  -0.0733  0.0521
+## s.e.  0.0492   0.0384   0.022   0.0130  0.0145
+## 
+## sigma^2 = 0.002827:  log likelihood = 101.48
+## AIC=-174.96   AICc=-166.21   BIC=-144.96
+## 
+## Outliers:
+##    type ind    time  coefhat   tstat
+## 1    TC  19 2019:08 -0.09610  -4.262
+## 2    LS  20 2019:09  0.24224   8.461
+## 3    TC  21 2019:10 -0.61716  -8.580
+## 4    AO  22 2019:11  0.73456   8.516
+## 5    TC  23 2019:12 -0.48196 -16.888
+## 6    AO  25 2020:02  0.63191  12.842
+## 7    TC  28 2020:05 -0.25360  -6.606
+## 8    LS  31 2020:08 -0.17998  -8.190
+## 9    LS  35 2020:12 -0.07327  -5.620
+## 10   TC  44 2021:09  0.05214   3.608</code></pre>
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">outliers_excess_ts</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-34-1.png" width="672"></div>
+<p>La gráfica de Outliers muestra los 10 valores que difieren significativamente del patrón general de la serie de tiempo.</p>
+<div id="por-ultimo-haremos-un-check-de-los-residuos." class="section level4" number="5.3.3.1">
+<h4>
+<span class="header-section-number">5.3.3.1</span> Por ultimo haremos un check de los residuos.<a class="anchor" aria-label="anchor" href="#por-ultimo-haremos-un-check-de-los-residuos."><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/checkresiduals.html">checkresiduals</a></span><span class="op">(</span><span class="va">mimod</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-35-1.png" width="672"></div>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(0,0,1) with non-zero mean
+## Q* = 2.0482, df = 12, p-value = 0.9993
+## 
+## Model df: 1.   Total lags used: 13</code></pre>
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">residuales</span> <span class="op">&lt;-</span> <span class="va">mimod</span><span class="op">$</span><span class="va">residuals</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">residuales</span>, alternative<span class="op">=</span><span class="st">'two.sided'</span>, conf.level<span class="op">=</span><span class="fl">0.95</span>, mu<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  residuales
+## t = 0.047608, df = 62, p-value = 0.9622
+## alternative hypothesis: true mean is not equal to 0
+## 95 percent confidence interval:
+##  -0.02770451  0.02905634
+## sample estimates:
+##    mean of x 
+## 0.0006759195</code></pre>
+<p>Con esta grafica podemos concluir que los residuales presentan una distribucion normal, que los errores residuales se mantienen dentro del rango de significancia aceptable (0.95) y por medio de un t-test pudimos corroborar que la media de los residuos es 0.</p>
+
+</div>
 </div>
 </div>
 </div>
@@ -245,7 +440,11 @@
 </li>
 <li><a class="nav-link" href="#modelo-arima.-validacion-por-medio-de-la-funcion-auto.arima"><span class="header-section-number">5.2</span> Modelo ARIMA. Validacion por medio de la funcion auto.arima</a></li>
 <li>
-<a class="nav-link" href="#analisis"><span class="header-section-number">5.3</span> Analisis</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#prediccion-del-modelo"><span class="header-section-number">5.3.1</span> Prediccion del Modelo</a></li></ul>
+<a class="nav-link" href="#analisis"><span class="header-section-number">5.3</span> Analisis</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#prediccion-del-modelo"><span class="header-section-number">5.3.1</span> Prediccion del Modelo</a></li>
+<li><a class="nav-link" href="#diferenciacion-logaritmica"><span class="header-section-number">5.3.2</span> Diferenciacion Logaritmica</a></li>
+<li><a class="nav-link" href="#revisemos-el-efecto-de-los-outliers"><span class="header-section-number">5.3.3</span> Revisemos el efecto de los outliers:</a></li>
+</ul>
 </li>
 </ul>
 
@@ -263,7 +462,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Bookdown - Grupo B</strong>" was written by Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J. It was last built on 2023-06-05.</p>
+    <p>"<strong>Bookdown - Grupo B</strong>" was written by Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J. It was last built on 2023-06-18.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

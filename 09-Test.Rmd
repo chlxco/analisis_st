@@ -17,14 +17,15 @@ datos <- aggregate(Saldo ~ Periodo, data = datos, sum)
 # Genero mi objeto ts para el analisis
 indice.ts <- ts(datos$Saldo, start = c(2018,1), frequency = 12)
 plot(indice.ts)
-#indice.ts<-tsclean(indice.ts)
-print(indice.ts)
-plot(indice.ts)
-Acf(indice.ts)
-pacf(indice.ts)
+
+# Revisamos xxxxx total y parcial 
+tsdisplay(indice.ts)
 adf.test(indice.ts)
 
+# Diferenciacion por Logaritmo
 mits <- log(indice.ts)
+
+# Prueba de Estacionariedad
 adf.test(mits)
 mmits <- diff(mits)
 adf.test(mmits)
