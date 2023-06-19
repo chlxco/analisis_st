@@ -114,7 +114,7 @@ plot(x[1:lineas_totales], y[1:lineas_totales],col = "blue", type="l")
 lines( x[(lineas_totales):length(x)], y[(lineas_totales):length(x)], col="red")
 ```
 
-# Jordan
+## Jordan
 
 ```{r}
 fit<-jordan(inputs[t_train],
