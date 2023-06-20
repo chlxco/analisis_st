@@ -36,4 +36,12 @@ por-ultimo-haremos-un-check-de-los-residuos.
 modelos-logaritmicos-prophet-y-otros
 modelos-de-redes-neuronales-recurrentes
 elman
+carga-de-datos
+creacion-de-la-ts-normalizada
+division-de-la-serie.
+creacion-de-nodos.
+entrenamiento-del-modelo-elman
 jordan
+entrenamiento-del-modelo-jordan
+error-iterativo
+resultados-de-la-prediccion

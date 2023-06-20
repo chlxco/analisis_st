@@ -124,7 +124,7 @@
 
 \title{Bookdown - Grupo B}
 \author{Andrés Peralta Alean, David Barrera Barrera, Luis Gonzalo Guerra J}
-\date{2023-06-18}
+\date{2023-06-19}
 
 \begin{document}
 \maketitle
@@ -1359,7 +1359,10 @@ Enfoque de regresión lineal clásico:
 \hypertarget{elman}{%
 \section{Elman}\label{elman}}
 
-Abro la fuente
+\hypertarget{carga-de-datos}{%
+\subsection{Carga de Datos}\label{carga-de-datos}}
+
+Para empezar el ejercicio, vamos a cargar nuevamente nuestros datos fuente. Esto con el fin de evitar cualquier transformacion anterior que pueda distorsionar la serie de tiempo original.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1444,7 +1447,10 @@ Abro la fuente
 ## 2023
 \end{verbatim}
 
-Ahora convierto mis datos a una time series y luego para el procesamiento de la red neuronal la guardare en una ts normalizada entre 0 y 1
+\hypertarget{creacion-de-la-ts-normalizada}{%
+\subsection{Creacion de la TS normalizada}\label{creacion-de-la-ts-normalizada}}
+
+Una vez hecho esto, convierto mis datos a una time series (Z). Como estaremos trabajando con Redes Neuronales Recurrentes, normalizaremos la serie para que sus datos fluctuen entre 0 y 1.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1455,7 +1461,11 @@ Ahora convierto mis datos a una time series y luego para el procesamiento de la 
 \end{Shaded}
 
 \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-43-1.pdf}
-Ahora dividiremos el el numero de filas totales
+
+\hypertarget{division-de-la-serie.}{%
+\subsection{Division de la serie.}\label{division-de-la-serie.}}
+
+Ahora dividiremos el el numero de filas totales para trabajar con nuestros sets de entrenamiento y testing.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1471,7 +1481,10 @@ Ahora dividiremos el el numero de filas totales
 ##  [1] 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64
 \end{verbatim}
 
-Ahora crearemos un df cn los nodos que adelantaran un valor en el futuro
+\hypertarget{creacion-de-nodos.}{%
+\subsection{Creacion de nodos.}\label{creacion-de-nodos.}}
+
+Ahora crearemos un df con los nodos que adelantaran un valor en el futuro
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1503,12 +1516,15 @@ Acto seguido, especificaremos los inputs y outputs de la red
 \end{Highlighting}
 \end{Shaded}
 
-Con la informaion en su lugar, procedamos a crear la red de Elman
+\hypertarget{entrenamiento-del-modelo-elman}{%
+\subsection{Entrenamiento del modelo Elman}\label{entrenamiento-del-modelo-elman}}
+
+Con la informaion en su lugar, procedamos a crear la red de Elman. Despues de varias pruebas, el numero de neuronas y profundidad queda en 110 y 5 respectivamente.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{set.seed}\NormalTok{(}\DecValTok{44}\NormalTok{)}
-\NormalTok{fit }\OtherTok{\textless{}{-}}\NormalTok{ fit}\OtherTok{\textless{}{-}}\FunctionTok{elman}\NormalTok{(inputs[t\_train],outputs[t\_train],}\AttributeTok{size=}\FunctionTok{c}\NormalTok{(}\DecValTok{7}\NormalTok{,}\DecValTok{3}\NormalTok{),}\AttributeTok{learnFuncParams=}\FunctionTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{),}\AttributeTok{maxit=}\DecValTok{1000}\NormalTok{)}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{42}\NormalTok{)}
+\NormalTok{fit }\OtherTok{\textless{}{-}}\NormalTok{ fit}\OtherTok{\textless{}{-}}\FunctionTok{elman}\NormalTok{(inputs[t\_train],outputs[t\_train],}\AttributeTok{size=}\FunctionTok{c}\NormalTok{(}\DecValTok{110}\NormalTok{,}\DecValTok{5}\NormalTok{),}\AttributeTok{learnFuncParams=}\FunctionTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{),}\AttributeTok{maxit=}\DecValTok{100000}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1516,14 +1532,14 @@ Veamos como evoluciona el error
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plotIterativeError}\NormalTok{(fit, }\AttributeTok{main =} \StringTok{"Iterative Error for 7,3 NeuronError Iterativo para neuronas 7,3"}\NormalTok{)}
+\FunctionTok{plotIterativeError}\NormalTok{(fit, }\AttributeTok{main =} \StringTok{"Error Iterativo para neuronas 110,5"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-48-1.pdf}
-Asi podemos ver que el error converge extremadamente rapido
+Como podemos observar, el error converge extremadamente rapido.
 
-Ahora procederemos a hacer la la pred con el resto de terminosde la seria
+Ahora procederemos a hacer la la prediccion con el resto de terminos de la serie:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1535,7 +1551,9 @@ Ahora procederemos a hacer la la pred con el resto de terminosde la seria
 \end{Shaded}
 
 \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-49-1.pdf}
-ahora predicciones
+\#\#\# Prediccion
+
+Procedemos a hacer las predicciones con nuestra red
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1543,76 +1561,76 @@ ahora predicciones
 \end{Highlighting}
 \end{Shaded}
 
-desnormalizamos datos
+Desnormalizamos datos
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mod5 }\OtherTok{\textless{}{-}}\NormalTok{ predictions}\SpecialCharTok{*}\NormalTok{(}\FunctionTok{max}\NormalTok{(Z)}\SpecialCharTok{{-}}\FunctionTok{min}\NormalTok{(Z))}\SpecialCharTok{+}\FunctionTok{min}\NormalTok{(Z)}
-\NormalTok{mod5}
+\NormalTok{mod\_elman }\OtherTok{\textless{}{-}}\NormalTok{ predictions}\SpecialCharTok{*}\NormalTok{(}\FunctionTok{max}\NormalTok{(Z)}\SpecialCharTok{{-}}\FunctionTok{min}\NormalTok{(Z))}\SpecialCharTok{+}\FunctionTok{min}\NormalTok{(Z)}
+\NormalTok{mod\_elman}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ##                  [,1]
-## Jan 2019 7.479485e+12
-## Feb 2019 7.740388e+12
-## Mar 2019 7.873136e+12
-## Apr 2019 7.928784e+12
-## May 2019 7.941933e+12
-## Jun 2019 7.943447e+12
-## Jul 2019 7.948358e+12
-## Aug 2019 7.945146e+12
-## Sep 2019 7.939442e+12
-## Oct 2019 7.937759e+12
-## Nov 2019 7.920444e+12
-## Dec 2019 7.907079e+12
-## Jan 2020 7.936890e+12
-## Feb 2020 7.831769e+12
-## Mar 2020 7.738073e+12
-## Apr 2020 8.019925e+12
-## May 2020 7.972166e+12
-## Jun 2020 7.923414e+12
-## Jul 2020 7.970784e+12
-## Aug 2020 7.867600e+12
-## Sep 2020 7.793710e+12
-## Oct 2020 7.860149e+12
-## Nov 2020 7.885598e+12
-## Dec 2020 7.920199e+12
-## Jan 2021 8.008120e+12
-## Feb 2021 7.961386e+12
-## Mar 2021 7.909667e+12
-## Apr 2021 7.910477e+12
-## May 2021 7.914930e+12
-## Jun 2021 7.920344e+12
-## Jul 2021 7.939212e+12
-## Aug 2021 7.952321e+12
-## Sep 2021 7.956209e+12
-## Oct 2021 7.965167e+12
-## Nov 2021 7.983909e+12
-## Dec 2021 7.994656e+12
-## Jan 2022 7.995008e+12
-## Feb 2022 7.991864e+12
-## Mar 2022 7.984059e+12
-## Apr 2022 7.983623e+12
-## May 2022 7.990518e+12
-## Jun 2022 7.996664e+12
-## Jul 2022 8.005999e+12
-## Aug 2022 8.011570e+12
-## Sep 2022 7.995227e+12
-## Oct 2022 7.984048e+12
-## Nov 2022 7.973629e+12
-## Jan 2023 7.978833e+12
-## Feb 2023 7.965210e+12
-## Mar 2023 7.950325e+12
-## Apr 2023 7.941412e+12
+## Jan 2019 6.162340e+12
+## Feb 2019 5.689504e+12
+## Mar 2019 5.357780e+12
+## Apr 2019 5.185718e+12
+## May 2019 5.130582e+12
+## Jun 2019 5.080404e+12
+## Jul 2019 5.083780e+12
+## Aug 2019 5.127912e+12
+## Sep 2019 5.149160e+12
+## Oct 2019 5.186750e+12
+## Nov 2019 5.231140e+12
+## Dec 2019 5.260487e+12
+## Jan 2020 5.266360e+12
+## Feb 2020 5.352791e+12
+## Mar 2020 5.497074e+12
+## Apr 2020 5.287112e+12
+## May 2020 5.651816e+12
+## Jun 2020 5.150608e+12
+## Jul 2020 5.294518e+12
+## Aug 2020 5.452413e+12
+## Sep 2020 5.309498e+12
+## Oct 2020 5.267031e+12
+## Nov 2020 5.588612e+12
+## Dec 2020 5.326231e+12
+## Jan 2021 5.264540e+12
+## Feb 2021 5.495523e+12
+## Mar 2021 5.388697e+12
+## Apr 2021 5.367434e+12
+## May 2021 5.368399e+12
+## Jun 2021 5.363104e+12
+## Jul 2021 5.369137e+12
+## Aug 2021 5.400116e+12
+## Sep 2021 5.406626e+12
+## Oct 2021 5.420363e+12
+## Nov 2021 5.441833e+12
+## Dec 2021 5.453365e+12
+## Jan 2022 5.479368e+12
+## Feb 2022 5.561483e+12
+## Mar 2022 5.700627e+12
+## Apr 2022 5.861865e+12
+## May 2022 6.044024e+12
+## Jun 2022 6.233664e+12
+## Jul 2022 6.373705e+12
+## Aug 2022 6.465632e+12
+## Sep 2022 6.542706e+12
+## Oct 2022 6.535043e+12
+## Nov 2022 6.523112e+12
+## Jan 2023 6.533344e+12
+## Feb 2023 6.531746e+12
+## Mar 2023 6.557522e+12
+## Apr 2023 6.571427e+12
 \end{verbatim}
 
 veamos los valores
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{x }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(lineas\_totales}\SpecialCharTok{+}\FunctionTok{length}\NormalTok{(mod5))}
-\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{as.vector}\NormalTok{(Z),mod5)}
+\NormalTok{x }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(lineas\_totales}\SpecialCharTok{+}\FunctionTok{length}\NormalTok{(mod\_elman))}
+\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{as.vector}\NormalTok{(Z),mod\_elman)}
 \FunctionTok{plot}\NormalTok{(x[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{lineas\_totales], y[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{lineas\_totales],}\AttributeTok{col =} \StringTok{"blue"}\NormalTok{, }\AttributeTok{type=}\StringTok{"l"}\NormalTok{)}
 \FunctionTok{lines}\NormalTok{( x[(lineas\_totales)}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(x)], y[(lineas\_totales)}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(x)], }\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
 \end{Highlighting}
@@ -1623,27 +1641,35 @@ veamos los valores
 \hypertarget{jordan}{%
 \section{Jordan}\label{jordan}}
 
+\hypertarget{entrenamiento-del-modelo-jordan}{%
+\subsection{Entrenamiento del modelo Jordan}\label{entrenamiento-del-modelo-jordan}}
+
+Como ya tenemos la tsnormalizada (S) y dividida entre training y testing, procedemos a entrenar el algoritmo con Jordan:
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{fit}\OtherTok{\textless{}{-}}\FunctionTok{jordan}\NormalTok{(inputs[t\_train],}
 \NormalTok{    outputs[t\_train],}
-    \AttributeTok{size=}\DecValTok{6}\NormalTok{,}
+    \AttributeTok{size=}\DecValTok{16}\NormalTok{,}
     \AttributeTok{learnFuncParams=}\FunctionTok{c}\NormalTok{(}\FloatTok{0.01}\NormalTok{),}
     \AttributeTok{maxit=}\DecValTok{100000}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-Ploteamos el error iterativo de 7 neuronas:
+\hypertarget{error-iterativo}{%
+\subsection{Error Iterativo}\label{error-iterativo}}
+
+Ploteamos el error iterativo de 16 neuronas:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plotIterativeError}\NormalTok{(fit, }\AttributeTok{main =} \StringTok{"Iterative Error for 7 Neuron"}\NormalTok{)}
+\FunctionTok{plotIterativeError}\NormalTok{(fit, }\AttributeTok{main =} \StringTok{"Error iterativo para 16 neuronas"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-54-1.pdf}
 
-Veamos ahora el error
+Veamos ahora como se comporta el error:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1667,58 +1693,61 @@ Procedemos con la prediccion
 
 \begin{verbatim}
 ##                  [,1]
-## Jan 2019 7.496510e+12
-## Feb 2019 7.466085e+12
-## Mar 2019 7.485655e+12
-## Apr 2019 7.484994e+12
-## May 2019 7.482381e+12
-## Jun 2019 7.492138e+12
-## Jul 2019 7.487598e+12
-## Aug 2019 7.476202e+12
-## Sep 2019 7.511885e+12
-## Oct 2019 7.521976e+12
-## Nov 2019 7.491398e+12
-## Dec 2019 7.565753e+12
-## Jan 2020 7.545399e+12
-## Feb 2020 7.212222e+12
-## Mar 2020 8.100570e+12
-## Apr 2020 7.577544e+12
-## May 2020 7.313275e+12
-## Jun 2020 7.852690e+12
-## Jul 2020 7.598834e+12
-## Aug 2020 7.626874e+12
-## Sep 2020 7.644746e+12
-## Oct 2020 7.805679e+12
-## Nov 2020 7.340772e+12
-## Dec 2020 7.427901e+12
-## Jan 2021 7.561133e+12
-## Feb 2021 7.616939e+12
-## Mar 2021 7.613438e+12
-## Apr 2021 7.586914e+12
-## May 2021 7.548052e+12
-## Jun 2021 7.545705e+12
-## Jul 2021 7.539354e+12
-## Aug 2021 7.516734e+12
-## Sep 2021 7.527965e+12
-## Oct 2021 7.563203e+12
-## Nov 2021 7.529698e+12
-## Dec 2021 7.477176e+12
-## Jan 2022 7.490395e+12
-## Feb 2022 7.473057e+12
-## Mar 2022 7.439036e+12
-## Apr 2022 7.421486e+12
-## May 2022 7.410294e+12
-## Jun 2022 7.385566e+12
-## Jul 2022 7.381260e+12
-## Aug 2022 7.371684e+12
-## Sep 2022 7.414113e+12
-## Oct 2022 7.432210e+12
-## Nov 2022 7.416511e+12
-## Jan 2023 7.429574e+12
-## Feb 2023 7.427371e+12
-## Mar 2023 7.454445e+12
-## Apr 2023 7.493430e+12
+## Jan 2019 1.148488e+13
+## Feb 2019 1.141995e+13
+## Mar 2019 1.139538e+13
+## Apr 2019 1.134228e+13
+## May 2019 1.129364e+13
+## Jun 2019 1.128617e+13
+## Jul 2019 1.130867e+13
+## Aug 2019 1.133650e+13
+## Sep 2019 1.133135e+13
+## Oct 2019 1.129645e+13
+## Nov 2019 1.137222e+13
+## Dec 2019 1.128734e+13
+## Jan 2020 1.126138e+13
+## Feb 2020 1.186075e+13
+## Mar 2020 1.069085e+13
+## Apr 2020 1.085286e+13
+## May 2020 1.086688e+13
+## Jun 2020 1.095609e+13
+## Jul 2020 1.168398e+13
+## Aug 2020 1.113439e+13
+## Sep 2020 1.118931e+13
+## Oct 2020 1.121318e+13
+## Nov 2020 1.079012e+13
+## Dec 2020 1.189949e+13
+## Jan 2021 1.087328e+13
+## Feb 2021 1.122287e+13
+## Mar 2021 1.127449e+13
+## Apr 2021 1.128306e+13
+## May 2021 1.129050e+13
+## Jun 2021 1.134053e+13
+## Jul 2021 1.136667e+13
+## Aug 2021 1.135414e+13
+## Sep 2021 1.138047e+13
+## Oct 2021 1.134630e+13
+## Nov 2021 1.137113e+13
+## Dec 2021 1.146756e+13
+## Jan 2022 1.154174e+13
+## Feb 2022 1.163130e+13
+## Mar 2022 1.168323e+13
+## Apr 2022 1.170141e+13
+## May 2022 1.173339e+13
+## Jun 2022 1.176145e+13
+## Jul 2022 1.179491e+13
+## Aug 2022 1.183078e+13
+## Sep 2022 1.185394e+13
+## Oct 2022 1.190688e+13
+## Nov 2022 1.191501e+13
+## Jan 2023 1.193379e+13
+## Feb 2023 1.197258e+13
+## Mar 2023 1.198780e+13
+## Apr 2023 1.195651e+13
 \end{verbatim}
+
+\hypertarget{resultados-de-la-prediccion}{%
+\subsection{Resultados de la prediccion}\label{resultados-de-la-prediccion}}
 
 Ahora veamoslo en la grafica
 

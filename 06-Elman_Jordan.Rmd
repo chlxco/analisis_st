@@ -2,7 +2,9 @@
 
 ## Elman
 
-Abro la fuente
+
+### Carga de Datos
+Para empezar el ejercicio, vamos a cargar nuevamente nuestros datos fuente. Esto con el fin de evitar cualquier transformacion anterior que pueda distorsionar la serie de tiempo original.
 
 ```{r}
 library(forecast)
@@ -27,7 +29,10 @@ indice.ts <- ts(datos$Saldo, start = c(2018,1), frequency = 12)
 indice.ts
 ```
 
-Ahora convierto mis datos a una time series  y luego para el procesamiento de la red neuronal la guardare en una ts normalizada entre 0 y 1
+
+### Creacion de la TS normalizada 
+
+Una vez hecho esto, convierto mis datos a una time series (Z). Como estaremos trabajando con Redes Neuronales Recurrentes, normalizaremos la serie para que sus datos fluctuen entre 0 y 1.
 
 ```{r}
 Z <- as.ts(indice.ts,F)
@@ -35,7 +40,10 @@ S <- (Z-min(Z))/(max(Z)-min(Z))
 plot(S)
 
 ```
-Ahora dividiremos el el numero de filas totales
+
+### Division de la serie.
+
+Ahora dividiremos el el numero de filas totales para trabajar con nuestros sets de entrenamiento y testing. 
 
 ```{r}
 lineas_totales <-length(S)
@@ -45,7 +53,9 @@ t_test <- (t_train):lineas_totales
 t_test
 
 ```
-Ahora crearemos un df cn los nodos que adelantaran un valor en el futuro
+### Creacion de nodos.
+
+Ahora crearemos un df con los nodos que adelantaran un valor en el futuro
 
 ```{r}
 y <- as.zoo(S)
@@ -74,19 +84,25 @@ outputs <- slogN[,1]
 
 ```
 
-Con la informaion en su lugar, procedamos a crear la red de Elman
+### Entrenamiento del modelo Elman
+
+Con la informaion en su lugar, procedamos a crear la red de Elman. Despues de varias pruebas, el numero de neuronas y profundidad queda en 110 y 5 respectivamente. 
 
 ```{r}
-set.seed(44)
-fit <- fit<-elman(inputs[t_train],outputs[t_train],size=c(7,3),learnFuncParams=c(0.1),maxit=1000)
+set.seed(42)
+fit <- fit<-elman(inputs[t_train],outputs[t_train],size=c(110,5),learnFuncParams=c(0.1),maxit=100000)
 ```
+
 Veamos como evoluciona el error
-```{r}
-plotIterativeError(fit, main = "Iterative Error for 7,3 NeuronError Iterativo para neuronas 7,3")
-```
-Asi podemos ver que el error converge extremadamente rapido
 
-Ahora procederemos a hacer la la pred con el resto de terminosde la seria
+```{r}
+plotIterativeError(fit, main = "Error Iterativo para neuronas 110,5")
+```
+Como podemos observar, el error converge extremadamente rapido. 
+
+
+
+Ahora procederemos a hacer la la prediccion con el resto de terminos de la serie:
 
 ```{r}
 y <- as.vector(outputs[-t_test])
@@ -94,43 +110,52 @@ plot(y,type="l")
 pred <- predict(fit, inputs[-t_test])
 lines(pred,col = "red")
 ```
-ahora predicciones
+### Prediccion
+
+Procedemos a hacer las predicciones con nuestra red
 ```{r}
 predictions <- predict(fit,inputs[-t_train])
 ```
-desnormalizamos datos
+
+Desnormalizamos datos
 
 ```{r}
-mod5 <- predictions*(max(Z)-min(Z))+min(Z)
-mod5
+mod_elman <- predictions*(max(Z)-min(Z))+min(Z)
+mod_elman
 ```
 
 veamos los valores
 
 ```{r}
-x <- 1:(lineas_totales+length(mod5))
-y <- c(as.vector(Z),mod5)
+x <- 1:(lineas_totales+length(mod_elman))
+y <- c(as.vector(Z),mod_elman)
 plot(x[1:lineas_totales], y[1:lineas_totales],col = "blue", type="l")
 lines( x[(lineas_totales):length(x)], y[(lineas_totales):length(x)], col="red")
 ```
 
 ## Jordan
 
+### Entrenamiento del modelo Jordan
+
+Como ya tenemos la tsnormalizada (S) y dividida entre training y testing, procedemos a entrenar el algoritmo con Jordan: 
+
 ```{r}
 fit<-jordan(inputs[t_train],
     outputs[t_train],
-    size=6,
+    size=16,
     learnFuncParams=c(0.01),
     maxit=100000)
 ```
 
-Ploteamos el error iterativo de 7 neuronas:
+### Error Iterativo
+
+Ploteamos el error iterativo de 16 neuronas:
 ```{r}
-plotIterativeError(fit, main = "Iterative Error for 7 Neuron")
+plotIterativeError(fit, main = "Error iterativo para 16 neuronas")
 ```
 
 
-Veamos ahora el error
+Veamos ahora como se comporta el error: 
 
 ```{r}
 y <- as.vector(outputs[-t_test])
@@ -144,6 +169,8 @@ predictions <- predict(fit,inputs[-t_train])
 mod_jordan <- predictions*(max(Z)-min(Z))+min(Z)
 mod_jordan
 ```
+
+### Resultados de la prediccion
 
 Ahora veamoslo en la grafica
 
